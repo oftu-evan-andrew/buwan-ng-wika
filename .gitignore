@@ -1,0 +1,12 @@
+# OS / Windows
+Desktop.ini
+desktop.ini
+Thumbs.db
+ehthumbs.db
+
+# Docs / environ
+.DS_Store
+*.swp
+
+# Git
+.git/

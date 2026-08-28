@@ -1,0 +1,1521 @@
+<!DOCTYPE html>
+<html lang="tl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Francisco Balagtas | Ama ng Panitikang Filipino</title>
+  <meta name="description" content="Tungkol kay Francisco Balagtas, ama ng panitikang Filipino, ang kanyang buhay, mga akda, at kontribusyon sa panitikan.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,400&display=swap" rel="stylesheet">
+  <style>
+    /* ========================================
+       CSS RESET & BASE
+    ======================================== */
+    *, *::before, *::after {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root {
+      --blue: #0038A8;
+      --blue-dark: #002B7A;
+      --blue-deep: #001F5C;
+      --red: #CE1126;
+      --red-dark: #A30D1F;
+      --yellow: #FCD116;
+      --yellow-light: #FFE066;
+      --yellow-deep: #C89317;
+      --white: #FFFFFF;
+      --off-white: #FAFAF8;
+      --cream: #F5F3EE;
+      --gray-light: #E8E6E1;
+      --gray: #8C8A85;
+      --text-dark: #1A1A1A;
+      --text-body: #2D2D2D;
+      --text-muted: #5A5A5A;
+      --font-heading: 'Cormorant Garamond', Georgia, 'Times New Roman', serif;
+      --font-body: 'DM Sans', 'Segoe UI', system-ui, sans-serif;
+      --transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      --shadow-sm: 0 2px 8px rgba(0,0,0,0.06);
+      --shadow-md: 0 4px 24px rgba(0,0,0,0.1);
+      --shadow-lg: 0 12px 48px rgba(0,0,0,0.15);
+      --max-width: 1100px;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      font-size: 16px;
+    }
+
+    body {
+      font-family: var(--font-body);
+      color: var(--text-body);
+      background-color: var(--off-white);
+      line-height: 1.7;
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    /* ========================================
+       TYPOGRAPHY
+    ======================================== */
+    h1, h2, h3, h4 {
+      font-family: var(--font-heading);
+      color: var(--text-dark);
+      line-height: 1.2;
+    }
+
+    h1 { font-size: clamp(2.8rem, 6vw, 5rem); font-weight: 700; }
+    h2 { font-size: clamp(2rem, 4vw, 3rem); font-weight: 600; }
+    h3 { font-size: clamp(1.3rem, 2.5vw, 1.6rem); font-weight: 600; }
+    h4 { font-size: 1.15rem; font-weight: 600; }
+
+    p { margin-bottom: 1rem; }
+
+    a {
+      color: var(--blue);
+      text-decoration: none;
+      transition: color var(--transition);
+    }
+    a:hover { color: var(--red); }
+
+    /* ========================================
+       SECTION UTILITY
+    ======================================== */
+    .section {
+      padding: 5rem 1.5rem;
+    }
+
+    .section-inner {
+      max-width: var(--max-width);
+      margin: 0 auto;
+    }
+
+    .section-label {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-family: var(--font-body);
+      font-size: 0.8rem;
+      font-weight: 600;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--red);
+      margin-bottom: 1rem;
+    }
+
+    .section-label::before {
+      content: '';
+      display: inline-block;
+      width: 32px;
+      height: 2px;
+      background: var(--red);
+    }
+
+    .section-title {
+      margin-bottom: 1.5rem;
+    }
+
+    .section-subtitle {
+      font-family: var(--font-body);
+      font-size: 1.1rem;
+      color: var(--text-muted);
+      max-width: 640px;
+      margin-bottom: 3rem;
+    }
+
+    /* ========================================
+       NAVIGATION
+    ======================================== */
+    .nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 1000;
+      padding: 1rem 1.5rem;
+      transition: background var(--transition), box-shadow var(--transition), padding var(--transition);
+    }
+
+    .nav.scrolled {
+      background: rgba(255,255,255,0.95);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      box-shadow: var(--shadow-sm);
+      padding: 0.6rem 1.5rem;
+    }
+
+    .nav-inner {
+      max-width: var(--max-width);
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .nav-logo {
+      font-family: var(--font-heading);
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--white);
+      letter-spacing: 0.05em;
+      transition: color var(--transition);
+    }
+
+    .nav.scrolled .nav-logo {
+      color: var(--blue-dark);
+    }
+
+    .nav-logo span {
+      color: var(--yellow);
+    }
+
+    .nav.scrolled .nav-logo span {
+      color: var(--red);
+    }
+
+    .nav-links {
+      display: flex;
+      list-style: none;
+      gap: 0.25rem;
+    }
+
+    .nav-links a {
+      font-size: 0.85rem;
+      font-weight: 500;
+      color: rgba(255,255,255,0.85);
+      padding: 0.5rem 1rem;
+      border-radius: 6px;
+      transition: background var(--transition), color var(--transition);
+      letter-spacing: 0.02em;
+    }
+
+    .nav-links a:hover,
+    .nav-links a.active {
+      color: var(--white);
+      background: rgba(255,255,255,0.12);
+    }
+
+    .nav.scrolled .nav-links a {
+      color: var(--text-muted);
+    }
+
+    .nav.scrolled .nav-links a:hover,
+    .nav.scrolled .nav-links a.active {
+      color: var(--blue);
+      background: rgba(0,56,168,0.06);
+    }
+
+    .nav-hamburger {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 4px;
+    }
+
+    .nav-hamburger span {
+      display: block;
+      width: 24px;
+      height: 2px;
+      background: var(--white);
+      border-radius: 2px;
+      transition: background var(--transition), transform var(--transition);
+    }
+
+    .nav.scrolled .nav-hamburger span {
+      background: var(--text-dark);
+    }
+
+    .nav-hamburger.open span:nth-child(1) {
+      transform: translateY(7px) rotate(45deg);
+    }
+    .nav-hamburger.open span:nth-child(2) {
+      opacity: 0;
+    }
+    .nav-hamburger.open span:nth-child(3) {
+      transform: translateY(-7px) rotate(-45deg);
+    }
+
+    /* ========================================
+       HERO SECTION
+    ======================================== */
+    .hero {
+      position: relative;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      background: linear-gradient(160deg, var(--blue-deep) 0%, var(--blue) 40%, var(--blue-dark) 100%);
+      padding: 6rem 1.5rem 4rem;
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 4px;
+      background: linear-gradient(90deg, var(--blue), var(--yellow), var(--red), var(--blue));
+      opacity: 0.8;
+      pointer-events: none;
+    }
+
+    .hero::after {
+      content: '';
+      position: absolute;
+      bottom: -30%;
+      right: -10%;
+      width: 60%;
+      aspect-ratio: 1 / 1;
+      background: radial-gradient(circle, rgba(252,209,22,0.12) 0%, transparent 65%);
+      border-radius: 50%;
+      pointer-events: none;
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 2;
+      max-width: var(--max-width);
+      width: 100%;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+      align-items: center;
+    }
+
+    .hero-text {
+      color: var(--white);
+    }
+
+    .hero-tag {
+      display: inline-flex;
+      align-items: center;
+      color: var(--yellow);
+      font-family: var(--font-heading);
+      font-size: 1.105rem;
+      font-weight: 600;
+      font-style: italic;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      margin-bottom: 0.25rem;
+      backdrop-filter: blur(2px);
+      -webkit-backdrop-filter: blur(2px);
+    }
+
+    .hero h1 {
+      color: var(--white);
+      margin-bottom: 0.5rem;
+    }
+
+    .hero h1 .accent {
+      color: var(--yellow);
+      display: block;
+    }
+
+    .hero-dates {
+      font-family: var(--font-heading);
+      font-size: 1.15rem;
+      color: rgba(255,255,255,0.6);
+      font-style: italic;
+      margin-bottom: 1.5rem;
+    }
+
+    .hero-desc {
+      font-size: 1.1rem;
+      color: rgba(255,255,255,0.8);
+      max-width: 500px;
+      margin-bottom: 2rem;
+      line-height: 1.8;
+    }
+
+    .hero-cta {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.6rem;
+      background: var(--yellow);
+      color: var(--blue-deep);
+      font-family: var(--font-body);
+      font-size: 0.9rem;
+      font-weight: 600;
+      padding: 0.85rem 2rem;
+      border-radius: 8px;
+      transition: background var(--transition), transform var(--transition), box-shadow var(--transition);
+      letter-spacing: 0.02em;
+    }
+
+    .hero-cta:hover {
+      background: var(--white);
+      color: var(--blue-dark);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 32px rgba(252,209,22,0.3);
+    }
+
+    .hero-cta svg {
+      width: 18px;
+      height: 18px;
+      transition: transform var(--transition);
+    }
+
+    .hero-cta:hover svg {
+      transform: translateX(3px);
+    }
+
+    /* Portrait */
+    .hero-portrait {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .portrait-frame {
+      position: relative;
+      width: clamp(260px, 28vw, 380px);
+      height: clamp(320px, 34vw, 460px);
+    }
+
+    .portrait-frame::before {
+      content: '';
+      position: absolute;
+      inset: -8px;
+      border: 2px solid rgba(252,209,22,0.3);
+      border-radius: 16px;
+      pointer-events: none;
+    }
+
+    .portrait-frame::after {
+      content: '';
+      position: absolute;
+      top: -4px;
+      left: -4px;
+      right: -4px;
+      bottom: -4px;
+      border: 1px solid rgba(252,209,22,0.12);
+      border-radius: 14px;
+      pointer-events: none;
+    }
+
+    .portrait-img {
+      width: 100%;
+      height: 100%;
+      border-radius: 12px;
+      background: linear-gradient(135deg, var(--blue-dark), var(--blue-deep));
+      overflow: hidden;
+      position: relative;
+    }
+
+    .portrait-img img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: transform var(--transition);
+    }
+
+    .portrait-img:hover img {
+      transform: scale(1.02);
+    }
+
+    .portrait-img.no-img::after {
+      content: 'FB';
+      font-family: var(--font-heading);
+      font-size: 4rem;
+      font-weight: 700;
+      color: var(--yellow);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      height: 100%;
+    }
+
+    .portrait-caption {
+      position: absolute;
+      bottom: -2.5rem;
+      left: 50%;
+      transform: translateX(-50%);
+      white-space: nowrap;
+      font-family: var(--font-heading);
+      font-size: 0.9rem;
+      font-style: italic;
+      color: rgba(255,255,255,0.5);
+    }
+
+    /* ========================================
+       BIOGRAPHY SECTION
+    ======================================== */
+    .bio {
+      background: var(--white);
+    }
+
+    .bio-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+      align-items: start;
+    }
+
+    .bio-main p {
+      font-size: 1.05rem;
+      color: var(--text-body);
+      margin-bottom: 1.2rem;
+    }
+
+    .bio-main p:first-of-type::first-letter {
+      font-family: var(--font-heading);
+      font-size: 3.5rem;
+      font-weight: 700;
+      float: left;
+      color: var(--blue);
+      line-height: 1;
+      margin-right: 0.5rem;
+      margin-top: 0.1rem;
+    }
+
+    .bio-sidebar {
+      background: var(--cream);
+      border-radius: 12px;
+      padding: 2rem;
+    }
+
+    .bio-sidebar h4 {
+      margin-bottom: 1.5rem;
+      color: var(--blue-dark);
+      font-size: 1.2rem;
+    }
+
+    .bio-detail {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .bio-detail-item {
+      display: flex;
+      flex-direction: column;
+      gap: 0.15rem;
+    }
+
+    .bio-detail-label {
+      font-size: 0.75rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--gray);
+    }
+
+    .bio-detail-value {
+      font-size: 1rem;
+      font-weight: 500;
+      color: var(--text-dark);
+    }
+
+    .bio-divider {
+      width: 100%;
+      height: 1px;
+      background: var(--gray-light);
+      margin: 0.5rem 0;
+    }
+
+    /* ========================================
+       WORKS SECTION
+    ======================================== */
+    .works {
+      background: var(--cream);
+      position: relative;
+    }
+
+    .works::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--gray-light), transparent);
+    }
+
+    .works-featured {
+      background: var(--white);
+      border-radius: 16px;
+      padding: 3rem;
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 3rem;
+      align-items: center;
+      margin-bottom: 3rem;
+      box-shadow: var(--shadow-sm);
+      border: 1px solid rgba(0,0,0,0.04);
+    }
+
+    .works-book {
+      width: 180px;
+      height: 260px;
+      border-radius: 4px 12px 12px 4px;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 4px 4px 16px rgba(0,56,168,0.3), -1px 0 4px rgba(0,0,0,0.1);
+      flex-shrink: 0;
+      background: var(--white);
+    }
+
+    .works-book img.works-cover {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .works-book::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      width: 8px;
+      background: linear-gradient(90deg, rgba(0,0,0,0.25), rgba(0,0,0,0.05));
+      border-radius: 4px 0 0 4px;
+      z-index: 1;
+    }
+
+    .works-book-fallback {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(145deg, var(--blue) 0%, var(--blue-deep) 100%);
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 1.5rem;
+    }
+
+    .works-book.no-img .works-book-fallback {
+      display: flex;
+    }
+
+    .works-book-title {
+      font-family: var(--font-heading);
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--yellow);
+      text-align: center;
+      line-height: 1.3;
+      margin-bottom: 0.75rem;
+    }
+
+    .works-book-author {
+      font-family: var(--font-heading);
+      font-size: 0.8rem;
+      font-style: italic;
+      color: rgba(255,255,255,0.7);
+      text-align: center;
+    }
+
+    .works-book-decor {
+      width: 40px;
+      height: 2px;
+      background: var(--yellow);
+      opacity: 0.5;
+      margin: 0.5rem 0;
+    }
+
+    .works-featured-text .section-label {
+      color: var(--yellow);
+    }
+
+    .works-featured-text .section-label::before {
+      background: var(--yellow);
+    }
+
+    .works-featured-text h3 {
+      font-size: clamp(1.6rem, 3vw, 2.2rem);
+      margin-bottom: 1rem;
+    }
+
+    .works-featured-text p {
+      color: var(--text-muted);
+      line-height: 1.8;
+    }
+
+    .works-featured-quote {
+      margin-top: 1.5rem;
+      padding: 1.25rem 1.5rem;
+      background: var(--cream);
+      border-left: 3px solid var(--yellow);
+      border-radius: 0 8px 8px 0;
+    }
+
+    .works-featured-quote p {
+      font-family: var(--font-heading);
+      font-size: 1.1rem;
+      font-style: italic;
+      color: var(--text-dark);
+      margin: 0;
+      line-height: 1.6;
+    }
+
+    .works-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .work-card {
+      background: var(--white);
+      border-radius: 12px;
+      border: 1px solid rgba(0,0,0,0.04);
+      overflow: hidden;
+      transition: transform var(--transition), box-shadow var(--transition);
+    }
+
+    .work-card:hover {
+      transform: translateY(-4px);
+      box-shadow: var(--shadow-md);
+    }
+
+    .work-card-img {
+      aspect-ratio: 16 / 10;
+      overflow: hidden;
+      background: var(--cream);
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0.5rem;
+    }
+
+    .work-card-img img {
+      width: 100%;
+      height: 100%;
+      max-width: 100%;
+      max-height: 100%;
+      object-fit: contain;
+      display: block;
+      border-radius: 6px;
+    }
+
+    .work-card-credit {
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      padding: 2.5rem 0.9rem 0.6rem;
+      font-size: 0.62rem;
+      color: rgba(255,255,255,0.9);
+      background: linear-gradient(transparent, rgba(0,0,0,0.55));
+      line-height: 1.4;
+    }
+
+    .work-card-body {
+      padding: 1.5rem 2rem 2rem;
+    }
+
+    .work-card-body h3 {
+      margin-bottom: 0.75rem;
+      color: var(--blue-dark);
+    }
+
+    .work-card-body p {
+      font-size: 0.95rem;
+      color: var(--text-muted);
+      margin: 0;
+    }
+
+    /* ========================================
+       LEGACY / CONTRIBUTION SECTION
+    ======================================== */
+    .legacy {
+      background: linear-gradient(160deg, var(--blue-deep) 0%, var(--blue) 50%, var(--blue-dark) 100%);
+      color: var(--white);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .legacy::before {
+      content: '';
+      position: absolute;
+      top: 50%;
+      right: -200px;
+      transform: translateY(-50%);
+      width: 600px;
+      height: 600px;
+      background: radial-gradient(circle, rgba(252,209,22,0.06) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .legacy .section-label {
+      color: var(--yellow);
+    }
+
+    .legacy .section-label::before {
+      background: var(--yellow);
+    }
+
+    .legacy .section-title {
+      color: var(--white);
+    }
+
+    .legacy .section-subtitle {
+      color: rgba(255,255,255,0.7);
+    }
+
+    .legacy-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2rem;
+    }
+
+    .legacy-card {
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 12px;
+      padding: 2rem;
+      transition: background var(--transition), border-color var(--transition);
+    }
+
+    .legacy-card:hover {
+      background: rgba(255,255,255,0.1);
+      border-color: rgba(255,255,255,0.18);
+    }
+
+    .legacy-icon {
+      width: 52px;
+      height: 52px;
+      background: rgba(252,209,22,0.1);
+      border: 1px solid rgba(252,209,22,0.25);
+      border-radius: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 1.25rem;
+      color: var(--yellow);
+    }
+
+    .legacy-icon svg {
+      width: 26px;
+      height: 26px;
+    }
+
+    .legacy-card h3 {
+      color: var(--white);
+      margin-bottom: 0.75rem;
+      font-size: 1.2rem;
+    }
+
+    .legacy-card p {
+      color: rgba(255,255,255,0.7);
+      font-size: 0.95rem;
+      margin: 0;
+      line-height: 1.7;
+    }
+
+    /* ========================================
+       TRIVIA SECTION
+    ======================================== */
+    .trivia {
+      background: var(--white);
+    }
+
+    .trivia-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .trivia-card {
+      background: var(--cream);
+      border-radius: 12px;
+      padding: 2rem;
+      position: relative;
+      overflow: hidden;
+      transition: transform var(--transition), box-shadow var(--transition);
+    }
+
+    .trivia-card:hover {
+      transform: translateY(-3px);
+      box-shadow: var(--shadow-md);
+    }
+
+    .trivia-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+    }
+
+    .trivia-card:nth-child(1)::before { background: var(--red); }
+    .trivia-card:nth-child(2)::before { background: var(--blue); }
+    .trivia-card:nth-child(3)::before { background: var(--yellow); }
+    .trivia-card:nth-child(4)::before { background: var(--red); }
+    .trivia-card:nth-child(5)::before { background: var(--blue); }
+    .trivia-card:nth-child(6)::before { background: var(--yellow); }
+
+    .trivia-icon {
+      width: 48px;
+      height: 48px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 1.1rem;
+      background: var(--white);
+      border: 1px solid rgba(0,0,0,0.06);
+      box-shadow: var(--shadow-sm);
+      color: var(--blue);
+    }
+
+    .trivia-icon svg {
+      width: 24px;
+      height: 24px;
+    }
+
+    .trivia-card:nth-child(2) .trivia-icon { color: var(--blue); }
+    .trivia-card:nth-child(3) .trivia-icon { color: var(--yellow-deep); }
+    .trivia-card:nth-child(4) .trivia-icon { color: var(--red); }
+    .trivia-card:nth-child(5) .trivia-icon { color: var(--blue); }
+    .trivia-card:nth-child(6) .trivia-icon { color: var(--yellow-deep); }
+
+    .trivia-card h3 {
+      font-size: 1.1rem;
+      margin-bottom: 0.75rem;
+      color: var(--text-dark);
+    }
+
+    .trivia-card p {
+      font-size: 0.95rem;
+      color: var(--text-muted);
+      margin: 0;
+      line-height: 1.7;
+    }
+
+    /* ========================================
+       QUOTE BANNER
+    ======================================== */
+    .quote-banner {
+      background: var(--cream);
+      padding: 4rem 1.5rem;
+      text-align: center;
+    }
+
+    .quote-banner blockquote {
+      font-family: var(--font-heading);
+      font-size: clamp(1.5rem, 3vw, 2.2rem);
+      font-style: italic;
+      color: var(--text-dark);
+      max-width: 800px;
+      margin: 0 auto 1.5rem;
+      line-height: 1.5;
+    }
+
+    .quote-banner cite {
+      font-family: var(--font-body);
+      font-size: 0.95rem;
+      font-style: normal;
+      color: var(--gray);
+    }
+
+    .quote-banner cite strong {
+      color: var(--blue-dark);
+      font-weight: 600;
+    }
+
+    .quote-banner .quote-decor {
+      width: 60px;
+      height: 3px;
+      background: linear-gradient(90deg, var(--red), var(--blue), var(--yellow));
+      margin: 0 auto 2rem;
+      border-radius: 2px;
+    }
+
+    /* ========================================
+       FOOTER
+    ======================================== */
+    .footer {
+      background: var(--blue-deep);
+      color: rgba(255,255,255,0.6);
+      padding: 3rem 1.5rem 2rem;
+    }
+
+    .footer-inner {
+      max-width: var(--max-width);
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr 1.5fr;
+      gap: 3rem;
+    }
+
+    .footer-col h4 {
+      font-family: var(--font-body);
+      font-size: 0.8rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: rgba(255,255,255,0.4);
+      margin-bottom: 1rem;
+    }
+
+    .footer-col ul {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 0.6rem;
+    }
+
+    .footer-col a {
+      font-size: 0.9rem;
+      color: rgba(255,255,255,0.6);
+      transition: color var(--transition);
+    }
+
+    .footer-col a:hover {
+      color: var(--yellow);
+    }
+
+    /* ========================================
+       MOBILE RESPONSIVE
+    ======================================== */
+    @media (max-width: 900px) {
+      .hero-content {
+        grid-template-columns: 1fr;
+        text-align: center;
+        gap: 3rem;
+      }
+
+      .hero-desc {
+        margin-left: auto;
+        margin-right: auto;
+      }
+
+      .hero-cta {
+        margin: 0 auto;
+      }
+
+      .portrait-frame {
+        margin: 0 auto;
+      }
+
+      .bio-grid {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+      }
+
+      .works-featured {
+        grid-template-columns: 1fr;
+        text-align: center;
+        padding: 2rem;
+      }
+
+      .works-book {
+        margin: 0 auto;
+      }
+
+      .works-featured-quote {
+        text-align: left;
+      }
+
+      .legacy-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .footer-inner {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .section {
+        padding: 3.5rem 1.25rem;
+      }
+
+      .nav-links {
+        display: none;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        background: rgba(255,255,255,0.98);
+        backdrop-filter: blur(12px);
+        flex-direction: column;
+        padding: 1rem;
+        box-shadow: var(--shadow-md);
+      }
+
+      .nav-links.open {
+        display: flex;
+      }
+
+      .nav-links a {
+        color: var(--text-dark) !important;
+        padding: 0.75rem 1rem;
+        border-radius: 8px;
+      }
+
+      .nav-links a:hover {
+        background: rgba(0,56,168,0.06) !important;
+        color: var(--blue) !important;
+      }
+
+      .nav-hamburger {
+        display: flex;
+      }
+
+      .hero {
+        min-height: auto;
+        padding-top: 8rem;
+        padding-bottom: 5rem;
+      }
+
+      .trivia-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 480px) {
+      h1 { font-size: 2.2rem; }
+      h2 { font-size: 1.75rem; }
+
+      .portrait-frame {
+        width: 220px;
+        height: 280px;
+      }
+
+      .bio-sidebar {
+        padding: 1.5rem;
+      }
+
+      .works-featured {
+        padding: 1.5rem;
+      }
+
+      .works-book {
+        width: 140px;
+        height: 200px;
+      }
+    }
+
+    /* ========================================
+       ACCESSIBILITY
+    ======================================== */
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+      }
+      html { scroll-behavior: auto; }
+    }
+
+    :focus-visible {
+      outline: 3px solid var(--yellow);
+      outline-offset: 3px;
+      border-radius: 4px;
+    }
+
+    .sr-only {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0,0,0,0);
+      white-space: nowrap;
+      border-width: 0;
+    }
+
+    /* Skip link */
+    .skip-link {
+      position: fixed;
+      top: -100%;
+      left: 1rem;
+      z-index: 9999;
+      background: var(--yellow);
+      color: var(--blue-deep);
+      padding: 0.75rem 1.5rem;
+      border-radius: 0 0 8px 8px;
+      font-weight: 600;
+      transition: top var(--transition);
+    }
+
+    .skip-link:focus {
+      top: 0;
+    }
+  </style>
+</head>
+<body>
+  <a href="#main" class="skip-link">Laktawan ang nilalaman</a>
+
+  <!-- NAVIGATION -->
+  <nav class="nav" role="navigation" aria-label="Pangunahing Navigasyon">
+    <div class="nav-inner">
+      <a href="#hero" class="nav-logo">Balagtas<span>.</span></a>
+      <ul class="nav-links" id="navLinks">
+        <li><a href="#hero">Tahanan</a></li>
+        <li><a href="#talambuhay">Talambuhay</a></li>
+        <li><a href="#mga-akda">Mga Akda</a></li>
+        <li><a href="#kontribusyon">Kontribusyon</a></li>
+        <li><a href="#kwento">Mga Kwento</a></li>
+      </ul>
+      <button class="nav-hamburger" id="navToggle" aria-label="Buksan ang menu" aria-expanded="false">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <header class="hero" id="hero">
+    <div class="hero-content">
+      <div class="hero-text">
+        <div class="hero-tag">&ldquo;Ang Makata ng Bayan&rdquo;</div>
+        <h1>
+          Francisco
+          <span class="accent">Balagtas</span>
+        </h1>
+        <p class="hero-dates">Abril 30, 1788 — Pebrero 20, 1862</p>
+        <p class="hero-desc">
+          Ang pinakadakilang makata ng Pilipinas at ang "Ama ng Panitikang Filipino."
+          Kanyang ginawang permanenteng bahagi ang wikang Filipino sa larangan ng panitikan.
+        </p>
+        <a href="#talambuhay" class="hero-cta">
+          Alamin ang Kanyang Kwento
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+        </a>
+      </div>
+      <div class="hero-portrait">
+        <div class="portrait-frame">
+          <div class="portrait-img">
+            <img src="balagtas.jpg" alt="Larawan ni Francisco Balagtas, suot ang barong" onerror="this.onerror=null; this.style.display='none'; this.closest('.portrait-img').classList.add('no-img');">
+          </div>
+          <p class="portrait-caption">"Ama ng Panitikang Filipino"</p>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main id="main">
+
+    <!-- BIOGRAPHY -->
+    <section class="section bio" id="talambuhay">
+      <div class="section-inner">
+        <div class="bio-grid">
+          <div class="bio-main">
+            <span class="section-label">Maikling Talambuhay</span>
+            <h2 class="section-title">Ang Buhay ni<br>Francisco Baltazar</h2>
+            <p>
+              Si Francisco Baltazar, na kilala sa pangalang Franciscode Balagtas, ay isinilangan noong Abril 30, 1788 sa Biga, Guiguinto, Bulacan. Siya ay itinuturing na ang pinakadakilang makata sa kasaysayan ng Pilipinas at pormal na kinilala bilang "Ama ng Panitikang Filipino."
+            </p>
+            <p>
+              Lumaki siya sa isang pamilyang mahirap. Ang kanyang mga magulang ay sina Juan Baltazar at Juana de la Cruz. Sa murang edad, napansin na ang kanyang katalinuhan at pagkahilig sa panitikan. Nag-aral siya sa Maynila kung saan niya natutunan ang wikang Kastila at mga sulating-pukpok na karaniwan noon.
+            </p>
+            <p>
+              Noong 1835, isinulat niya ang kanyang masterpiece na <em>Florante at Laura</em>, isang awit na kinilala bilang isa sa mga pinakadakilang akda sa panitikang Filipino. Ito ay isang <em>awit</em> na binubuo ng 399 na <em>kuwadro</em> o saknong, bawat isa ay may labindalawang pantig sa bawat linya.
+            </p>
+            <p>
+              Ang kanyang buhay ay puno ng mga pagsubok — kinulong siya dahil sa isang labanan at nagdusa sa kahirapan — ngunit hindi nagpatuloy ang kanyang pagsusulat. Namatay siya noong Pebrero 20, 1862 sa Maynila, ngunit ang kanyang pamana ay mabubuhay magpakailanman sa puso ng bawat Pilipino.
+            </p>
+          </div>
+          <div class="bio-sidebar">
+            <h4>Mga Detalye ng Buhay</h4>
+            <div class="bio-detail">
+              <div class="bio-detail-item">
+                <span class="bio-detail-label">Buong Pangalan</span>
+                <span class="bio-detail-value">Francisco Baltazar Balagtas</span>
+              </div>
+              <div class="bio-divider"></div>
+              <div class="bio-detail-item">
+                <span class="bio-detail-label">Petsa ng Kapanganakan</span>
+                <span class="bio-detail-value">Abril 30, 1788</span>
+              </div>
+              <div class="bio-divider"></div>
+              <div class="bio-detail-item">
+                <span class="bio-detail-label">Lugar ng Kapanganakan</span>
+                <span class="bio-detail-value">Biga, Guiguinto, Bulacan</span>
+              </div>
+              <div class="bio-divider"></div>
+              <div class="bio-detail-item">
+                <span class="bio-detail-label">Petsa ng Kamatayan</span>
+                <span class="bio-detail-value">Pebrero 20, 1862</span>
+              </div>
+              <div class="bio-divider"></div>
+              <div class="bio-detail-item">
+                <span class="bio-detail-label">Lugar ng Kamatayan</span>
+                <span class="bio-detail-value">Maynila, Pilipinas</span>
+              </div>
+              <div class="bio-divider"></div>
+              <div class="bio-detail-item">
+                <span class="bio-detail-label">Wika</span>
+                <span class="bio-detail-value">Tagalog, Kastila</span>
+              </div>
+              <div class="bio-divider"></div>
+              <div class="bio-detail-item">
+                <span class="bio-detail-label">Kilalang Akda</span>
+                <span class="bio-detail-value">Florante at Laura</span>
+              </div>
+              <div class="bio-divider"></div>
+              <div class="bio-detail-item">
+                <span class="bio-detail-label">Palayaw</span>
+                <span class="bio-detail-value">"Ama ng Panitikang Filipino"</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- QUOTE BANNER -->
+    <div class="quote-banner">
+      <div class="quote-decor" aria-hidden="true"></div>
+      <blockquote>
+        "Ang hindi marunong lumingon sa pinanggalingan ay hindi makararating sa paroroonan."
+      </blockquote>
+      <cite>— <strong>Jose Rizal</strong>, tungkol kay Balagtas</cite>
+    </div>
+
+    <!-- WORKS -->
+    <section class="section works" id="mga-akda">
+      <div class="section-inner">
+        <span class="section-label">Mga Akda</span>
+        <h2 class="section-title">Mga Pambihirang Sulating-Filipino</h2>
+        <p class="section-subtitle">Ang mga akda ni Balagtas ay nagsimula ng isang bagong panahon sa panitikang Filipino. Narito ang kanyang mga pinakamahalagang kontribusyon.</p>
+
+        <!-- Featured Work -->
+        <div class="works-featured">
+          <div class="works-book">
+            <img class="works-cover" src="florante-cover.png" alt="Pabalat ng 1913 na edisyon ng Florante at Laura" onerror="this.onerror=null; this.style.display='none'; this.parentElement.classList.add('no-img');">
+            <div class="works-book-fallback" aria-hidden="true">
+              <div class="works-book-decor"></div>
+              <p class="works-book-title">Florante<br>at Laura</p>
+              <div class="works-book-decor"></div>
+              <p class="works-book-author">Francisco Balagtas</p>
+            </div>
+          </div>
+          <div class="works-featured-text">
+            <span class="section-label">Pangunahing Akda</span>
+            <h3>Florante at Laura</h3>
+            <p>
+              Ang <em>Florante at Laura</em> ay isang <em>awit</em> na binubuo ng 399 na <em>kuwadro</em> at itinuturing na pinakamahalaga at pinakakilalang akda sa panitikang Filipino. Ito ay isang <em>parabula</em> na nagsasalaysay ng kwento ng isang prinsipe na nagngangalang Florante at ang kanyang pag-ibig sa isang dalaga na nagngangalang Laura.
+            </p>
+            <p>
+              Sa kabila ng hitsura nitong isang kwento ng pag-ibig, ang <em>Florante at Laura</em> ay may malalim na puno ng <em>alegorya</em> at pagsusuri sa lipunan. Sinasalamin nito ang mga pakikibaka ng mga Pilipino sa ilalim ng pananakop ng mga Kastila — ang hustisya, ang kawalan ng kalayaan, at ang pag-asa para sa kinabukasan.
+            </p>
+            <div class="works-featured-quote">
+              <p>"Ang kalis na puno ng apoy, ay siyang pumapatay sa sariling nilalang."</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Other Works Grid -->
+        <div class="works-grid">
+          <div class="work-card">
+            <div class="work-card-img"><img src="florante-cover.png" alt="Pabalat ng Florante at Laura" onerror="this.onerror=null; this.style.display='none';"></div>
+            <div class="work-card-body">
+              <h3>Florante at Laura</h3>
+              <p>Ang kanyang <em>masterpiece</em> — isang <em>awit</em> na may 399 na <em>kuwadro</em> na nagsasalaysay ng pakikibaka para sa katarungan at pag-ibig. Isang <em>alegorya</em> para sa pakikibaka ng mga Pilipino.</p>
+            </div>
+          </div>
+          <div class="work-card">
+            <div class="work-card-img"><img src="larawan-kalikasan.jpg" alt="Tanawin ng mga giling ng palay sa Pilipinas" onerror="this.onerror=null; this.style.display='none';"><span class="work-card-credit">Larawan: Wikimedia Commons (Irisan15, CC BY-SA 4.0)</span></div>
+            <div class="work-card-body">
+              <h3>Parito Ka, Larawan</h3>
+              <p>Isang <em>dalit</em> o <em>dasal</em> na nagpapahayag ng kagandahan ng kalikasan at ang wagas na pag-ibig sa Diyos. Ipinapakita ang kasanayang literaryo ni Balagtas sa iba't ibang anyo.</p>
+            </div>
+          </div>
+          <div class="work-card">
+            <div class="work-card-img"><img src="mabini-stamp.jpg" alt="Selyo ng Pilipinas" onerror="this.onerror=null; this.style.display='none';"></div>
+            <div class="work-card-body">
+              <h3>Apolinario Mabini</h3>
+              <p>Mga sulat at tula na isinulat ni Balagtas habang siya ay nakakulong. Nagpapakita ng kanyang katatagan ng loob at patuloy na pagsusulat kahit sa gitna ng matinding paghihirap.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- LEGACY / CONTRIBUTION -->
+    <section class="section legacy" id="kontribusyon">
+      <div class="section-inner">
+        <span class="section-label">Kontribusyon</span>
+        <h2 class="section-title">Kahalagahan sa Panitikang Filipino</h2>
+        <p class="section-subtitle">Hindi lamang isang makata — si Balagtas ay isang bayani ng wikang Filipino na nagbigay-daan para sa mga susunod na henerasyon ng mga manunulat.</p>
+
+        <div class="legacy-grid">
+          <div class="legacy-card">
+            <div class="legacy-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M11 5.5 2.6 9.8c-1 .5-1 2 0 2.5l8.4 4.2a1.6 1.6 0 0 0 1.4 0l8.4-4.2c1-.5 1-2 0-2.5L13 5.5a1.6 1.6 0 0 0-1.5 0Z"/><path d="M5 11V14"/><path d="M12 16.6V9.8"/><path d="M15 16.5 19 14.5"/></svg>
+            </div>
+            <h3>Wika at Panitikan</h3>
+            <p>Si Balagtas ang unang nagsulat sa wikang Tagalog na may mataas na antas ng pamamaraan at kagandahan. Kanyang ipinakita na ang wikang Filipino ay kasing-yaman at kasing-ganda ng mga wikang Europeo sa pagsusulat ng malalaking akda.</p>
+          </div>
+          <div class="legacy-card">
+            <div class="legacy-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><ellipse cx="12" cy="9" rx="7.5" ry="8"/><path d="M12 3.5a3.5 3.5 0 0 0-3.5 3.5"/><path d="M9 16.5 7.5 21h9L15 16.5"/><path d="M12 21v-1"/></svg>
+            </div>
+            <h3>Pagsasalamin ng Lipunan</h3>
+            <p>Gamit ang <em>alegorya</em> at <em>simbolismo</em>, ginamit ni Balagtas ang kanyang mga akda para salaminin ang mga isyung panlipunan — ang pang-aapi, ang kawalan ng hustisya, at ang pagnanais ng kalayaan.</p>
+          </div>
+          <div class="legacy-card">
+            <div class="legacy-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M12 2.5v3"/><path d="M12 18.5v3"/><path d="M2.5 12h3"/><path d="M18.5 12h3"/><path d="M5.3 5.3l2.1 2.1"/><path d="M16.6 16.6l2.1 2.1"/><path d="M18.7 5.3l-2.1 2.1"/><path d="M7.4 16.6l-2.1 2.1"/></svg>
+            </div>
+            <h3>Inspirasyon sa mga Bayani</h3>
+            <p>Ang kanyang mga akda ay naging inspirasyon sa mga kilalang bayani tulad nina Jose Rizal, Andres Bonifacio, at Emilio Aguinaldo. Si Jose Rizal mismo ay nagsabing ang <em>Florante at Laura</em> ay nagpalakas sa kanyang pagmamahal sa bayan.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TRIVIA -->
+    <section class="section trivia" id="kwento">
+      <div class="section-inner">
+        <span class="section-label">Kawili-wiling Impormasyon</span>
+        <h2 class="section-title">Mga Kwento Tungkol kay Balagtas</h2>
+        <p class="section-subtitle">Mga kawili-wiling detalye tungkol sa buhay at pamana ng ating pambansang makata.</p>
+
+        <div class="trivia-grid">
+          <div class="trivia-card">
+            <span class="trivia-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20c3.5-1 6.5-4 8-9.5A8 8 0 0 0 13.5 5L20 4l-.8 5.5"/><path d="M5 19 13.5 4.5"/><path d="M12 13 11 17"/></svg></span>
+            <h3>Ang Palayaw</h3>
+            <p>Ang pangalang "Balagtas" ay hango sa pangalan ng kanyang ama na si Juan Baltazar. Ginamit niya ang pinagsamang anyo na "Balagtas" bilang kanyang pen name sa pagsusulat.</p>
+          </div>
+          <div class="trivia-card">
+            <span class="trivia-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v18"/><path d="M12 3 5 9"/><path d="M12 3l7 6"/><path d="M5 9h14"/><path d="M8.5 9 6 14"/><path d="M15.5 9 18 14"/></svg></span>
+            <h3>Balagtas vs. Mariano Pilapil</h3>
+            <p>Noong 1835, nakipag-away si Balagtas kay Mariano Pilapil dahil sa isang babae. Napatunayan siyang nagkasala at nakulong siya. Sa loob ng bilanggoan, isinulat niya ang <em>Florante at Laura</em>.</p>
+          </div>
+          <div class="trivia-card">
+            <span class="trivia-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="4" width="12" height="16" rx="1.5"/><path d="M9.5 4V7a1.5 1.5 0 0 1-1.5 1.5V4"/><path d="M14.5 4v3a1.5 1.5 0 0 0 1.5 1.5V4"/><path d="M9 13h6"/><path d="M9 16h4"/></svg></span>
+            <h3>399 na Kuwadro</h3>
+            <p>Ang <em>Florante at Laura</em> ay binubuo ng 399 na <em>kuwadro</em>, bawat isa ay may labindalawang linya. Ito ay isang uri ng panulat na kilala bilang <em>awit</em> sa panitikang Filipino.</p>
+          </div>
+          <div class="trivia-card">
+            <span class="trivia-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 6.5C10.5 4.5 7.5 3.7 3 4.2v14.5c4.5-.5 7.5.3 9 2.3 1.5-2 4.5-2.8 9-2.3V4.2c-4.5-.5-7.5.3-9 2.3Z"/><path d="M12 6.5v14.5"/><path d="M6 8.2h3"/><path d="M15 8.2h3"/></svg></span>
+            <h3>Unang Edisyon</h3>
+            <p>Ang unang edisyon ng <em>Florante at Laura</em> ay inilathala noong 1838 sa Maynila, tatlong taon matapos isulat ito sa loob ng bilanggoan. Ito ang unang aklat na ganap na isinulat sa wikang Tagalog.</p>
+          </div>
+          <div class="trivia-card">
+            <span class="trivia-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="5.5" width="16" height="15" rx="2"/><path d="M4 10.5h16"/><path d="M8.5 3.5v4"/><path d="M15.5 3.5v4"/><path d="M12 14l1.6 1.6L15.8 13"/></svg></span>
+            <h3>Araw ni Balagtas</h3>
+            <p>Idinidiwang ang <em>Araw ni Balagtas</em> tuwing Abril 30 — ang kanyang kaarawan. Ito ay isang espesyal na araw na ginugunita ang kanyang kontribusyon sa panitikang Filipino.</p>
+          </div>
+          <div class="trivia-card">
+            <span class="trivia-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3 9 8.5h6L12 3Z"/><path d="M9.5 8.5 8 21h8l-1.5-12.5"/><path d="M4 21h16"/><path d="M3 21.5h18"/></svg></span>
+            <h3>Monumento sa Bulacan</h3>
+            <p>May isang malaking monumento ni Balagtas sa Guiguinto, Bulacan — ang kanyang birthplace. Ito ay isang pambansang <em>landmark</em> na nagpaparangal sa kanyang pamana sa bansa.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="footer-inner">
+      <div class="footer-col">
+        <h4>Navigasyon</h4>
+        <ul>
+          <li><a href="#hero">Tahanan</a></li>
+          <li><a href="#talambuhay">Talambuhay</a></li>
+          <li><a href="#mga-akda">Mga Akda</a></li>
+          <li><a href="#kontribusyon">Kontribusyon</a></li>
+          <li><a href="#kwento">Mga Kwento</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Mga Sanggunian</h4>
+        <ul>
+          <li><a href="https://philhistoricsites.nhcp.gov.ph/registry_database/francisco-c-baltazar-balagtas-1788-1862/" target="_blank" rel="noopener">NHCP — Tala ng Kasaysayan: Francisco C. Baltazar (Balagtas)</a></li>
+          <li><a href="https://www.elib.gov.ph/results.php?f=subject&q=Florante+at+Laura" target="_blank" rel="noopener">National Library / Philippine eLib — mga tala ng "Florante at Laura"</a></li>
+          <li><a href="https://kwf.gov.ph/" target="_blank" rel="noopener">Komisyon sa Wikang Filipino (nangunguna sa Araw ni Balagtas)</a></li>
+          <li><a href="https://pia.gov.ph/news/lessons-from-florante-at-laura-highlighted-during-237th-araw-ni-balagtas-rites/" target="_blank" rel="noopener">PIA — Araw ni Balagtas at mga aral ng "Florante at Laura"</a></li>
+          <li><a href="https://www.gutenberg.org/ebooks/15845" target="_blank" rel="noopener">"Florante at Laura" — buong teksto (Project Gutenberg)</a></li>
+        </ul>
+      </div>
+    </div>
+  </footer>
+
+  <!-- JAVASCRIPT -->
+  <script>
+    /* ========================================
+       NAVIGATION — scroll behavior
+    ======================================== */
+    const nav = document.querySelector('.nav');
+    const navToggle = document.getElementById('navToggle');
+    const navLinks = document.getElementById('navLinks');
+    const navLinkItems = navLinks.querySelectorAll('a');
+
+    function updateNav() {
+      if (window.scrollY > 60) {
+        nav.classList.add('scrolled');
+      } else {
+        nav.classList.remove('scrolled');
+      }
+    }
+    window.addEventListener('scroll', updateNav, { passive: true });
+    updateNav();
+
+    // Hamburger toggle
+    navToggle.addEventListener('click', () => {
+      const isOpen = navLinks.classList.toggle('open');
+      navToggle.classList.toggle('open');
+      navToggle.setAttribute('aria-expanded', isOpen);
+    });
+
+    // Close mobile menu on link click
+    navLinkItems.forEach(link => {
+      link.addEventListener('click', () => {
+        navLinks.classList.remove('open');
+        navToggle.classList.remove('open');
+        navToggle.setAttribute('aria-expanded', 'false');
+      });
+    });
+
+    /* ========================================
+       ACTIVE NAV LINK TRACKING
+    ======================================== */
+    const sections = document.querySelectorAll('section[id]');
+    function updateActiveLink() {
+      const scrollY = window.scrollY + 100;
+      sections.forEach(section => {
+        const top = section.offsetTop;
+        const height = section.offsetHeight;
+        const id = section.getAttribute('id');
+        const link = navLinks.querySelector('a[href="#' + id + '"]');
+        if (link) {
+          if (scrollY >= top && scrollY < top + height) {
+            link.classList.add('active');
+          } else {
+            link.classList.remove('active');
+          }
+        }
+      });
+    }
+    window.addEventListener('scroll', updateActiveLink, { passive: true });
+
+    /* ========================================
+       SMOOTH SCROLL (fallback for older browsers)
+    ======================================== */
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function(e) {
+        const target = document.querySelector(this.getAttribute('href'));
+        if (target) {
+          e.preventDefault();
+          target.scrollIntoView({ behavior: 'smooth' });
+        }
+      });
+    });
+  </script>
+</body>
+</html>
