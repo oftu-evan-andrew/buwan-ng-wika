@@ -1,0 +1,2544 @@
+
+<!DOCTYPE html>
+<html lang="tl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="LIKHA - Noli Me Tángere Digital Archive">
+  <title>LIKHA — Noli Me Tángere Digital Archive</title>
+
+  <style>
+
+    :root {
+      --bg: #FFFFFF;
+      --paper: #FFFFFF;
+      --blue-pale: #EAF2FF;
+      --blue-border: #C9D6EA;
+      --ink: #172033;
+      --muted: #52627A;
+      --red: #C62828;
+      --red-dark: #8E1B1B;
+      --yellow: #FBC02D;
+      --yellow-light: #FFF176;
+      --blue: #1565C0;
+      --blue-dark: #0D47A1;
+      --blue-soft: #E3F2FD;
+      --red-soft: #FFEBEE;
+      --shadow: 0 18px 45px rgba(13, 71, 161, 0.10);
+      --radius: 22px;
+      --max-width: 1200px;
+      --nav-height: 78px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: Georgia, "Times New Roman", serif;
+      background: var(--bg);
+      color: var(--ink);
+      line-height: 1.65;
+      overflow-x: hidden;
+    }
+
+    button,
+    input,
+    textarea {
+      font: inherit;
+    }
+
+    button {
+      cursor: pointer;
+    }
+
+    img {
+      max-width: 100%;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    .container {
+      width: min(var(--max-width), calc(100% - 40px));
+      margin: 0 auto;
+    }
+
+    .section {
+      padding: 110px 0;
+      scroll-margin-top: 80px;
+    }
+
+    .section-label {
+      display: inline-flex;
+      align-items: center;
+      gap: 9px;
+      color: var(--red);
+      font-family: Arial, sans-serif;
+      font-size: 0.76rem;
+      font-weight: 800;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      margin-bottom: 13px;
+    }
+
+    .section-label::before {
+      content: "";
+      width: 28px;
+      height: 1px;
+      background: var(--red);
+    }
+
+    .section-title {
+      font-size: clamp(2.2rem, 5vw, 4.2rem);
+      line-height: 1.04;
+      letter-spacing: -0.045em;
+      max-width: 800px;
+    }
+
+    .section-intro {
+      color: var(--muted);
+      max-width: 680px;
+      margin-top: 18px;
+      font-size: 1.08rem;
+    }
+
+    .navbar {
+      position: fixed;
+      inset: 0 0 auto;
+      z-index: 1000;
+      height: var(--nav-height);
+      background: rgba(255, 255, 255, 0.94);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid rgba(198, 40, 40, 0.16);
+    }
+
+    .nav-inner {
+      height: 100%;
+      width: min(1320px, calc(100% - 40px));
+      margin: auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 25px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      white-space: nowrap;
+    }
+
+    .brand-mark {
+      width: 42px;
+      height: 42px;
+      border: 2px solid var(--red);
+      display: grid;
+      place-items: center;
+      color: var(--red);
+      font-weight: 900;
+      font-size: 0.95rem;
+      transform: rotate(-3deg);
+    }
+
+    .brand-text {
+      display: flex;
+      flex-direction: column;
+      line-height: 1.1;
+    }
+
+    .brand-text strong {
+      font-size: 1rem;
+      letter-spacing: 0.08em;
+    }
+
+    .brand-text span {
+      color: var(--muted);
+      font-family: Arial, sans-serif;
+      font-size: 0.61rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      margin-top: 4px;
+    }
+
+    .desktop-nav {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .desktop-nav a {
+      padding: 8px 10px;
+      border-radius: 8px;
+      font-family: Arial, sans-serif;
+      font-size: 0.75rem;
+      font-weight: 700;
+      color: #263A5A;
+      transition: 0.2s ease;
+    }
+
+    .desktop-nav a:hover {
+      color: var(--red);
+      background: rgba(21, 101, 192, 0.10);
+    }
+
+    .burger {
+      display: none;
+      width: 44px;
+      height: 44px;
+      border: 1px solid var(--blue-border);
+      background: var(--paper);
+      border-radius: 10px;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      gap: 5px;
+    }
+
+    .burger span {
+      width: 19px;
+      height: 2px;
+      background: var(--ink);
+      transition: 0.2s;
+    }
+
+    .mobile-drawer {
+      position: fixed;
+      z-index: 999;
+      top: var(--nav-height);
+      right: 0;
+      width: min(340px, 88vw);
+      height: calc(100vh - var(--nav-height));
+      background: var(--paper);
+      box-shadow: -20px 0 50px rgba(13, 71, 161, 0.12);
+      transform: translateX(100%);
+      transition: transform 0.3s ease;
+      padding: 30px;
+    }
+
+    .mobile-drawer.open {
+      transform: translateX(0);
+    }
+
+    .mobile-drawer a {
+      display: block;
+      padding: 15px 0;
+      border-bottom: 1px solid var(--blue-border);
+      font-size: 1.05rem;
+    }
+
+    .hero {
+      min-height: 100vh;
+      padding-top: calc(var(--nav-height) + 60px);
+      display: flex;
+      align-items: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero::before {
+      content: "";
+      position: absolute;
+      width: 620px;
+      height: 620px;
+      right: -220px;
+      top: 90px;
+      border-radius: 50%;
+      border: 1px solid rgba(21, 101, 192, 0.18);
+      box-shadow:
+        0 0 0 70px rgba(21, 101, 192, 0.035),
+        0 0 0 140px rgba(251, 192, 45, 0.025);
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1.2fr 0.8fr;
+      gap: 70px;
+      align-items: center;
+    }
+
+    .hero-copy {
+      position: relative;
+      z-index: 2;
+    }
+
+    .hero-kicker {
+      font-family: Arial, sans-serif;
+      text-transform: uppercase;
+      letter-spacing: 0.18em;
+      color: var(--red);
+      font-weight: 800;
+      font-size: 0.75rem;
+      margin-bottom: 20px;
+    }
+
+    .hero-title {
+      font-size: clamp(3.5rem, 8vw, 7.8rem);
+      line-height: 0.9;
+      letter-spacing: -0.065em;
+      max-width: 850px;
+    }
+
+    .hero-title em {
+      color: var(--red);
+      font-weight: normal;
+    }
+
+    .hero-subtitle {
+      max-width: 680px;
+      color: var(--muted);
+      font-size: 1.1rem;
+      margin: 27px 0 30px;
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .btn {
+      border: 1px solid transparent;
+      padding: 13px 21px;
+      border-radius: 10px;
+      font-family: Arial, sans-serif;
+      font-size: 0.8rem;
+      font-weight: 800;
+      transition: 0.2s ease;
+    }
+
+    .btn-primary {
+      background: var(--red);
+      color: white;
+    }
+
+    .btn-primary:hover {
+      background: var(--red-dark);
+      transform: translateY(-2px);
+    }
+
+    .btn-secondary {
+      background: transparent;
+      border-color: var(--blue-border);
+      color: var(--ink);
+    }
+
+    .btn-secondary:hover {
+      border-color: var(--red);
+      color: var(--red);
+    }
+
+    .cover-stage {
+      min-height: 590px;
+      display: grid;
+      place-items: center;
+      position: relative;
+    }
+
+    .cover-frame {
+      width: min(360px, 80%);
+      aspect-ratio: 0.68;
+      padding: 13px;
+      background: var(--blue-dark);
+      box-shadow: 30px 35px 70px rgba(13, 71, 161, 0.28);
+      transform: rotate(4deg);
+      position: relative;
+      z-index: 2;
+    }
+
+    .cover-frame img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center;
+      display: block;
+    }
+
+    .cover-frame::after {
+      content: "BERLIN · 1887";
+      position: absolute;
+      left: -45px;
+      bottom: 40px;
+      writing-mode: vertical-rl;
+      transform: rotate(180deg);
+      font-family: Arial, sans-serif;
+      color: var(--red);
+      font-size: 0.65rem;
+      letter-spacing: 0.16em;
+      font-weight: 800;
+    }
+
+    .history {
+      background: var(--blue-dark);
+      color: #FFFFFF;
+    }
+
+    .history .section-label {
+      color: var(--yellow-light);
+    }
+
+    .history .section-label::before {
+      background: var(--yellow-light);
+    }
+
+    .history-grid {
+      display: grid;
+      grid-template-columns: 0.8fr 1.2fr;
+      gap: 80px;
+      align-items: start;
+    }
+
+    .history-big-year {
+      font-size: clamp(6rem, 15vw, 12rem);
+      line-height: 0.75;
+      color: var(--yellow-light);
+      letter-spacing: -0.08em;
+    }
+
+    .history-content h3 {
+      font-size: clamp(1.7rem, 3vw, 2.7rem);
+      line-height: 1.1;
+      margin-bottom: 25px;
+    }
+
+    .history-content p {
+      color: #DCE7F5;
+      margin-bottom: 17px;
+      max-width: 700px;
+    }
+
+    .history-note {
+      border-left: 2px solid var(--yellow);
+      padding-left: 20px;
+      margin-top: 30px;
+      color: #FFF176 !important;
+      font-style: italic;
+    }
+
+    .summary-header {
+      display: flex;
+      justify-content: space-between;
+      gap: 30px;
+      align-items: end;
+      margin-bottom: 60px;
+    }
+
+    .timeline {
+      position: relative;
+      max-width: 920px;
+      margin: auto;
+    }
+
+    .timeline::before {
+      content: "";
+      position: absolute;
+      left: 19px;
+      top: 0;
+      bottom: 0;
+      width: 1px;
+      background: var(--blue-border);
+    }
+
+    .timeline-item {
+      display: grid;
+      grid-template-columns: 40px 1fr;
+      gap: 25px;
+      margin-bottom: 40px;
+    }
+
+    .timeline-dot {
+      width: 39px;
+      height: 39px;
+      border-radius: 50%;
+      background: var(--bg);
+      border: 1px solid var(--red);
+      display: grid;
+      place-items: center;
+      color: var(--red);
+      font-family: Arial, sans-serif;
+      font-size: 0.7rem;
+      font-weight: 900;
+      z-index: 2;
+    }
+
+    .timeline-card {
+      background: var(--paper);
+      border: 1px solid var(--blue-border);
+      padding: 27px 30px;
+      border-radius: var(--radius);
+      box-shadow: 0 8px 25px rgba(13, 71, 161, 0.06);
+    }
+
+    .timeline-card small {
+      color: var(--red);
+      font-family: Arial, sans-serif;
+      font-size: 0.68rem;
+      font-weight: 800;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+
+    .timeline-card h3 {
+      margin: 5px 0 8px;
+      font-size: 1.5rem;
+    }
+
+    .timeline-card p {
+      color: var(--muted);
+    }
+
+    .characters {
+      background: var(--blue-pale);
+    }
+
+    .character-tools {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin: 38px 0;
+    }
+
+    .search-box {
+      position: relative;
+      flex: 1 1 280px;
+    }
+
+    .search-box input {
+      width: 100%;
+      height: 48px;
+      padding: 0 18px;
+      border: 1px solid var(--blue-border);
+      background: var(--paper);
+      border-radius: 10px;
+      outline: none;
+      color: var(--ink);
+    }
+
+    .search-box input:focus {
+      border-color: var(--red);
+    }
+
+    .filter-chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 7px;
+    }
+
+    .filter-chip {
+      height: 48px;
+      padding: 0 16px;
+      border: 1px solid var(--blue-border);
+      background: var(--paper);
+      border-radius: 10px;
+      font-family: Arial, sans-serif;
+      font-size: 0.72rem;
+      font-weight: 800;
+      color: var(--muted);
+      transition: 0.2s ease;
+    }
+
+    .filter-chip:hover,
+    .filter-chip.active {
+      background: var(--red);
+      border-color: var(--red);
+      color: white;
+    }
+
+    .character-grid {
+      display: grid;
+      grid-template-columns: repeat(12, 1fr);
+      grid-auto-rows: 280px;
+      gap: 16px;
+      align-items: stretch;
+    }
+
+    .char-card {
+      position: relative;
+      overflow: hidden;
+      border-radius: var(--radius);
+      background: var(--paper);
+      min-height: 0;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      border: 1px solid rgba(21, 101, 192, 0.14);
+      box-shadow: 0 8px 28px rgba(13, 71, 161, 0.08);
+      transition: transform 0.25s ease, box-shadow 0.25s ease;
+      cursor: pointer;
+    }
+
+    .char-card:hover {
+      transform: translateY(-5px);
+      box-shadow: var(--shadow);
+    }
+
+    .char-card.large {
+      grid-column: span 6;
+      grid-row: span 2;
+    }
+
+    .char-card.medium {
+      grid-column: span 3;
+      grid-row: span 1;
+    }
+
+    .char-card.wide {
+      grid-column: span 6;
+      grid-row: span 1;
+    }
+
+    .portrait {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      flex-grow: 1;
+      min-height: 0;
+      overflow: hidden;
+      background: #E3ECFA;
+    }
+
+    .char-card.large .portrait {
+      min-height: 100%;
+    }
+
+    .portrait img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center top;
+      display: block;
+      transition: transform 0.45s ease;
+    }
+
+    .char-card:hover .portrait img {
+      transform: scale(1.035);
+    }
+
+    .portrait::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(
+        to top,
+        rgba(13, 25, 55, 0.84) 0%,
+        rgba(13, 71, 161, 0.18) 45%,
+        transparent 70%
+      );
+      pointer-events: none;
+    }
+
+    .char-info {
+      position: absolute;
+      z-index: 3;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      padding: 25px;
+      color: white;
+    }
+
+    .char-info small {
+      font-family: Arial, sans-serif;
+      font-size: 0.64rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: #FBC02D;
+    }
+
+    .char-info h3 {
+      font-size: 1.35rem;
+      line-height: 1.05;
+      margin: 5px 0;
+    }
+
+    .char-info p {
+      font-family: Arial, sans-serif;
+      font-size: 0.7rem;
+      opacity: 0.8;
+    }
+
+    .char-empty {
+      grid-column: 1 / -1;
+      padding: 60px 20px;
+      text-align: center;
+      color: var(--muted);
+      background: var(--paper);
+      border: 1px dashed var(--blue-border);
+      border-radius: var(--radius);
+    }
+
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 2000;
+      background: rgba(13, 25, 55, 0.78);
+      backdrop-filter: blur(5px);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .modal-overlay.show {
+      display: flex;
+    }
+
+    .modal {
+      width: min(800px, 100%);
+      max-height: 90vh;
+      overflow-y: auto;
+      background: var(--paper);
+      border-radius: 25px;
+      box-shadow: 0 30px 100px rgba(0,0,0,0.3);
+      position: relative;
+      animation: modalIn 0.25s ease;
+    }
+
+    @keyframes modalIn {
+      from {
+        opacity: 0;
+        transform: translateY(15px) scale(0.98);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+    }
+
+    .modal-close {
+      position: absolute;
+      right: 17px;
+      top: 17px;
+      z-index: 4;
+      width: 40px;
+      height: 40px;
+      border: none;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.9);
+      font-size: 1.4rem;
+      line-height: 1;
+    }
+
+    .modal-grid {
+      display: grid;
+      grid-template-columns: 0.8fr 1.2fr;
+    }
+
+    .modal-image {
+      min-height: 480px;
+      background: #E3ECFA;
+    }
+
+    .modal-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center top;
+      display: block;
+    }
+
+    .modal-body {
+      padding: 48px 40px;
+    }
+
+    .modal-role {
+      font-family: Arial, sans-serif;
+      color: var(--red);
+      font-size: 0.72rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+    }
+
+    .modal-body h2 {
+      font-size: 2.7rem;
+      line-height: 1;
+      margin: 10px 0 20px;
+    }
+
+    .modal-body p {
+      color: var(--muted);
+    }
+
+    .themes-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 18px;
+      margin-top: 55px;
+    }
+
+    .theme-card {
+      padding: 34px;
+      min-height: 300px;
+      border: 1px solid var(--blue-border);
+      background: var(--paper);
+      border-radius: var(--radius);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      transition: 0.25s ease;
+    }
+
+    .theme-card:hover {
+      transform: translateY(-5px);
+      box-shadow: var(--shadow);
+    }
+
+    .theme-number {
+      font-family: Arial, sans-serif;
+      font-weight: 900;
+      color: var(--yellow);
+      font-size: 0.72rem;
+    }
+
+    .theme-card h3 {
+      font-size: 2rem;
+      line-height: 1;
+      margin-top: 45px;
+    }
+
+    .theme-card p {
+      color: var(--muted);
+      margin-top: 15px;
+    }
+
+    .legacy {
+      background: var(--red);
+      color: white;
+    }
+
+    .legacy .section-label {
+      color: #FFF176;
+    }
+
+    .legacy .section-label::before {
+      background: #FFF176;
+    }
+
+    .legacy-grid {
+      display: grid;
+      grid-template-columns: 0.7fr 1.3fr;
+      gap: 80px;
+      align-items: center;
+    }
+
+    .law-number {
+      font-size: clamp(4rem, 10vw, 9rem);
+      font-weight: normal;
+      line-height: 0.8;
+      color: #FFF176;
+      letter-spacing: -0.07em;
+    }
+
+    .legacy h2 {
+      font-size: clamp(2.3rem, 5vw, 4.8rem);
+      line-height: 0.98;
+      margin-bottom: 25px;
+    }
+
+    .legacy p {
+      color: #FCE4E4;
+      max-width: 750px;
+      margin-bottom: 15px;
+    }
+
+    .law-note {
+      margin-top: 30px;
+      padding: 20px;
+      border: 1px solid rgba(255,255,255,0.22);
+      border-radius: 13px;
+      font-family: Arial, sans-serif;
+      font-size: 0.78rem;
+      color: #FFF9C4;
+    }
+
+    .quiz-section {
+      background: var(--paper);
+    }
+
+    .quiz-shell {
+      width: min(850px, 100%);
+      margin: 55px auto 0;
+      background: var(--bg);
+      border: 1px solid var(--blue-border);
+      border-radius: 28px;
+      padding: clamp(25px, 5vw, 55px);
+    }
+
+    .quiz-progress {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 40px;
+    }
+
+    .progress-dot {
+      height: 7px;
+      flex: 1;
+      background: var(--blue-border);
+      border-radius: 20px;
+      transition: 0.25s ease;
+    }
+
+    .progress-dot.active {
+      background: var(--red);
+    }
+
+    .progress-dot.done {
+      background: var(--yellow);
+    }
+
+    .quiz-meta {
+      display: flex;
+      justify-content: space-between;
+      font-family: Arial, sans-serif;
+      font-size: 0.7rem;
+      font-weight: 800;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-bottom: 12px;
+    }
+
+    .quiz-question {
+      font-size: clamp(1.8rem, 4vw, 3rem);
+      line-height: 1.05;
+      margin-bottom: 28px;
+    }
+
+    .answers {
+      display: grid;
+      gap: 10px;
+    }
+
+    .answer-btn {
+      text-align: left;
+      width: 100%;
+      padding: 17px 19px;
+      background: var(--paper);
+      border: 1px solid var(--blue-border);
+      border-radius: 12px;
+      transition: 0.2s ease;
+    }
+
+    .answer-btn:hover:not(:disabled) {
+      border-color: var(--red);
+      transform: translateX(3px);
+    }
+
+    .answer-btn.correct {
+      border-color: var(--blue);
+      background: var(--blue-soft);
+    }
+
+    .answer-btn.wrong {
+      border-color: #C62828;
+      background: var(--red-soft);
+    }
+
+    .answer-btn:disabled {
+      cursor: default;
+    }
+
+    .quiz-feedback {
+      min-height: 28px;
+      margin-top: 18px;
+      font-family: Arial, sans-serif;
+      font-size: 0.82rem;
+      font-weight: 700;
+    }
+
+    .quiz-feedback.correct {
+      color: var(--blue);
+    }
+
+    .quiz-feedback.wrong {
+      color: var(--red);
+    }
+
+    .quiz-actions {
+      display: flex;
+      justify-content: flex-end;
+      margin-top: 20px;
+    }
+
+    .quiz-result {
+      text-align: center;
+      padding: 25px 0;
+    }
+
+    .score-circle {
+      width: 150px;
+      height: 150px;
+      margin: 20px auto 25px;
+      border-radius: 50%;
+      border: 7px solid var(--red);
+      display: grid;
+      place-items: center;
+      font-size: 3rem;
+      color: var(--red);
+    }
+
+    .review-list {
+      text-align: left;
+      margin-top: 35px;
+      display: grid;
+      gap: 10px;
+    }
+
+    .review-item {
+      padding: 15px;
+      border: 1px solid var(--blue-border);
+      background: var(--paper);
+      border-radius: 10px;
+      font-family: Arial, sans-serif;
+      font-size: 0.78rem;
+    }
+
+    .contact-grid {
+      display: grid;
+      grid-template-columns: 0.75fr 1.25fr;
+      gap: 80px;
+      align-items: start;
+    }
+
+    .contact-info h2 {
+      font-size: clamp(2.5rem, 5vw, 5rem);
+      line-height: 0.95;
+      margin-bottom: 20px;
+    }
+
+    .contact-info p {
+      color: var(--muted);
+      max-width: 450px;
+    }
+
+    .contact-form {
+      background: var(--paper);
+      padding: 35px;
+      border: 1px solid var(--blue-border);
+      border-radius: var(--radius);
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    .form-group label {
+      display: block;
+      font-family: Arial, sans-serif;
+      font-size: 0.72rem;
+      font-weight: 800;
+      margin-bottom: 7px;
+    }
+
+    .form-group input,
+    .form-group textarea {
+      display: block;
+      width: 100%;
+      border: 1px solid var(--blue-border);
+      background: var(--paper);
+      border-radius: 9px;
+      padding: 13px 14px;
+      outline: none;
+      color: var(--ink);
+    }
+
+    .form-group textarea {
+      min-height: 150px;
+      resize: vertical;
+    }
+
+    .form-group input:focus,
+    .form-group textarea:focus {
+      border-color: var(--red);
+    }
+
+    .field-error {
+      min-height: 18px;
+      color: var(--red);
+      font-family: Arial, sans-serif;
+      font-size: 0.68rem;
+      margin-top: 4px;
+    }
+
+    .form-group.invalid input,
+    .form-group.invalid textarea {
+      border-color: var(--red);
+    }
+
+    .toast {
+      position: fixed;
+      right: 22px;
+      bottom: 22px;
+      z-index: 3000;
+      max-width: 360px;
+      background: var(--blue-dark);
+      color: white;
+      padding: 15px 19px;
+      border-radius: 11px;
+      box-shadow: 0 15px 40px rgba(0,0,0,0.22);
+      font-family: Arial, sans-serif;
+      font-size: 0.78rem;
+      transform: translateY(30px);
+      opacity: 0;
+      pointer-events: none;
+      transition: 0.25s ease;
+    }
+
+    .toast.show {
+      transform: translateY(0);
+      opacity: 1;
+    }
+
+    footer {
+      background: #061B3A;
+      color: #DCE7F5;
+      padding: 55px 0;
+    }
+
+    .footer-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 40px;
+    }
+
+    .footer-brand {
+      font-size: 1.7rem;
+      color: white;
+    }
+
+    .footer-tagline {
+      color: #AFC3DF;
+      max-width: 450px;
+      margin-top: 10px;
+    }
+
+    .credits {
+      justify-self: end;
+      text-align: right;
+      font-family: Arial, sans-serif;
+      font-size: 0.72rem;
+      line-height: 1.8;
+      color: #B9CBE2;
+    }
+
+    .credits strong {
+      color: white;
+    }
+
+    .copyright {
+      border-top: 1px solid rgba(255,255,255,0.1);
+      margin-top: 40px;
+      padding-top: 20px;
+      font-family: Arial, sans-serif;
+      font-size: 0.65rem;
+      color: #7A8BA5;
+    }
+
+    @media (max-width: 1050px) {
+      .desktop-nav {
+        display: none;
+      }
+
+      .burger {
+        display: flex;
+      }
+
+      .hero-grid,
+      .history-grid,
+      .legacy-grid,
+      .contact-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .hero-copy {
+        max-width: 850px;
+      }
+
+      .cover-stage {
+        min-height: 500px;
+      }
+
+      .history-big-year,
+      .law-number {
+        font-size: 7rem;
+      }
+
+      .themes-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .theme-card {
+        min-height: 230px;
+      }
+
+      .footer-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .credits {
+        justify-self: start;
+        text-align: left;
+      }
+    }
+
+    @media (max-width: 760px) {
+      .container {
+        width: min(100% - 28px, var(--max-width));
+      }
+
+      .section {
+        padding: 75px 0;
+      }
+
+      .hero {
+        padding-top: calc(var(--nav-height) + 30px);
+      }
+
+      .hero-title {
+        font-size: clamp(3rem, 15vw, 5rem);
+      }
+
+      .cover-frame {
+        width: min(290px, 78%);
+      }
+
+      .character-grid {
+        grid-template-columns: 1fr 1fr;
+        grid-auto-rows: 300px;
+      }
+
+      .char-card.large,
+      .char-card.medium,
+      .char-card.wide {
+        grid-column: span 1;
+        grid-row: span 1;
+      }
+
+      .char-card.large {
+        grid-column: span 2;
+      }
+
+      .modal-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .modal-image {
+        height: 330px;
+        min-height: 330px;
+      }
+
+      .modal-body {
+        padding: 30px 25px;
+      }
+
+      .modal-body h2 {
+        font-size: 2.2rem;
+      }
+
+      .summary-header {
+        display: block;
+      }
+
+      .quiz-shell {
+        padding: 25px 18px;
+      }
+
+      .contact-form {
+        padding: 23px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .brand-text span {
+        display: none;
+      }
+
+      .character-grid {
+        grid-template-columns: 1fr;
+        grid-auto-rows: 330px;
+      }
+
+      .char-card.large {
+        grid-column: span 1;
+      }
+
+      .hero-actions .btn {
+        width: 100%;
+        text-align: center;
+      }
+
+      .filter-chips {
+        width: 100%;
+      }
+
+      .filter-chip {
+        flex: 1;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      html {
+        scroll-behavior: auto;
+      }
+
+      *,
+      *::before,
+      *::after {
+        animation-duration: 0.01ms !important;
+        transition-duration: 0.01ms !important;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <header class="navbar">
+    <div class="nav-inner">
+      <a href="#home" class="brand" aria-label="LIKHA home">
+        <div class="brand-mark">L</div>
+        <div class="brand-text">
+          <strong>LIKHA</strong>
+          <span>Noli Me Tángere Digital Archive</span>
+        </div>
+      </a>
+
+      <nav class="desktop-nav" aria-label="Main navigation">
+        <a href="#kasaysayan">Kasaysayan</a>
+        <a href="#buod">Buod</a>
+        <a href="#tauhan">Mga Tauhan</a>
+        <a href="#tema">Mga Tema</a>
+        <a href="#pamana">Pamana</a>
+        <a href="#quiz">Quiz</a>
+        <a href="#kontak">Kontak</a>
+      </nav>
+
+      <button class="burger" id="burgerBtn" aria-label="Buksan ang menu" aria-expanded="false">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+  </header>
+
+  <aside class="mobile-drawer" id="mobileDrawer">
+    <a href="#kasaysayan">Kasaysayan</a>
+    <a href="#buod">Buod</a>
+    <a href="#tauhan">Mga Tauhan</a>
+    <a href="#tema">Mga Tema</a>
+    <a href="#pamana">Pamana</a>
+    <a href="#quiz">Quiz</a>
+    <a href="#kontak">Kontak</a>
+  </aside>
+
+  <main>
+
+    <section class="hero" id="home">
+      <div class="container hero-grid">
+
+        <div class="hero-copy">
+          <div class="hero-kicker">LIKHA · Digital Archive</div>
+
+          <h1 class="hero-title">
+            Ang Kanser ng
+            <em>Lipunang</em>
+            Kolonyal
+          </h1>
+
+          <p class="hero-subtitle">
+            Isang digital na paglalakbay sa <em>Noli Me Tángere</em> —
+            sa kasaysayan, mga tauhan, tema, at pamana ng nobelang
+            nagmulat sa kamalayan ng isang bayan.
+          </p>
+
+          <div class="hero-actions">
+            <a href="#buod" class="btn btn-primary">Magbasa ng Buod</a>
+            <a href="#quiz" class="btn btn-secondary">Subukan ang Quiz</a>
+          </div>
+        </div>
+
+        <div class="cover-stage">
+          <div class="cover-frame">
+            <img
+              src="images/noli-cover.jpg"
+              alt="Orihinal na pabalat ng Noli Me Tángere"
+              loading="eager"
+            >
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <section class="section history" id="kasaysayan">
+      <div class="container history-grid">
+
+        <div>
+          <div class="section-label">Kasaysayan</div>
+          <div class="history-big-year">1887</div>
+        </div>
+
+        <div class="history-content">
+          <h3>
+            Isang nobelang isinilang mula sa pagmamasid
+            at pagnanais na magbago.
+          </h3>
+
+          <p>
+            Sa panahon ng kanyang pananatili sa Europa, isinulat ni
+            José Rizal ang <em>Noli Me Tángere</em> bilang isang
+            mapanuring salamin ng lipunang Pilipino sa ilalim ng
+            kolonyal na pamamahala.
+          </p>
+
+          <p>
+            Nakumpleto ang nobela sa Berlin noong 1887. Sa halip na
+            simpleng kuwento lamang, ginamit ni Rizal ang panitikan
+            upang ilantad ang pang-aabuso, katiwalian, diskriminasyon,
+            at hindi pagkakapantay-pantay na kanyang nakita sa lipunan.
+          </p>
+
+          <p class="history-note">
+            Ang pamagat na <em>Noli Me Tángere</em> ay Latin na
+            karaniwang isinasalin bilang “Huwag Mo Akong Salingin.”
+          </p>
+        </div>
+
+      </div>
+    </section>
+
+    <section class="section" id="buod">
+      <div class="container">
+
+        <div class="summary-header">
+          <div>
+            <div class="section-label">Buod</div>
+            <h2 class="section-title">Ang Kuwento sa mga Yugto</h2>
+          </div>
+
+          <p class="section-intro">
+            Isang pinaikling timeline ng mahahalagang pangyayari
+            sa nobela.
+          </p>
+        </div>
+
+        <div class="timeline">
+
+          <article class="timeline-item">
+            <div class="timeline-dot">01</div>
+            <div class="timeline-card">
+              <small>Kabanata · Simula</small>
+              <h3>Pagbabalik ni Ibarra</h3>
+              <p>
+                Matapos ang pitong taong pag-aaral sa Europa,
+                bumalik si Crisóstomo Ibarra sa Pilipinas at
+                muling nakipag-ugnayan sa kanyang bayan at
+                sa kanyang minamahal na si María Clara.
+              </p>
+            </div>
+          </article>
+
+          <article class="timeline-item">
+            <div class="timeline-dot">02</div>
+            <div class="timeline-card">
+              <small>Kabanata · Tunggalian</small>
+              <h3>Ang Pangarap na Paaralan</h3>
+              <p>
+                Nais ni Ibarra na magtayo ng paaralan bilang
+                paraan upang makatulong sa kinabukasan ng
+                mga kabataan. Ngunit ang kanyang mga plano ay
+                humarap sa pagsalungat ng mga makapangyarihan.
+              </p>
+            </div>
+          </article>
+
+          <article class="timeline-item">
+            <div class="timeline-dot">03</div>
+            <div class="timeline-card">
+              <small>Kabanata · Pagbubunyag</small>
+              <h3>Mga Lihim ng Nakaraan</h3>
+              <p>
+                Lumitaw ang tunay na dahilan ng sinapit ni
+                Don Rafael Ibarra. Kasabay nito, unti-unting
+                nahayag ang mga lihim tungkol sa pamilya at
+                sa mga taong nakapaligid kay María Clara.
+              </p>
+            </div>
+          </article>
+
+          <article class="timeline-item">
+            <div class="timeline-dot">04</div>
+            <div class="timeline-card">
+              <small>Kabanata · Krisis</small>
+              <h3>Ang Huwad na Pag-aalsa</h3>
+              <p>
+                Isang planong pag-aalsa ang ginamit upang
+                idiin si Ibarra. Sa gitna ng kaguluhan,
+                nawala ang kanyang kalayaan at nasira ang
+                kanyang mga pangarap.
+              </p>
+            </div>
+          </article>
+
+          <article class="timeline-item">
+            <div class="timeline-dot">05</div>
+            <div class="timeline-card">
+              <small>Kabanata · Wakas</small>
+              <h3>Pagpapatuloy ng Pakikibaka</h3>
+              <p>
+                Sa huling bahagi ng nobela, magkakaiba ang
+                sinapit ng mga tauhan. Naiwan ang mga tanong
+                tungkol sa katarungan, kalayaan, at kung
+                paano dapat harapin ang isang mapaniil na
+                sistema.
+              </p>
+            </div>
+          </article>
+
+        </div>
+      </div>
+    </section>
+
+    <section class="section characters" id="tauhan">
+      <div class="container">
+
+        <div class="section-label">Mga Tauhan</div>
+        <h2 class="section-title">Mga Mukha ng Noli</h2>
+        <p class="section-intro">
+          Kilalanin ang mga tauhang kumakatawan sa iba't ibang
+          mukha, uri, at tunggalian ng lipunang inilalarawan
+          ni Rizal.
+        </p>
+
+        <div class="character-tools">
+
+          <div class="search-box">
+            <input
+              type="search"
+              id="characterSearch"
+              placeholder="Maghanap ng tauhan..."
+              aria-label="Maghanap ng tauhan"
+            >
+          </div>
+
+          <div class="filter-chips" id="filterChips">
+            <button class="filter-chip active" data-filter="lahat">
+              Lahat
+            </button>
+
+            <button class="filter-chip" data-filter="protagonista">
+              Protagonista
+            </button>
+
+            <button class="filter-chip" data-filter="simbahan">
+              Simbahan
+            </button>
+
+            <button class="filter-chip" data-filter="pamilya">
+              Pamilya
+            </button>
+          </div>
+
+        </div>
+
+        <div class="character-grid" id="characterGrid"></div>
+
+      </div>
+    </section>
+
+    <section class="section" id="tema">
+      <div class="container">
+
+        <div class="section-label">Mga Tema</div>
+        <h2 class="section-title">Mga Isyung Hindi Kumukupas</h2>
+        <p class="section-intro">
+          Higit pa sa kuwento nina Ibarra at María Clara,
+          ang Noli ay isang pagsusuri sa mga puwersang
+          humuhubog sa lipunan.
+        </p>
+
+        <div class="themes-grid">
+
+          <article class="theme-card">
+            <div class="theme-number">01 · LIPUNAN</div>
+            <div>
+              <h3>Lipunan</h3>
+              <p>
+                Inilalarawan ng nobela ang hindi pantay na
+                ugnayan ng mga makapangyarihan at karaniwang
+                mamamayan, pati na ang mga sistemang nagpapanatili
+                sa ganitong kalagayan.
+              </p>
+            </div>
+          </article>
+
+          <article class="theme-card">
+            <div class="theme-number">02 · PAG-IBIG</div>
+            <div>
+              <h3>Pag-ibig</h3>
+              <p>
+                Ang relasyon nina Ibarra at María Clara ay
+                nagpapakita kung paano maaaring maapektuhan
+                ng pamilya, lipunan, at kapangyarihan ang
+                personal na damdamin.
+              </p>
+            </div>
+          </article>
+
+          <article class="theme-card">
+            <div class="theme-number">03 · KANSER</div>
+            <div>
+              <h3>Kanser ng Lipunan</h3>
+              <p>
+                Ginamit ni Rizal ang nobela upang ilantad ang
+                mga problemang patuloy na sumisira sa lipunan:
+                pang-aabuso, takot, katiwalian, at kawalan
+                ng katarungan.
+              </p>
+            </div>
+          </article>
+
+        </div>
+      </div>
+    </section>
+
+    <section class="section legacy" id="pamana">
+      <div class="container legacy-grid">
+
+        <div>
+          <div class="section-label">Pamana</div>
+          <div class="law-number">1425</div>
+        </div>
+
+        <div>
+          <h2>
+            Ang Rizal Law at ang pagpapatuloy ng alaala.
+          </h2>
+
+          <p>
+            Ang Republic Act No. 1425, na kilala bilang Rizal Law,
+            ay nag-aatas sa mga paaralan na maglaan ng pag-aaral
+            tungkol sa buhay, mga akda, at mga sinulat ni
+            José Rizal, kabilang ang <em>Noli Me Tángere</em> at
+            <em>El Filibusterismo</em>.
+          </p>
+
+          <p>
+            Sa pamamagitan nito, nananatiling bahagi ng edukasyon
+            ang pagtalakay sa mga ideya at tanong na iniwan ng
+            mga akda ni Rizal.
+          </p>
+
+          <div class="law-note">
+            <strong>Republic Act No. 1425</strong><br>
+            “An Act to Include in the Curricula of All Public and
+            Private Schools, Colleges and Universities Courses on
+            the Life, Works and Writings of José Rizal...”
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <section class="section quiz-section" id="quiz">
+      <div class="container">
+
+        <div class="section-label">Interactive Quiz</div>
+        <h2 class="section-title">Gaano Mo Kakilala ang Noli?</h2>
+        <p class="section-intro">
+          Subukan ang iyong kaalaman. Sagutin ang bawat tanong
+          at tingnan ang iyong final score.
+        </p>
+
+        <div class="quiz-shell" id="quizShell">
+
+        </div>
+
+      </div>
+    </section>
+
+    <section class="section" id="kontak">
+      <div class="container contact-grid">
+
+        <div class="contact-info">
+          <div class="section-label">Kontak</div>
+
+          <h2>
+            May nais kang
+            idagdag sa archive?
+          </h2>
+
+          <p>
+            Magpadala ng feedback, mungkahi, o komento tungkol
+            sa LIKHA. Ang form na ito ay may client-side validation
+            para sa mas maayos na user experience.
+          </p>
+        </div>
+
+        <form class="contact-form" id="feedbackForm" novalidate>
+
+          <div class="form-group" id="nameGroup">
+            <label for="name">Pangalan</label>
+            <input
+              type="text"
+              id="name"
+              name="name"
+              autocomplete="name"
+              placeholder="Iyong pangalan"
+            >
+            <div class="field-error" id="nameError"></div>
+          </div>
+
+          <div class="form-group" id="emailGroup">
+            <label for="email">Email</label>
+            <input
+              type="email"
+              id="email"
+              name="email"
+              autocomplete="email"
+              placeholder="halimbawa@email.com"
+            >
+            <div class="field-error" id="emailError"></div>
+          </div>
+
+          <div class="form-group" id="messageGroup">
+            <label for="message">Mensahe</label>
+            <textarea
+              id="message"
+              name="message"
+              placeholder="Isulat ang iyong mensahe..."
+            ></textarea>
+            <div class="field-error" id="messageError"></div>
+          </div>
+
+          <button type="submit" class="btn btn-primary">
+            Ipadala ang Feedback
+          </button>
+
+        </form>
+
+      </div>
+    </section>
+
+  </main>
+
+  <div
+    class="modal-overlay"
+    id="characterModal"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="modalCharacterName"
+  >
+    <div class="modal">
+
+      <button
+        class="modal-close"
+        id="modalClose"
+        aria-label="Isara"
+      >
+        ×
+      </button>
+
+      <div class="modal-grid">
+
+        <div class="modal-image">
+          <img id="modalCharacterImage" src="" alt="">
+        </div>
+
+        <div class="modal-body">
+          <div class="modal-role" id="modalCharacterRole"></div>
+          <h2 id="modalCharacterName"></h2>
+          <p id="modalCharacterBio"></p>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <div
+    class="toast"
+    id="toast"
+    role="status"
+    aria-live="polite"
+  ></div>
+
+  <footer>
+    <div class="container">
+
+      <div class="footer-grid">
+
+        <div>
+          <div class="footer-brand">LIKHA</div>
+
+          <p class="footer-tagline">
+            Noli Me Tángere Digital Archive —
+            isang digital na paglalakbay sa kasaysayan,
+            panitikan, at pamana.
+          </p>
+        </div>
+
+        <div class="credits">
+          <div>
+            <strong>LIKHA Web Application</strong>
+          </div>
+
+          <div>
+            Lead Developer:
+            <strong>James Benedict Sevilla</strong>
+          </div>
+
+          <div>
+            Research &amp; Content:
+            <strong>Lhars Lumasag</strong>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="copyright">
+        © 2026 LIKHA — Noli Me Tángere Digital Archive
+      </div>
+
+    </div>
+  </footer>
+
+  <script>
+    "use strict";
+
+    const state = {
+      characters: [
+        {
+          id: "ibarra",
+          name: "Crisóstomo Ibarra",
+          role: "Protagonista",
+          tags: ["protagonista"],
+          image: "images/ibarra.jpg",
+          bio: "Ang mestisong anak ni Don Rafael Ibarra. Pagkatapos ng pitong taong pag-aaral sa Europa, bumalik siya sa San Diego na may pangarap na itayo ang isang paaralan para sa kanyang bayan."
+        },
+        {
+          id: "maria",
+          name: "María Clara",
+          role: "Kasintahan ni Ibarra",
+          tags: ["pamilya","protagonista"],
+          image: "images/maria-clara.jpg",
+          bio: "Ang pinakamagandang dalaga sa San Diego at kasintahan ni Ibarra. Sa huli, nalaman niyang si Padre Dámaso ang tunay niyang ama, at nagdesisyon siyang pumasok sa kumbento."
+        },
+        {
+          id: "damaso",
+          name: "Padre Dámaso",
+          role: "Prayleng Prangsiskano",
+          tags: ["simbahan"],
+          image: "images/padre-damaso.jpg",
+          bio: "Dating kura paroko ng San Diego, kilala sa kanyang kabastusan at kalupitan. Ibinunyag sa huli na siya ang tunay na ama ni María Clara."
+        },
+        {
+          id: "salvi",
+          name: "Padre Bernardo Salví",
+          role: "Prayleng Prangsiskano",
+          tags: ["simbahan"],
+          image: "images/padre-salvi.jpg",
+          bio: "Ang humalili kay Padre Dámaso bilang kura paroko ng San Diego. Lihim na hinahangaan si María Clara at siyang nagbalak ng huwad na pag-aalsa upang durugin si Ibarra."
+        },
+        {
+          id: "elias",
+          name: "Elías",
+          role: "Misteryosong Kaibigan",
+          tags: ["protagonista"],
+          image: "images/elias.jpg",
+          bio: "Isang bangkero na naging matalik na kaibigan ni Ibarra. Nagmula sa isang pamilyang winasak ng kawalang-katarungan, inialay niya ang kanyang buhay upang iligtas si Ibarra."
+        },
+        {
+          id: "tiago",
+          name: "Kapitán Tiago",
+          role: "Mayamang Negosyante",
+          tags: ["pamilya"],
+          image: "images/kapitan-tiago.jpg",
+          bio: "Kilala bilang isa sa pinakamayamang tao sa Binondo. Ama-sa-batas ni María Clara, itinuturing na Kastila ng mga elite dahil sa kanyang kayamanan at koneksyon."
+        },
+        {
+          id: "sisa",
+          name: "Sisa",
+          role: "Ina nina Basilio at Crispín",
+          tags: ["pamilya"],
+          image: "images/sisa.jpg",
+          bio: "Isang magandang inang nabaliw dahil sa pambubugbog ng asawa, kamatayan ng anak na si Crispín, at pagkawala ng anak na si Basilio sa Guardia Civil."
+        },
+        {
+          id: "tasio",
+          name: "Pilosopo Tasio",
+          role: "Tagapayo",
+          tags: ["protagonista"],
+          image: "images/pilosopo-tasio.jpg",
+          bio: "Kilala rin bilang Don Anastasio, isang dating mag-aaral ng pilosopiya na naging tagapayo ni Ibarra. Sumusulat siya gamit ang sariling alpabetong hango sa wikang Tagalog."
+        },
+        {
+          id: "victorina",
+          name: "Doña Victorina",
+          role: "Nagpapanggap na Espanyola",
+          tags: ["pamilya"],
+          image: "images/dona-victorina.jpg",
+          bio: "Isang ambisyosang Pilipina na nagpapanggap na Kastila. Asawa niya si Don Tiburcio de Espadaña, isang huwad na doktor."
+        }
+      ],
+
+      activeFilter: "lahat",
+      searchQuery: "",
+
+      quiz: {
+        currentQuestion: 0,
+        score: 0,
+        answered: false,
+        finished: false,
+        answers: []
+      }
+    };
+
+    const characterGrid = document.getElementById("characterGrid");
+    const characterSearch = document.getElementById("characterSearch");
+    const filterChips = document.getElementById("filterChips");
+
+    const characterModal = document.getElementById("characterModal");
+    const modalClose = document.getElementById("modalClose");
+    const modalCharacterImage = document.getElementById("modalCharacterImage");
+    const modalCharacterRole = document.getElementById("modalCharacterRole");
+    const modalCharacterName = document.getElementById("modalCharacterName");
+    const modalCharacterBio = document.getElementById("modalCharacterBio");
+
+    const quizShell = document.getElementById("quizShell");
+
+    const feedbackForm = document.getElementById("feedbackForm");
+
+    const burgerBtn = document.getElementById("burgerBtn");
+    const mobileDrawer = document.getElementById("mobileDrawer");
+
+    const toast = document.getElementById("toast");
+
+    function showToast(message) {
+      toast.textContent = message;
+      toast.classList.add("show");
+
+      clearTimeout(showToast.timeout);
+
+      showToast.timeout = setTimeout(() => {
+        toast.classList.remove("show");
+      }, 3200);
+    }
+
+    function escapeHTML(value) {
+      return String(value)
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;")
+        .replaceAll('"', "&quot;")
+        .replaceAll("'", "&#039;");
+    }
+
+    function closeMobileMenu() {
+      mobileDrawer.classList.remove("open");
+      burgerBtn.setAttribute("aria-expanded", "false");
+    }
+
+    burgerBtn.addEventListener("click", () => {
+      const isOpen = mobileDrawer.classList.toggle("open");
+      burgerBtn.setAttribute("aria-expanded", String(isOpen));
+    });
+
+    mobileDrawer.querySelectorAll("a").forEach(link => {
+      link.addEventListener("click", closeMobileMenu);
+    });
+
+    function getFilteredCharacters() {
+      const search = state.searchQuery.trim().toLowerCase();
+
+      return state.characters.filter(character => {
+        const matchesFilter =
+          state.activeFilter === "lahat" ||
+          character.tags.includes(state.activeFilter);
+
+        const searchableText = [
+          character.name,
+          character.role,
+          character.bio,
+          ...character.tags
+        ].join(" ").toLowerCase();
+
+        const matchesSearch =
+          search === "" || searchableText.includes(search);
+
+        return matchesFilter && matchesSearch;
+      });
+    }
+
+    function renderCharacters() {
+      const characters = getFilteredCharacters();
+
+      if (characters.length === 0) {
+        characterGrid.innerHTML = `
+          <div class="char-empty">
+            <strong>Walang nakitang tauhan.</strong>
+            <br>
+            Subukan ang ibang pangalan o category.
+          </div>
+        `;
+        return;
+      }
+
+      characterGrid.innerHTML = characters.map((character, index) => {
+
+        let sizeClass = "medium";
+
+        if (index === 0) {
+          sizeClass = "large";
+        } else if (index === 3 || index === 6) {
+          sizeClass = "wide";
+        }
+
+        return `
+          <article
+            class="char-card ${sizeClass}"
+            data-character-id="${escapeHTML(character.id)}"
+            tabindex="0"
+            role="button"
+            aria-label="Tingnan ang profile ni ${escapeHTML(character.name)}"
+          >
+            <div class="portrait">
+              <img
+                src="${escapeHTML(character.image)}"
+                alt="${escapeHTML(character.name)}"
+                loading="lazy"
+                width="100%"
+                height="100%"
+              >
+
+              <div class="char-info">
+                <small>${escapeHTML(character.role)}</small>
+                <h3>${escapeHTML(character.name)}</h3>
+                <p>Mag-click para sa detalye</p>
+              </div>
+            </div>
+          </article>
+        `;
+      }).join("");
+
+      characterGrid.querySelectorAll(".char-card").forEach(card => {
+        card.addEventListener("click", () => {
+          openCharacterModal(card.dataset.characterId);
+        });
+
+        card.addEventListener("keydown", event => {
+          if (event.key === "Enter" || event.key === " ") {
+            event.preventDefault();
+            openCharacterModal(card.dataset.characterId);
+          }
+        });
+      });
+    }
+
+    characterSearch.addEventListener("input", event => {
+      state.searchQuery = event.target.value;
+      renderCharacters();
+    });
+
+    filterChips.addEventListener("click", event => {
+      const chip = event.target.closest(".filter-chip");
+
+      if (!chip) return;
+
+      state.activeFilter = chip.dataset.filter;
+
+      filterChips.querySelectorAll(".filter-chip").forEach(button => {
+        button.classList.toggle(
+          "active",
+          button === chip
+        );
+      });
+
+      renderCharacters();
+    });
+
+    function openCharacterModal(characterId) {
+      const character = state.characters.find(
+        item => item.id === characterId
+      );
+
+      if (!character) return;
+
+      modalCharacterImage.src = character.image;
+      modalCharacterImage.alt = character.name;
+      modalCharacterRole.textContent = character.role;
+      modalCharacterName.textContent = character.name;
+      modalCharacterBio.textContent = character.bio;
+
+      characterModal.classList.add("show");
+      document.body.style.overflow = "hidden";
+
+      modalClose.focus();
+    }
+
+    function closeCharacterModal() {
+      characterModal.classList.remove("show");
+      document.body.style.overflow = "";
+    }
+
+    modalClose.addEventListener("click", closeCharacterModal);
+
+    characterModal.addEventListener("click", event => {
+      if (event.target === characterModal) {
+        closeCharacterModal();
+      }
+    });
+
+    document.addEventListener("keydown", event => {
+      if (event.key === "Escape") {
+        closeCharacterModal();
+        closeMobileMenu();
+      }
+    });
+
+    const quizQuestions = [
+      {
+        question: "Saan nakumpleto ni José Rizal ang Noli Me Tángere noong 1887?",
+        choices: [
+          "Berlin",
+          "Madrid",
+          "Paris",
+          "Manila"
+        ],
+        answer: 0,
+        explanation:
+          "Nakumpleto ni Rizal ang nobela sa Berlin noong 1887."
+      },
+      {
+        question: "Sino ang pangunahing tauhang nagbalik mula sa Europa?",
+        choices: [
+          "Elías",
+          "Crisóstomo Ibarra",
+          "Kapitán Tiago",
+          "Pilosopo Tasio"
+        ],
+        answer: 1,
+        explanation:
+          "Si Crisóstomo Ibarra ang pangunahing tauhang bumalik mula sa Europa."
+      },
+      {
+        question: "Sino ang kasintahan ni Ibarra?",
+        choices: [
+          "Sisa",
+          "Doña Victorina",
+          "María Clara",
+          "Doña Consolación"
+        ],
+        answer: 2,
+        explanation:
+          "Si María Clara ang kasintahan ni Crisóstomo Ibarra."
+      },
+      {
+        question: "Ano ang nais itayo ni Ibarra para sa bayan?",
+        choices: [
+          "Isang ospital",
+          "Isang simbahan",
+          "Isang palengke",
+          "Isang paaralan"
+        ],
+        answer: 3,
+        explanation:
+          "Pangarap ni Ibarra na magtayo ng paaralan."
+      },
+      {
+        question: "Ano ang Republic Act No. 1425 na karaniwang tawag?",
+        choices: [
+          "Education Act",
+          "Rizal Law",
+          "Noli Act",
+          "Philippine Literature Act"
+        ],
+        answer: 1,
+        explanation:
+          "Ang Republic Act No. 1425 ay kilala bilang Rizal Law."
+      },
+      {
+        question: "Ano ang kahulugan ng pamagat na Noli Me Tángere?",
+        choices: [
+          "Mahal Kita",
+          "Huwag Mo Akong Salingin",
+          "Ako ang Iyong Bayan",
+          "Bumalik Ka sa Bayan"
+        ],
+        answer: 1,
+        explanation:
+          "Ang Latin na pamagat ay karaniwang isinasalin bilang “Huwag Mo Akong Salingin.”"
+      }
+    ];
+
+    function renderQuiz() {
+      const quizState = state.quiz;
+
+      if (quizState.finished) {
+        renderQuizResult();
+        return;
+      }
+
+      const question = quizQuestions[quizState.currentQuestion];
+
+      const dots = quizQuestions.map((_, index) => {
+        let className = "progress-dot";
+
+        if (index < quizState.currentQuestion) {
+          className += " done";
+        }
+
+        if (index === quizState.currentQuestion) {
+          className += " active";
+        }
+
+        return `<span class="${className}"></span>`;
+      }).join("");
+
+      quizShell.innerHTML = `
+        <div class="quiz-progress">
+          ${dots}
+        </div>
+
+        <div class="quiz-meta">
+          <span>Tanong ${quizState.currentQuestion + 1}</span>
+          <span>${quizQuestions.length} Kabuuan</span>
+        </div>
+
+        <h3 class="quiz-question">
+          ${escapeHTML(question.question)}
+        </h3>
+
+        <div class="answers">
+          ${question.choices.map((choice, index) => `
+            <button
+              class="answer-btn"
+              data-answer="${index}"
+            >
+              ${escapeHTML(choice)}
+            </button>
+          `).join("")}
+        </div>
+
+        <div class="quiz-feedback" id="quizFeedback"></div>
+
+        <div class="quiz-actions">
+          <button
+            class="btn btn-primary"
+            id="nextQuestion"
+            style="display:none;"
+          >
+            ${quizState.currentQuestion === quizQuestions.length - 1
+              ? "Tingnan ang Resulta"
+              : "Susunod na Tanong"}
+          </button>
+        </div>
+      `;
+
+      quizShell.querySelectorAll(".answer-btn").forEach(button => {
+        button.addEventListener("click", () => {
+          answerQuiz(Number(button.dataset.answer));
+        });
+      });
+
+      document
+        .getElementById("nextQuestion")
+        .addEventListener("click", nextQuizQuestion);
+    }
+
+    function answerQuiz(selectedIndex) {
+      if (state.quiz.answered) return;
+
+      state.quiz.answered = true;
+
+      const question = quizQuestions[state.quiz.currentQuestion];
+      const buttons = quizShell.querySelectorAll(".answer-btn");
+      const feedback = document.getElementById("quizFeedback");
+      const nextButton = document.getElementById("nextQuestion");
+
+      buttons.forEach(button => {
+        button.disabled = true;
+      });
+
+      const isCorrect = selectedIndex === question.answer;
+
+      if (isCorrect) {
+        state.quiz.score++;
+        feedback.textContent = "Tama! " + question.explanation;
+        feedback.className = "quiz-feedback correct";
+      } else {
+        feedback.textContent =
+          "Hindi tama. " +
+          question.explanation +
+          " Ang tamang sagot ay: " +
+          question.choices[question.answer] +
+          ".";
+
+        feedback.className = "quiz-feedback wrong";
+      }
+
+      buttons.forEach((button, index) => {
+        if (index === question.answer) {
+          button.classList.add("correct");
+        }
+
+        if (index === selectedIndex && !isCorrect) {
+          button.classList.add("wrong");
+        }
+      });
+
+      state.quiz.answers.push({
+        question: question.question,
+        selected: question.choices[selectedIndex],
+        correct: question.choices[question.answer],
+        isCorrect
+      });
+
+      nextButton.style.display = "inline-flex";
+    }
+
+    function nextQuizQuestion() {
+      if (!state.quiz.answered) return;
+
+      if (
+        state.quiz.currentQuestion ===
+        quizQuestions.length - 1
+      ) {
+        state.quiz.finished = true;
+        renderQuiz();
+        return;
+      }
+
+      state.quiz.currentQuestion++;
+      state.quiz.answered = false;
+
+      renderQuiz();
+    }
+
+    function renderQuizResult() {
+      const score = state.quiz.score;
+      const total = quizQuestions.length;
+      const percentage = Math.round((score / total) * 100);
+
+      let message;
+
+      if (percentage === 100) {
+        message = "Napakahusay! Kumpleto ang iyong kaalaman.";
+      } else if (percentage >= 70) {
+        message = "Magaling! Malalim ang iyong kaalaman sa Noli.";
+      } else if (percentage >= 50) {
+        message = "Mabuti! May ilang bahagi pang maaaring balikan.";
+      } else {
+        message = "Balikan ang archive at subukan muli!";
+      }
+
+      const review = state.quiz.answers.map((item, index) => `
+        <div class="review-item">
+          <strong>${index + 1}. ${escapeHTML(item.question)}</strong><br>
+          <span>
+            Iyong sagot:
+            ${escapeHTML(item.selected)}
+          </span>
+          <br>
+          <span>
+            Tamang sagot:
+            ${escapeHTML(item.correct)}
+          </span>
+        </div>
+      `).join("");
+
+      quizShell.innerHTML = `
+        <div class="quiz-result">
+
+          <div class="quiz-meta" style="justify-content:center;">
+            FINAL REVIEW
+          </div>
+
+          <h3 class="quiz-question">
+            Natapos mo na ang quiz.
+          </h3>
+
+          <div class="score-circle">
+            ${score}/${total}
+          </div>
+
+          <p>
+            <strong>${percentage}%</strong>
+          </p>
+
+          <p style="color:var(--muted); margin-top:8px;">
+            ${message}
+          </p>
+
+          <div class="review-list">
+            ${review}
+          </div>
+
+          <div style="margin-top:30px;">
+            <button class="btn btn-primary" id="restartQuiz">
+              Subukan Muli
+            </button>
+          </div>
+
+        </div>
+      `;
+
+      document
+        .getElementById("restartQuiz")
+        .addEventListener("click", restartQuiz);
+    }
+
+    function restartQuiz() {
+      state.quiz.currentQuestion = 0;
+      state.quiz.score = 0;
+      state.quiz.answered = false;
+      state.quiz.finished = false;
+      state.quiz.answers = [];
+
+      renderQuiz();
+    }
+
+    function setFieldError(groupId, errorId, message) {
+      const group = document.getElementById(groupId);
+      const error = document.getElementById(errorId);
+
+      group.classList.toggle("invalid", Boolean(message));
+      error.textContent = message;
+    }
+
+    function validateName() {
+      const value = document.getElementById("name").value.trim();
+
+      if (!value) {
+        setFieldError(
+          "nameGroup",
+          "nameError",
+          "Pakilagay ang iyong pangalan."
+        );
+        return false;
+      }
+
+      if (value.length < 2) {
+        setFieldError(
+          "nameGroup",
+          "nameError",
+          "Dapat ay hindi bababa sa 2 character ang pangalan."
+        );
+        return false;
+      }
+
+      setFieldError("nameGroup", "nameError", "");
+      return true;
+    }
+
+    function validateEmail() {
+      const value = document.getElementById("email").value.trim();
+
+      if (!value) {
+        setFieldError(
+          "emailGroup",
+          "emailError",
+          "Pakilagay ang iyong email."
+        );
+        return false;
+      }
+
+      const emailPattern =
+        /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+      if (!emailPattern.test(value)) {
+        setFieldError(
+          "emailGroup",
+          "emailError",
+          "Pakipasok ang valid na email address."
+        );
+        return false;
+      }
+
+      setFieldError("emailGroup", "emailError", "");
+      return true;
+    }
+
+    function validateMessage() {
+      const value = document.getElementById("message").value.trim();
+
+      if (!value) {
+        setFieldError(
+          "messageGroup",
+          "messageError",
+          "Pakilagay ang iyong mensahe."
+        );
+        return false;
+      }
+
+      if (value.length < 10) {
+        setFieldError(
+          "messageGroup",
+          "messageError",
+          "Ang mensahe ay dapat hindi bababa sa 10 character."
+        );
+        return false;
+      }
+
+      setFieldError("messageGroup", "messageError", "");
+      return true;
+    }
+
+    document
+      .getElementById("name")
+      .addEventListener("blur", validateName);
+
+    document
+      .getElementById("email")
+      .addEventListener("blur", validateEmail);
+
+    document
+      .getElementById("message")
+      .addEventListener("blur", validateMessage);
+
+    feedbackForm.addEventListener("submit", event => {
+      event.preventDefault();
+
+      const validName = validateName();
+      const validEmail = validateEmail();
+      const validMessage = validateMessage();
+
+      if (!validName || !validEmail || !validMessage) {
+        showToast("Pakisuri ang mga field na may error.");
+        return;
+      }
+
+      feedbackForm.reset();
+
+      showToast(
+        "Salamat! Matagumpay na naipasa ang iyong feedback."
+      );
+    });
+
+    document.addEventListener("error", event => {
+      const element = event.target;
+
+      if (element.tagName !== "IMG") return;
+
+      element.style.background = "#E3ECFA";
+
+    }, true);
+
+    renderCharacters();
+    renderQuiz();
+
+  </script>
+
+</body>
+</html>
