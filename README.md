@@ -6,10 +6,11 @@ Monorepo para sa mga proyektong may kaugnayan sa Buwan ng Wika.
 
 ```
 apps/
-  balagtas/   # One-page website tungkol kay Francisco Balagtas
-  hernandez/  # Digital archive ng Noli Me Tángere
-  mythology/  # [Description needed]
-  wikang_filipino/  # [Description needed]
+  balagtas/             # One-page website tungkol kay Francisco Balagtas
+  hernandez/            # Digital archive ng Noli Me Tángere
+  likha-noli-me-tangere/ # Digital archive ng Noli Me Tángere (LIKHA)
+  mythology/            # [Description needed]
+  wikang_filipino/      # [Description needed]
 ```
 
 ## apps/balagtas
@@ -42,3 +43,15 @@ Buong nilalaman ay nasa wikang Filipino.
 ### Mga image assets
 
 Ang lahat ng larawan ay nasa `images/` directory. Kasalukuyang may mga placeholder references para sa character images na maaaring idagdag sa hinaharap.
+
+## apps/likha-noli-me-tangere
+
+Isang digital archive (single-page website) tungkol sa "Noli Me Tángere" ni José Rizal, kasama ang kasaysayan, buod, mga tauhan, tema, pamana, at isang quiz.
+Buong nilalaman ay nasa wikang Filipino.
+
+- Opening: `apps/likha-noli-me-tangere/index.html`
+- Walang framework o build tool — buksan lang ang `index.html` sa browser.
+
+### Mga image assets
+
+Ang lahat ng larawan (pabalat, mga tauhan) ay nasa `images/` directory.
