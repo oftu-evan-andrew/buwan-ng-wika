@@ -7,6 +7,9 @@ Monorepo para sa mga proyektong may kaugnayan sa Buwan ng Wika.
 ```
 apps/
   balagtas/   # One-page website tungkol kay Francisco Balagtas
+  hernandez/  # Digital archive ng Noli Me Tángere
+  mythology/  # [Description needed]
+  wikang_filipino/  # [Description needed]
 ```
 
 ## apps/balagtas
@@ -24,3 +27,18 @@ wikang Filipino.
 - `florante-cover.png` — pabalat ng Florante at Laura (public domain, 1913)
 - `larawan-kalikasan.jpg` — hagdan-hagdang palayan (CC BY-SA 4.0)
 - `mabini-stamp.jpg` — selyo ni Apolinario Mabini (public domain)
+
+## apps/hernandez
+
+Isang digital archive (single-page website) tungkol sa "Noli Me Tángere" ni José Rizal.
+Ang website ay may interactive features tulad ng character profiles, timeline, quiz, at contact form.
+Buong nilalaman ay nasa wikang Filipino.
+
+- Opening: `apps/hernandez/index.html`
+- External CSS: `Krisnel.css`
+- External JavaScript: `Script.js`
+- Walang framework o build tool — buksan lang ang `index.html` sa browser.
+
+### Mga image assets
+
+Ang lahat ng larawan ay nasa `images/` directory. Kasalukuyang may mga placeholder references para sa character images na maaaring idagdag sa hinaharap.
