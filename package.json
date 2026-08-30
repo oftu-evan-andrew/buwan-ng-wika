@@ -1,0 +1,8 @@
+{
+	"name": "buwan-ng-wika",
+	"private": true,
+	"workspaces":[
+		"apps/*",
+		"packages/*"
+	]
+}

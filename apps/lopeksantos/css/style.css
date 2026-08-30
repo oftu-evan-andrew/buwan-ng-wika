@@ -1,0 +1,175 @@
+:root {
+    --asul: #0038A8;
+    --pula: #CE1126;
+    --dilaw: #FCD116;
+    --puti: #FFFFFF;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f9f9f9;
+    color: #333;
+    line-height: 1.6;
+    -webkit-text-size-adjust: 100%; 
+}
+
+header {
+    background-color: var(--asul);
+    color: var(--puti);
+    border-bottom: 8px solid var(--dilaw);
+}
+
+.header-content {
+    padding: 2rem 1rem;
+    text-align: center;
+}
+
+header h1 {
+    margin: 0;
+    font-size: clamp(1.8rem, 5vw, 2.5rem);
+    letter-spacing: 1px;
+}
+
+header p {
+    margin: 0.5rem 0 0;
+    font-size: 1.1rem;
+    opacity: 0.9;
+}
+
+main {
+    width: 90%;
+    max-width: 800px;
+    margin: 2rem auto;
+    padding: 2rem;
+    background-color: var(--puti);
+    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+    border-radius: 8px;
+    box-sizing: border-box; 
+}
+
+main h2 {
+    color: var(--asul);
+    margin-top: 0;
+    border-bottom: 2px solid #eee;
+    padding-bottom: 0.5rem;
+}
+
+.image {
+    width: 100%;
+    height: 300px;
+    border: 2px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #666;
+    font-weight: bold;
+    margin-bottom: 1.5rem;
+    box-sizing: border-box;
+}
+
+/*mga dropdown sa html*/
+.dropdown-group {
+    margin-top: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+details {
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background-color: #fff;
+    overflow: hidden;
+}
+
+summary {
+    background-color: var(--pula);
+    color: var(--puti);
+    padding: 12px 15px;
+    font-weight: bold;
+    cursor: pointer;
+    list-style: none; /*para itago yung default arrow*/
+    position: relative;
+    transition: background-color 0.2s ease;
+}
+
+summary::-webkit-details-marker {
+    display: none; /*para itago yung default arrow sa webkit browsers*/
+}
+
+summary::after {
+    content: '+';
+    position: absolute;
+    right: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 1.2rem;
+}
+
+details[open] summary {
+    background-color: #C11024; 
+}
+
+details[open] summary::after {
+    content: '-';
+}
+
+.dropdown-content {
+    padding: 15px;
+    border-top: 1px solid #ccc;
+    background-color: #fcfcfc;
+}
+
+.dropdown-content p {
+    margin: 0;
+}
+
+.btn {
+    display: inline-block;
+    background-color: var(--dilaw);
+    color: var(--asul);
+    padding: 14px 28px;
+    text-decoration: none;
+    font-weight: bold;
+    text-transform: uppercase;
+    border-radius: 4px;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    margin-top: 2rem;
+    text-align: center;
+}
+
+.btn:hover {
+    background-color: #e5bc0d;
+    transform: translateY(-2px);
+}
+
+/* Footer */
+footer {
+    background-color: var(--pula);
+    color: var(--puti);
+    text-align: center;
+    padding: 1.5rem 1rem;
+    margin-top: 3rem;
+}
+
+/*mga override para sa mobile*/
+@media (max-width: 600px) {
+    main {
+        width: 95%;
+        padding: 1.5rem 1rem;
+        margin: 1rem auto;
+    }
+    
+    .image {
+        height: 200px;
+    }
+    
+    .btn {
+        display: block; 
+        width: 100%;
+        box-sizing: border-box;
+    }
+}
