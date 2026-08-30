@@ -1,0 +1,1004 @@
+<!DOCTYPE html>
+<html lang="tl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#0b0a09">
+  <meta name="description" content="Mga Alamat — isang immersive scroll journey sa mga kwentong bayan ng Pilipinas para sa Buwan ng Wika.">
+  <title>ALAMAT — Mga Kwentong Bayan | Buwan ng Wika</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=IBM+Plex+Sans:wght@400;500;600&family=Azeret+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --background: #0b0a09;
+      --foreground: 36 20% 96%;
+      --muted: 24 10% 14%;
+      --muted-foreground: 32 10% 70%;
+      --accent: 38 78% 55%;
+      --border: 24 10% 18%;
+      --scene-accent: 38 78% 55%;
+      --gold: #fcd116;
+      --blue: #3b82f6;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    #stage:focus, #stage:focus-visible, .scene:focus, .scene:focus-visible, .hero:focus, .hero:focus-visible, .outro:focus, .outro:focus-visible { outline: none; }
+
+    html, body { height: 100%; overflow: hidden; }
+    html { scroll-behavior: smooth; scrollbar-width: none; }
+    html::-webkit-scrollbar { display: none; }
+    body { height: 100%; overflow: hidden; }
+
+    body {
+      background: var(--background);
+      color: hsl(var(--foreground));
+      font-family: 'IBM Plex Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      line-height: 1.7;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .font-display { font-family: 'Cormorant Garamond', Georgia, serif; }
+    .font-mono-accent { font-family: 'Azeret Mono', ui-monospace, monospace; }
+
+    ::selection { background: hsl(var(--scene-accent) / .35); color: #fff; }
+
+    /* ===== Header ===== */
+    header {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 50;
+      height: 3.5rem; padding: 0 1.25rem;
+      display: flex; align-items: center; justify-content: flex-end;
+      background: linear-gradient(to bottom, rgba(0,0,0,.6), transparent);
+    }
+    .icon-btn {
+      width: 2.25rem; height: 2.25rem; border-radius: 50%;
+      border: 1px solid hsl(var(--border)); background: rgba(255,255,255,.04);
+      color: hsl(var(--foreground)); display: flex;
+      align-items: center; justify-content: center;
+      transition: border-color .2s, background .2s;
+    }
+
+    /* ===== Mouse Nav (invisible edge zones) ===== */
+    .edge-nav {
+      position: fixed; top: 0; bottom: 0; z-index: 46;
+      width: 72px; border: none; background: transparent;
+      padding: 0;
+      display: none;
+    }
+    #navPrev { left: 0; }
+    #navNext { right: 0; }
+    @media (min-width: 768px) and (hover: hover) {
+      .edge-nav { display: block; }
+    }
+    @media (pointer: coarse) {
+      .edge-nav { display: none !important; }
+    }
+
+    /* ===== Stage & Scenes (horizontal swipe deck) ===== */
+    #stage {
+      display: flex; align-items: stretch;
+      width: 100vw; height: 100vh;
+      overflow-x: auto; overflow-y: hidden;
+      scrollbar-width: none;
+      overscroll-behavior-x: contain;
+      touch-action: pan-x pan-y;
+    }
+    #stage::-webkit-scrollbar { display: none; }
+    #scenes { display: flex; flex: 0 0 auto; }
+    .hero, .scene, .outro {
+      position: relative; flex: 0 0 100vw; width: 100vw; min-width: 100vw;
+      height: 100vh;
+    }
+    .scene {
+      height: 100vh; overflow: hidden;
+      display: flex; align-items: flex-end;
+    }
+    .scene-bg {
+      position: absolute; inset: 0; z-index: 1;
+      background: var(--bg-grad);
+      transform: scale(1.08); transition: opacity 1.4s ease;
+    }
+    .scene-bg .ground {
+      position: absolute; left: 0; right: 0; bottom: 0; height: 45%;
+      background: var(--ground-grad);
+    }
+    .scene-art {
+      position: absolute; inset: 0; z-index: 2; pointer-events: none;
+      display: flex; align-items: flex-end; justify-content: flex-end;
+    }
+    .scene-art img {
+      display: block; max-width: 62vw; max-height: 86vh;
+      object-fit: contain; opacity: .9; filter: saturate(1.05);
+      transform: translateZ(0);
+      -webkit-mask-image: linear-gradient(to left, #000 55%, transparent 96%),
+                          linear-gradient(to top, transparent 0%, #000 18%),
+                          linear-gradient(to bottom, transparent 0%, #000 10%);
+      -webkit-mask-composite: source-in;
+      mask-image: linear-gradient(to left, #000 55%, transparent 96%),
+                  linear-gradient(to top, transparent 0%, #000 18%),
+                  linear-gradient(to bottom, transparent 0%, #000 10%);
+      mask-composite: intersect;
+    }
+    @media (max-width: 900px) {
+      .scene-art { align-items: flex-start; justify-content: center; }
+      .scene-art img { max-width: 82vw; max-height: 42vh; margin-top: 4vh; }
+    }
+    .scene-ambient {
+      position: absolute; inset: 0; z-index: 3; pointer-events: none;
+      background: radial-gradient(ellipse at 30% 30%, hsl(var(--scene-accent) / .16), transparent 60%),
+                  radial-gradient(ellipse at 75% 85%, hsl(var(--scene-accent) / .08), transparent 55%);
+      opacity: .75; transition: background 1.2s ease;
+    }
+    .char-fade {
+      position: absolute; inset: -1px; z-index: 4; pointer-events: none;
+      background: linear-gradient(to top, var(--background) 0%, transparent 18%),
+                  linear-gradient(to bottom, var(--background) 0%, transparent 12%),
+                  linear-gradient(to left, var(--background) 0%, transparent 22%),
+                  linear-gradient(to right, var(--background) 0%, transparent 22%);
+    }
+    .ghost-num {
+      position: absolute; right: -2rem; bottom: -2rem; z-index: 2;
+      font-family: 'Cormorant Garamond', serif; font-weight: 600;
+      font-size: 34vw; line-height: 1; color: hsl(var(--scene-accent) / .06);
+      user-select: none; pointer-events: none;
+    }
+
+    .title-block {
+      position: relative; z-index: 10;
+      padding: 0 1.25rem 6rem;
+      max-width: 620px;
+    }
+    @media (min-width: 1024px) {
+      .title-block { padding-left: 8rem; padding-bottom: 7rem; }
+    }
+    .rule-row {
+      display: flex; align-items: center; gap: .8rem;
+      font-family: 'Azeret Mono', monospace; font-size: .6rem;
+      letter-spacing: .3em; color: hsl(var(--scene-accent));
+      margin-bottom: 1.1rem; text-transform: uppercase;
+    }
+    @media (min-width: 640px) { .rule-row { font-size: .68rem; } }
+    .rule-row .line { flex: 1; height: 1px; background: hsl(var(--scene-accent) / .4); max-width: 120px; }
+    .title-block h2 {
+      font-family: 'Cormorant Garamond', Georgia, serif;
+      font-weight: 600; font-size: clamp(2.4rem, 8vw, 5rem);
+      line-height: .98; letter-spacing: -.01em; color: hsl(var(--foreground));
+      margin-bottom: 1.2rem;
+    }
+    .excerpt {
+      color: rgba(255,255,255,.75); font-size: .85rem; line-height: 1.7;
+      max-width: 44ch; margin-bottom: 1.6rem; text-align: left;
+    }
+    @media (min-width: 768px) { .excerpt { font-size: 1rem; } }
+
+    .lore-btn {
+      position: relative;
+      display: inline-flex; align-items: center; gap: .7rem;
+      padding: .55rem 1.2rem .55rem 1.4rem; border-radius: 999px;
+      background: rgba(0,0,0,.6); border: 1px solid hsl(var(--scene-accent) / .6);
+      color: hsl(var(--scene-accent)); font-size: .8rem;
+      transition: border-color .2s, transform .2s, box-shadow .2s;
+      box-shadow: 0 0 22px hsl(var(--scene-accent) / .35);
+    }
+
+    /* ===== Lore bubble (in-scene speech bubble) ===== */
+    .lore-group {
+      position: relative; display: inline-block;
+    }
+    .lore-bubble {
+      position: fixed; top: 50%; right: 3%; transform: translateY(-50%);
+      width: min(920px, 58vw); max-width: 920px;
+      z-index: 30; padding: 2.4rem 3.5rem; border-radius: 1.2rem;
+      background: rgba(255,255,255,.07);
+      backdrop-filter: blur(14px) saturate(1.4);
+      -webkit-backdrop-filter: blur(14px) saturate(1.4);
+      border: 1px solid rgba(255,255,255,.3);
+      box-shadow:
+        inset 0 0 40px rgba(255,255,255,.08),
+        0 0 0 1px rgba(255,255,255,.06) inset,
+        0 24px 60px rgba(0,0,0,.45),
+        0 0 60px hsl(var(--scene-accent) / .15);
+      opacity: 0; pointer-events: none;
+      max-height: 0; overflow: hidden;
+      touch-action: pan-y;
+    }
+    .lore-bubble.open {
+      opacity: 1; pointer-events: auto;
+      max-height: calc(100vh - 6rem); overflow-y: auto;
+      transition: opacity .25s ease;
+      touch-action: pan-y;
+    }
+    .lore-bubble::before {
+      content: none;
+    }
+    .lore-bubble::after {
+      content: none;
+    }
+    .lore-bubble::-webkit-scrollbar { display: none; }
+    .lore-bubble .bubble-divider {
+      height: 1px; border: none; margin: .6rem auto .8rem; position: relative; z-index: 2;
+      width: 70%;
+      background: linear-gradient(to right, hsl(var(--scene-accent) / .6), transparent);
+    }
+    .lore-bubble p {
+      color: rgba(255,255,255,.9); font-size: 1.05rem; line-height: 1.75;
+      margin-bottom: 1rem; position: relative; z-index: 2; text-align: justify;
+      text-shadow: 0 1px 8px rgba(0,0,0,.4);
+    }
+    .lore-bubble p em { color: hsl(var(--scene-accent)); font-style: normal; font-weight: 600; }
+    .bubble-close {
+      position: absolute; top: 1.1rem; right: 1.1rem; z-index: 5;
+      width: 2.3rem; height: 2.3rem; border-radius: 50%;
+      border: 1px solid rgba(255,255,255,.3); background: rgba(0,0,0,.5);
+      color: #fff; font-size: 1rem; display: flex;
+      align-items: center; justify-content: center;
+    }
+    @media (max-width: 640px) {
+      .lore-bubble { width: 94vw; right: 3vw; top: 50%; transform: translateY(-50%); padding: 2.2rem 1.9rem 2.6rem; border-radius: 1.2rem; }
+      .bubble-close { width: 2rem; height: 2rem; top: .9rem; right: .9rem; }
+      .lore-bubble p { font-size: 1rem; }
+    }
+
+    /* ===== Hero ===== */
+    .hero {
+      min-height: 100vh; display: flex; flex-direction: column;
+      align-items: center; justify-content: center; text-align: center;
+      position: relative; padding: 0 1.25rem;
+      background:
+        radial-gradient(ellipse at 50% 8%, rgba(0,56,168,.16), transparent 55%),
+        radial-gradient(ellipse at 20% 90%, rgba(252,209,22,.10), transparent 50%),
+        radial-gradient(ellipse at 80% 90%, rgba(206,17,38,.12), transparent 50%),
+        linear-gradient(to bottom, rgba(11,10,9,0) 0%, rgba(11,10,9,.55) 100%);
+    }
+    .hero-badge {
+      font-family: 'Azeret Mono', monospace; font-size: .6rem;
+      letter-spacing: .38em; text-transform: uppercase; color: var(--gold);
+      margin-bottom: 1.5rem; text-indent: .38em;
+      color: #fcd116;
+    }
+    @media (min-width: 640px) { .hero-badge { font-size: .75rem; } }
+    .hero h1 {
+      font-family: 'Cormorant Garamond', Georgia, serif;
+      font-weight: 600; font-size: clamp(4rem, 16vw, 9rem);
+      letter-spacing: .08em; line-height: .95;
+      color: #f0e8dc;
+      margin-bottom: 1.5rem;
+      background: linear-gradient(180deg, #9ab8ff 0%, #fcd116 45%, #ff8fa3 75%, #f0e8dc 100%);
+      -webkit-background-clip: text; background-clip: text;
+      color: transparent;
+    }
+    .hero h1 em { font-style: normal; color: #fcd116; }
+    .hero-desc {
+      color: #cdd6ea; font-size: .95rem; max-width: 420px;
+      line-height: 1.7; margin: 0 auto;
+    }
+    @media (min-width: 640px) { .hero-desc { max-width: 600px; } }
+
+    .scroll-cue {
+      position: absolute; bottom: 2.2rem; left: 50%; transform: translateX(-50%);
+      display: flex; flex-direction: column; align-items: center; gap: .6rem;
+      color: hsl(32 10% 70%); font-family: 'Azeret Mono', monospace;
+      font-size: .55rem; letter-spacing: .35em; text-transform: uppercase; text-indent: .35em;
+    }
+    .cue-line { position: relative; width: 44px; height: 1px; background: rgba(255,255,255,.15); overflow: hidden; }
+    .cue-line::after {
+      content: ''; position: absolute; left: 0; top: 0; width: 40%; height: 100%;
+      background: var(--gold);
+      animation: cue-swipe 2.2s cubic-bezier(.4,0,.2,1) infinite;
+    }
+    @keyframes cue-swipe {
+      0% { transform: translateX(-120%); }
+      60% { transform: translateX(260%); }
+      100% { transform: translateX(260%); }
+    }
+
+    /* ===== Outro ===== */
+    .outro {
+      min-height: 100vh; display: flex; flex-direction: column;
+      align-items: center; justify-content: center; text-align: center;
+      padding: 4rem 1.25rem; position: relative;
+      background:
+        radial-gradient(ellipse at 50% 8%, rgba(0,56,168,.22), transparent 55%),
+        radial-gradient(ellipse at 20% 90%, rgba(252,209,22,.12), transparent 50%),
+        radial-gradient(ellipse at 80% 90%, rgba(206,17,38,.16), transparent 50%),
+        linear-gradient(to bottom, rgba(11,10,9,0) 0%, rgba(11,10,9,.55) 100%);
+    }
+    .outro-eyebrow {
+      font-family: 'Azeret Mono', monospace; font-size: .6rem;
+      letter-spacing: .5em; text-transform: uppercase; color: var(--gold);
+      text-indent: .5em; margin-bottom: 1.5rem;
+    }
+    .outro h2 {
+      font-family: 'Cormorant Garamond', Georgia, serif;
+      font-weight: 600; font-size: clamp(2rem, 6vw, 3.8rem);
+      max-width: 20ch; line-height: 1.05; color: hsl(var(--foreground));
+      margin-bottom: 1.3rem;
+    }
+    .outro p.body { color: hsl(32 10% 70%); max-width: 44ch; margin-bottom: 2.5rem; }
+    .outro-watermark {
+      position: absolute; bottom: 1.4rem; font-family: 'Azeret Mono', monospace;
+      font-size: .55rem; letter-spacing: .4em; text-transform: uppercase;
+      color: hsl(32 10% 30%); text-indent: .4em;
+    }
+
+    /* ===== Drawers ===== */
+    .drawer {
+      position: fixed; top: 0; right: 0; bottom: 0; z-index: 60;
+      width: 100%; max-width: 620px; background: rgba(15,13,26,.82);
+      backdrop-filter: blur(30px); -webkit-backdrop-filter: blur(30px);
+      border-left: 1px solid rgba(255,255,255,.08);
+      transform: translateX(105%); transition: transform .5s cubic-bezier(.16,1,.3,1);
+      box-shadow: -30px 0 70px rgba(0,0,0,.85);
+      display: flex; flex-direction: column; overflow: hidden;
+    }
+    .drawer.open { transform: translateX(0); }
+    .drawer-scroll { overflow-y: auto; flex: 1; scrollbar-width: none; }
+    .drawer-scroll::-webkit-scrollbar { display: none; }
+    .drawer-close {
+      position: absolute; top: 1.1rem; right: 1.1rem; z-index: 6;
+      width: 2.3rem; height: 2.3rem; border-radius: 50%;
+      border: 1px solid rgba(255,255,255,.16); background: rgba(0,0,0,.5);
+      color: #fff; font-size: 1.05rem; display: flex;
+      align-items: center; justify-content: center;
+      transition: border-color .2s, background .2s, transform .2s;
+    }
+
+    .lore-img {
+      position: relative; height: 16rem; display: flex; align-items: flex-end;
+      padding: 1.4rem;
+    }
+    .lore-img img {
+      position: absolute; inset: 0; width: 100%; height: 100%;
+      object-fit: cover; opacity: .55; filter: saturate(1.1);
+    }
+    .lore-img::after {
+      content: ''; position: absolute; inset: 0;
+      background: linear-gradient(to bottom, transparent 30%, rgba(15,13,26,.97) 100%);
+    }
+    .lore-img .caption {
+      position: relative; z-index: 2; font-family: 'Azeret Mono', monospace;
+      font-size: .58rem; letter-spacing: .3em; text-transform: uppercase;
+      color: hsl(var(--scene-accent)); text-indent: .3em; padding-bottom: .2rem;
+    }
+    .lore-body { padding: 2.2rem 2.2rem 3.5rem; }
+    .lore-body h3 {
+      font-family: 'Cormorant Garamond', Georgia, serif;
+      font-weight: 600; font-size: 2.7rem; line-height: 1.02; letter-spacing: -.01em;
+      margin-bottom: 1rem; color: hsl(var(--foreground));
+    }
+    .lore-tag {
+      display: inline-block; padding: .28rem .7rem; border-radius: 999px;
+      background: hsl(var(--scene-accent) / .14); border: 1px solid hsl(var(--scene-accent) / .35);
+      color: hsl(var(--scene-accent)); font-family: 'Azeret Mono', monospace;
+      font-size: .55rem; letter-spacing: .22em; text-transform: uppercase;
+      margin-bottom: 1.6rem;
+    }
+    .lore-divider {
+      height: 1px; margin: 0 0 1.8rem; border: none;
+      background: linear-gradient(to right, hsl(var(--scene-accent) / .55), rgba(255,255,255,.12), transparent);
+    }
+    .lore-body p { color: rgba(255,255,255,.86); font-size: 1rem; line-height: 1.95; margin-bottom: 1.4rem; }
+    .lore-body p:first-of-type::first-letter {
+      font-family: 'Cormorant Garamond', Georgia, serif; font-weight: 700;
+      font-size: 3.4rem; float: left; line-height: .85; margin: .12rem .5rem 0 0;
+      color: hsl(var(--scene-accent));
+    }
+    .lore-body p em { color: hsl(var(--scene-accent)); font-style: normal; font-weight: 600; }
+    .lore-footer {
+      margin-top: 2.4rem; padding-top: 1.4rem; border-top: 1px solid rgba(255,255,255,.12);
+      font-family: 'Azeret Mono', monospace; font-size: .55rem; letter-spacing: .38em;
+      text-transform: uppercase; color: hsl(32 10% 45%); text-indent: .38em;
+    }
+
+    /* Index sheet */
+    .sheet {
+      padding: 4.5rem 1.4rem 2rem;
+    }
+    .sheet .orb {
+      position: absolute; top: -3rem; right: -3rem; width: 12rem; height: 12rem;
+      border-radius: 50%; background: hsl(var(--scene-accent) / .12); filter: blur(60px);
+      pointer-events: none;
+    }
+    .sheet-title {
+      font-family: 'Cormorant Garamond', Georgia, serif; font-weight: 600;
+      font-size: 2.3rem; line-height: 1; color: hsl(var(--foreground));
+      margin-bottom: .5rem;
+    }
+    .sheet-sub { font-family: 'Azeret Mono', monospace; font-size: .6rem; letter-spacing: .25em; text-transform: uppercase; color: hsl(32 10% 60%); margin-bottom: 1.6rem; text-indent: .25em; }
+    .sheet-search {
+      width: 100%; padding: .75rem 1rem; margin-bottom: 1.4rem;
+      border-radius: .75rem; border: 1px solid rgba(255,255,255,.2);
+      background: rgba(255,255,255,.08); color: hsl(var(--foreground));
+      font-family: 'IBM Plex Sans', sans-serif; font-size: .85rem; outline: none;
+      transition: border-color .2s;
+    }
+    .sheet-search:focus { border-color: #3b82f6; }
+    .index-item {
+      width: 100%; display: flex; align-items: center; gap: 1rem;
+      background: none; border: none; border-radius: .6rem;
+      padding: .7rem .6rem; text-align: left; color: hsl(var(--foreground));
+      transition: background .2s;
+    }
+    .index-item .num { font-family: 'Azeret Mono', monospace; font-size: .7rem; color: var(--gold); min-width: 2ch; }
+    .index-item .thumb {
+      width: 2.2rem; height: 2.2rem; border-radius: .5rem; flex-shrink: 0;
+      background: hsl(var(--scene-accent) / .15); border: 1px solid hsl(var(--scene-accent) / .4);
+      display: flex; align-items: center; justify-content: center;
+      font-family: 'Cormorant Garamond', serif; font-size: .8rem; color: hsl(var(--scene-accent));
+    }
+    .index-item .t-name { font-size: .9rem; font-weight: 500; }
+    .index-item .t-sub { font-size: .7rem; color: hsl(32 10% 60%); }
+    .empty { text-align: center; padding: 2rem 1rem; color: hsl(32 10% 50%); font-size: .85rem; font-style: italic; font-family: 'Cormorant Garamond', serif; font-size: 1.1rem; }
+
+    /* ===== Overlays ===== */
+    .vignette {
+      position: fixed; inset: 0; pointer-events: none; z-index: 25;
+      background: radial-gradient(circle at center, transparent 48%, rgba(0,0,0,.45) 100%);
+    }
+
+    .flag-band {
+      position: absolute; left: 0; right: 0; bottom: 0; height: 5px; z-index: 20;
+      background: linear-gradient(to right, #0038a8 0 33.4%, #fcd116 33.4% 66.7%, #ce1126 66.7% 100%);
+      opacity: .9;
+    }
+    .noise {
+      position: fixed; inset: 0; pointer-events: none; z-index: 26; opacity: .06;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)'/%3E%3C/svg%3E");
+    }
+    .overlay { position: fixed; inset: 0; z-index: 55; background: rgba(0,0,0,.5); opacity: 0; pointer-events: none; transition: opacity .4s; }
+    .overlay.show { opacity: 1; pointer-events: auto; }
+
+    /* ===== Reveal ===== */
+    .reveal { opacity: 0; transform: translateY(24px); transition: opacity .8s ease, transform .8s cubic-bezier(.16,1,.3,1); }
+    .reveal.is-visible { opacity: 1; transform: translateY(0); }
+
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      .reveal { opacity: 1; transform: none; transition: none; }
+      .scene-bg { transform: none; transition: none; }
+      .cue-line::after { animation: none; }
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <button class="icon-btn" id="indexBtn" aria-label="Hanapin ang mga alamat">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>
+    </button>
+  </header>
+
+  <button class="edge-nav" id="navPrev" aria-label="Naunang alamat"></button>
+  <button class="edge-nav" id="navNext" aria-label="Susunod na alamat"></button>
+
+  <main id="stage">
+
+    <!-- HERO -->
+    <section class="hero" id="top">
+      <p class="hero-badge">PARA SA BUWAN NG WIKA</p>
+      <h1 class="reveal">MGA<br><em>ALAMAT</em></h1>
+      <p class="hero-desc reveal">
+        Isang paglalakbay sa pitong kwentong bayan ng Pilipinas — mga alamat
+        na pamana ng ating mga ninuno, puno ng aral, hiwaga, at ganda ng ating wika.
+        Ipinagdiriwang natin ang <strong style="color:#fff">Buwan ng Wika</strong>.
+      </p>
+      <div class="flag-band"></div>
+      <div class="scroll-cue">
+        <div class="cue-line"></div>
+        <span>I-SWIPE</span>
+      </div>
+    </section>
+
+    <!-- SCENES injected by JS -->
+    <div id="scenes"></div>
+
+    <!-- OUTRO -->
+    <section class="outro" id="outro" style="display:none">
+      <p class="outro-eyebrow">ANG KAGUBATAN NG KWENTO AY NAKAKAALALA</p>
+      <h2 class="reveal">Ang mga alamat ay larawan ng ating pinagmulan.</h2>
+      <p class="body reveal">
+        Mula sa mga titik ng baybayin hanggang sa kapuluan ng ating bansa — ang bawat kwento
+        ay nagpapaalala na ang ating wika at kultura ay buhay. Patuloy nating gunitain
+        at ipamana sa susunod na salinlahi.
+      </p>
+      <div class="flag-band"></div>
+      <p class="outro-watermark">ALAMAT — MGA KUWENTONG BAYAN · BUWAN NG WIKA</p>
+    </section>
+
+  </main>
+
+  <div class="vignette"></div>
+  <div class="noise"></div>
+
+  <div class="overlay" id="overlay"></div>
+
+  <!-- INDEX SHEET -->
+  <aside class="drawer" id="indexSheet" aria-hidden="true">
+    <button class="drawer-close" data-close aria-label="Isara">&#10005;</button>
+    <div class="sheet drawer-scroll">
+      <div class="orb"></div>
+      <h2 class="sheet-title">Alamat</h2>
+      <p class="sheet-sub">Pumili ng alamat upang maglakbay sa kwento nito</p>
+      <input class="sheet-search" id="searchInput" type="text" placeholder="Hanapin ang alamat... (hal. baybayin)">
+      <div id="indexList"></div>
+      <p class="empty" id="emptyState" style="display:none">Walang nahanap na alamat — nananatiling lihim ang kagubatan.</p>
+    </div>
+  </aside>
+
+  <!-- BG SCENE TEMPLATES -->
+  <div hidden id="bgTemplates"></div>
+
+  <script>
+    /* ============================================================
+       DATA — 5 ALAMAT
+    ============================================================ */
+    const ALAMAT = [
+      {
+        id: 'abakada',
+        no: '01',
+        name: 'Ang Alamat ng Abakada',
+        short: 'Abakada',
+        tagline: 'Ang mga titik ng ating wika',
+        origin: 'Alamat ng Wika · Baybayin',
+        accent: '48 97% 55%',
+        excerpt: 'Bago pa man dumating ang mga dayuhan, mayroon nang sariling pagsulat ang ating mga ninuno — ang Baybayin, panimula ng ating wika.',
+        lore: [
+          'Noong unang panahon, bago pa man dumating ang mga dayuhan, mayroon nang sariling pagsulat ang ating mga ninuno — ang <em>Baybayin</em>. Ito ay ibinigay ng mga diwata upang maitala ang kasaysayan, pag-ibig, at karunungan ng bayan. Ang bawat titik ay tuwid, malinis, at puno ng kahulugan.',
+          'Nang lumipas ang panahon, napagtanto ng mga Pilipino na kailangang pag-ibahin at palawakin ang paraan ng pagsulat upang mas marami pang salita at damdamin ang maipahayag. Pinag-aralan nila ang dating Baybayin, pinagsama-sama ang mga tunog, at binuo ang bagong pagkakasunod-sunod ng mga titik — mula A hanggang Z. Ito ang naging <em>Abakada</em>.',
+          'Sinasabing ang bawat titik ay may kaluluwa — A ay pag-asa, B ay bayan, K ay kalayaan, D ay dangal... at iba pa. Kaya\'t ang Abakada ay hindi lamang mga titik — ito ang saligan ng ating wika at pagkakakilanlan. Sa bawat titik na ating binabasa at isinusulat, binubuhay natin ang ating sariling pagkatao bilang Pilipino.'
+        ],
+        bg: 'radial-gradient(ellipse at 60% 15%, rgba(252,209,22,.14), transparent 55%), radial-gradient(ellipse at 25% 100%, rgba(140,110,40,.16), transparent 60%), linear-gradient(to bottom, #0d0c09, #22190b)',
+        ground: 'radial-gradient(ellipse at 50% 120%, rgba(252,209,22,.15), transparent 65%), rgba(12,10,7,.9)'
+      },
+      {
+        id: 'makahiya',
+        no: '02',
+        name: 'Ang Alamat ng Makahiya',
+        short: 'Makahiya',
+        tagline: 'Ang halamang nahihiya',
+        origin: 'Kwentong-Bayan · Visayas',
+        accent: '352 82% 50%',
+        excerpt: 'Isang napakagandang dalaga, labis ang pagkamahiyain, ang naging isang halamang tumitiklop sa tuwing siya\'y lilapitan.',
+        lore: [
+          'Noong unang panahon, may isang napakagandang dalaga na nagngangalang <em>Maria</em>. Siya ay kilala sa pagiging mahinhin, mabait, at labis na mahiyain. Kapag may mga bisita o kapag may mga kabinataan na lumalapit, agad siyang tumatago at yumuyuko ang ulo.',
+          'Isang araw, sumalakay ang mga kaaway sa kanilang bayan. Takot na takot siyang madakip at mapahiya ng mga dayuhan. Tumakbo siya patungo sa hardin at tumingala sa langit, nanalangin nang taimtim: "Panginoon, itago Niyo po ako! Huwag Niyo po akong hayaang mapahamak o mapahiya!"',
+          'Biglang naglaho si Maria. Sa kanyang kinatatayuan ay tumubo ang isang napakagandang halaman na may malalambot at luntiang dahon. Kapag hinahawakan o nilalapitan, agad itong tumitiklop at yumuyuko — tila nahihiya. Tinawag itong <em>Makahiya</em>, bilang alaala sa mahinhin at mahiyaing dalagang si Maria.'
+        ],
+        bg: 'radial-gradient(ellipse at 55% 15%, rgba(206,17,38,.16), transparent 55%), radial-gradient(ellipse at 25% 105%, rgba(120,160,90,.12), transparent 60%), linear-gradient(to bottom, #0d0a0b, #1d0f12)',
+        ground: 'radial-gradient(ellipse at 50% 120%, rgba(206,17,38,.14), transparent 65%), rgba(12,8,10,.9)'
+      },
+      {
+        id: 'bahaghari',
+        no: '03',
+        name: 'Ang Alamat ng Bahaghari',
+        short: 'Bahaghari',
+        tagline: 'Ang tulay na may pitong kulay',
+        origin: 'Kwentong-Bayan · Langit at Lupa',
+        accent: '264 80% 60%',
+        img: 'images/bahaghari.png',
+        excerpt: 'Ang pinagbabawal na pag-ibig ng dalaga mula sa Lupa at ng binata mula sa Langit ang bumuo ng tulay na may pitong kulay.',
+        lore: [
+          'Noong unang panahon, may dalawang magkasintahan na nagmamahalan nang wagas. Ang isa ay mula sa <em>Lupa</em> — isang napakabuting dalaga na nag-aalaga sa mga pananim. Ang isa naman ay mula sa <em>Langit</em> — isang matapang na binata na nagbabantay sa itaas.',
+          'Dahil magkaiba ang kanilang mundo, ipinagbawal ng <em>Bathala</em> ang kanilang pagsasama. Hindi na sila maaaring magkita. Labis na nagluksa ang dalaga at ang kanyang mga luha ay naging ulan na bumabagsak mula sa langit patungo sa lupa. Naawa ang Bathala sa kanilang wagas na pag-ibig.',
+          'Upang magkaroon sila ng paraan upang magkita at maghatid ng mensahe, gumawa Siya ng tulay na nag-uugnay sa lupa hanggang langit. Pinagtagpi-tagpi Niya ang pitong makukulay na liwanag — pula, kahel, dilaw, luntian, asul, indigo, at lila — na lilitaw tuwing may ulan at araw. Ito ang tinawag na <em>Bahaghari</em>, patunay na kahit magkahiwalay man, ang kanilang pag-ibig ay mananatili at lilitaw sa harap ng lahat.'
+        ],
+        bg: 'radial-gradient(ellipse at 60% 10%, rgba(147,51,234,.18), transparent 55%), radial-gradient(ellipse at 30% 105%, rgba(59,130,246,.14), transparent 60%), linear-gradient(to bottom, #0c0a10, #171026)',
+        ground: 'radial-gradient(ellipse at 50% 120%, rgba(147,51,234,.16), transparent 65%), rgba(10,8,14,.9)'
+      },
+      {
+        id: 'pasig',
+        no: '04',
+        name: 'Ang Alamat ng Ilog Pasig',
+        short: 'Pasig',
+        tagline: 'Ang ilog ng dalawang puso',
+        origin: 'Kwentong-Bayan · Maynila',
+        accent: '221 100% 40%',
+        img: 'images/pasig.png',
+        excerpt: 'Ang mga luhang bumaha sa labis na kalungkutan ang naging Ilog Pasig — patuloy na dumadaloy upang hanapin ang kanyang minamahal.',
+        lore: [
+          'Noong unang panahon, may dalawang magkasintahang nagngangalang <em>Pasig</em> at <em>Maria Makiling</em>. Si Pasig ay isang matapang na binata, at si Maria ay isang napakagandang diwata ng bundok. Sila ay nagmamahalan nang lubos ngunit ipinagbawal ng ama ni Maria ang kanilang pag-iibigan — dahil diwata si Maria at tao lamang si Pasig.',
+          'Pinagbawal silang magkita. Sa labis na kalungkutan, umiyak si Pasig nang walang tigil hanggang sa ang kanyang mga luha ay bumaha at naging malalim na daluyan ng tubig. Ang tubig na ito ay dumaloy mula sa lawa kung saan naninirahan si Maria, patungo sa malawak na dagat — tila patuloy na naglalakbay upang hanapin ang kanyang minamahal.',
+          'Hanggang ngayon, ang <em>Ilog Pasig</em> ay patuloy na dumadaloy. Sinasabing kapag malinaw ang tubig, ito ay dahil pinagmamasdan pa rin ni Maria Makiling ang kanyang minamahal na si Pasig; at kapag malabo at marumi, ito ay dahil sa kanyang pag-iyak at kalungkutan na hindi na sila muling magsasama.'
+        ],
+        bg: 'radial-gradient(ellipse at 55% 12%, rgba(59,130,246,.18), transparent 55%), radial-gradient(ellipse at 25% 105%, rgba(37,99,235,.12), transparent 60%), linear-gradient(to bottom, #0a0d14, #0f1c2e)',
+        ground: 'radial-gradient(ellipse at 50% 120%, rgba(59,130,246,.18), transparent 65%), rgba(8,11,18,.9)'
+      },
+      {
+        id: 'pilipinas',
+        no: '05',
+        name: 'Ang Alamat ng Pilipinas',
+        short: 'Pilipinas',
+        tagline: 'Ang kapuluang pinagkaisa',
+        origin: 'Kwentong-Bayan · Pilipinas',
+        accent: '45 96% 58%',
+        img: 'images/pilipinas.png',
+        excerpt: 'Tatlong magkakapatid na prinsipe ang naglakbay sa gitna ng dagat at natagpuan ang kapuluang tatawaging Pilipinas.',
+        lore: [
+          'Noong unang panahon, bago pa man dumating ang mga dayuhan, may tatlong magkakapatid na prinsipe na naglakbay upang hanapin ang lupang ipinangako ng kanilang ama. Sila ay sina <em>Luz</em>, <em>Vis</em>, at <em>Min</em>.',
+          'Matapos ang mahabang paglalakbay sa gitna ng dagat, natagpuan nila ang isang napakagandang kapuluan na may luntiang kagubatan, masaganang tubig, at mayamang lupa. Hinati nila ang lupain sa tatlong bahagi — na pinamahalaan ng bawat isa — ngunit nanatili silang nagkakaisa bilang isang pamilya.',
+          'Nang dumating ang mga dayuhan, hinangaan nila ang kagandahan at yaman ng kapuluan. Bilang pagpaparangal sa prinsipe na si <em>Felipe</em> ng Espanya, tinawag nila itong <em>Las Islas Filipinas</em> — na sa paglipas ng panahon ay naging <em>Pilipinas</em>.',
+          'Sinasabing ang tatlong magkakapatid ay nananatiling nagbabantay sa lupain — kaya hanggang ngayon, ang ating bansa ay binubuo ng <em>Luzon</em>, <em>Visayas</em>, at <em>Mindanao</em> — nagkakaisa bilang isang bayan, isang lahi, at isang Pilipinas.'
+        ],
+        bg: 'radial-gradient(ellipse at 60% 12%, rgba(140,160,255,.14), transparent 55%), radial-gradient(ellipse at 30% 105%, rgba(252,209,22,.1), transparent 60%), linear-gradient(to bottom, #0a0c10, #141a24)',
+        ground: 'radial-gradient(ellipse at 50% 120%, rgba(200,210,255,.12), transparent 65%), rgba(9,12,18,.9)'
+      },
+      {
+        id: 'sampaguita',
+        no: '06',
+        name: 'Ang Alamat ng Sampaguita',
+        short: 'Sampaguita',
+        tagline: 'Ang bulaklak ng wagas na pag-ibig',
+        origin: 'Kwentong-Bayan · Pilipinas',
+        accent: '345 75% 68%',
+        excerpt: 'Ang dalawang pusong nagsumpa ng wagas na pag-ibig ang naging bulaklak na laging magkatabi, tila magkayakap na puso.',
+        lore: [
+          'Noong unang panahon, may dalawang magkabilang puso na nagmamahalan — ang dalagang <em>Sampaguita</em> at ang binatang <em>Guzman</em>. Ngunit magkaiba ang kanilang angkan, kaya ipinagbawal ang kanilang pagsasama.',
+          'Sa kanilang pagluluksa, nangako silang hanggang sa kamatayan ay magsasama ang kanilang mga puso. Matapos silang pumanaw, tumubo sa kanilang pinagsamang libingan ang isang maliit, maputi, at mabangong bulaklak na laging dalawa ang magkatabi — tila magkayakap na mga puso.',
+          'Tinawag itong <em>Sampaguita</em>, mula sa salitang "sumpa kita" — pangako ng wagas na pag-ibig na hindi mapaghihiwalay kailanman.'
+        ],
+        bg: 'radial-gradient(ellipse at 55% 15%, rgba(244,114,182,.14), transparent 55%), radial-gradient(ellipse at 25% 100%, rgba(249,168,212,.1), transparent 60%), linear-gradient(to bottom, #120b10, #241320)',
+        ground: 'radial-gradient(ellipse at 50% 120%, rgba(244,114,182,.14), transparent 65%), rgba(14,9,13,.9)'
+      },
+      {
+        id: 'mayon',
+        no: '07',
+        name: 'Ang Alamat ng Bulkang Mayon',
+        short: 'Bulkang Mayon',
+        tagline: 'Ang bundok ng wagas na pag-ibig',
+        origin: 'Kwentong-Bayan · Albay',
+        accent: '22 92% 52%',
+        excerpt: 'Ang kuwento ng isang napakagandang dalagang naging bundok — ang perpektong kono ng Albay.',
+        lore: [
+          'Sa Albay, may napakagandang dalagang si <em>Daragang Magayon</em>. Minahal siya ng binatang si <em>Panganoron</em>. Ngunit hindi pumayag ang kanyang ama, at nagkaroon ng digmaan.',
+          'Sa labanan, namatay si Daragang Magayon. Labis na nagluksa ang kanyang minamahal — ang kanyang mga luha at halik ay naging ulan at hamog sa ibabaw ng kanyang libingan.',
+          'Unti-unting tumaas ang lupa at naging perpektong hugis na kono — ang <em>Bulkang Mayon</em>, pinakatanyag na alamat tungkol sa lugar na ito. Hanggang ngayon, sinasabing ang kanyang apoy ay ang nagngangalit na pag-ibig ni Panganoron.'
+        ],
+        bg: 'radial-gradient(ellipse at 55% 12%, rgba(249,115,22,.16), transparent 55%), radial-gradient(ellipse at 25% 105%, rgba(190,24,93,.12), transparent 60%), linear-gradient(to bottom, #120a09, #221108)',
+        ground: 'radial-gradient(ellipse at 50% 120%, rgba(249,115,22,.15), transparent 65%), rgba(14,9,7,.9)'
+      }
+    ];
+
+    /* ============================================================
+       RENDER SCENES + INDEX
+    ============================================================ */
+    const scenesEl = document.getElementById('scenes');
+    const stageEl = document.getElementById('stage');
+    const indexList = document.getElementById('indexList');
+    const emptyState = document.getElementById('emptyState');
+
+    ALAMAT.forEach(a => {
+      const scene = document.createElement('section');
+      scene.className = 'scene';
+      scene.id = a.id;
+      scene.dataset.accent = a.accent;
+      scene.innerHTML = `
+        <div class="scene-bg" style="--bg-grad:${a.bg}">
+          <div class="ground" style="--ground-grad:${a.ground}"></div>
+        </div>
+        ${a.img ? `<div class="scene-art"><img src="${a.img}" alt="${a.name}" loading="lazy" onerror="this.closest('.scene-art').style.display='none'"></div>` : ''}
+        <div class="scene-ambient"></div>
+        <div class="char-fade"></div>
+        <div class="ghost-num">${a.no}</div>
+        <div class="title-block">
+          <div class="rule-row reveal"><span>NO. ${a.no}</span><span class="line"></span><span>${a.tagline}</span></div>
+          <h2 class="reveal">${a.name}</h2>
+          <p class="excerpt reveal">${a.excerpt}</p>
+          <div class="lore-group">
+            <button class="lore-btn reveal" data-lore="${a.id}">
+              Basahin ang Alamat
+            </button>
+            <div class="lore-bubble"></div>
+          </div>
+        </div>`;
+      scenesEl.appendChild(scene);
+
+      const entry = document.createElement('button');
+      entry.className = 'index-item';
+      entry.dataset.lore = a.id;
+      entry.dataset.search = `${a.name} ${a.tagline} ${a.origin}`.toLowerCase();
+      entry.innerHTML = `
+        <span class="num">${a.no}</span>
+        <span class="thumb">${a.short[0]}</span>
+        <span style="flex:1"><span class="t-name" style="display:block">${a.name}</span>
+        <span class="t-sub">${a.tagline} · ${a.origin}</span></span>`;
+      indexList.appendChild(entry);
+    });
+
+    document.getElementById('outro').style.display = '';
+
+    const heroEl = document.getElementById('top');
+    const heroClone = heroEl.cloneNode(true);
+    heroClone.removeAttribute('id');
+    heroClone.classList.add('hero-clone');
+    heroClone.setAttribute('aria-hidden', 'true');
+    stageEl.appendChild(heroClone);
+
+    /* ============================================================
+       SCENE ACCENT SWITCH (based on visible scene)
+    ============================================================ */
+    const root = document.documentElement;
+    const scenesAll = Array.from(document.querySelectorAll('.scene'));
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          root.style.setProperty('--scene-accent', e.target.dataset.accent);
+        }
+      });
+    }, { rootMargin: '0px -45% 0px -45%', threshold: 0 });
+
+    scenesAll.forEach(s => io.observe(s));
+
+    /* ============================================================
+       LORE PANEL
+    ============================================================ */
+    const overlay = document.getElementById('overlay');
+
+    function openLoreBubble(btn, scroll = false) {
+      const group = btn.closest('.lore-group');
+      const bubble = group ? group.querySelector('.lore-bubble') : null;
+      if (!bubble) return;
+      const a = ALAMAT.find(x => x.id === btn.dataset.lore);
+      if (!a) return;
+      closeLoreBubbles();
+      root.style.setProperty('--scene-accent', a.accent);
+      bubble.innerHTML = `
+        <button class="bubble-close" data-close type="button" aria-label="Isara">&#10005;</button>
+        <hr class="bubble-divider">
+        ${a.lore.map(p => `<p>${p}</p>`).join('')}`;
+      bubble.classList.add('open');
+      if (scroll) btn.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+    }
+
+    function toggleLore(btn) {
+      const group = btn.closest('.lore-group');
+      const bubble = group ? group.querySelector('.lore-bubble') : null;
+      if (!bubble) return;
+      if (bubble.classList.contains('open')) {
+        closeLoreBubbles();
+        return;
+      }
+      openLoreBubble(btn, true);
+    }
+
+    function closeLoreBubbles() {
+      const bubbles = document.querySelectorAll('.lore-bubble.open');
+      bubbles.forEach(b => b.classList.remove('open'));
+      setTimeout(() => {
+        document.querySelectorAll('.lore-bubble').forEach(b => {
+          if (!b.classList.contains('open')) b.innerHTML = '';
+        });
+      }, 300);
+    }
+
+    const groupHoverTin = {};
+    const lorePin = new Set();
+
+    function openDrawer(el) {
+      el.classList.add('open');
+      el.setAttribute('aria-hidden', 'false');
+      overlay.classList.add('show');
+      document.body.style.overflow = 'hidden';
+    }
+    function closeDrawers() {
+      document.querySelectorAll('.drawer.open').forEach(d => {
+        d.classList.remove('open');
+        d.setAttribute('aria-hidden', 'true');
+      });
+      overlay.classList.remove('show');
+      document.body.style.overflow = '';
+    }
+
+    document.addEventListener('click', (e) => {
+      if (e.target.closest('[data-close]')) { closeLoreBubbles(); closeDrawers(); return; }
+      const loreBtn = e.target.closest('[data-lore]');
+      if (loreBtn) {
+        if (e.target.closest('#indexList')) {
+          const idx = ALAMAT.findIndex(x => x.id === loreBtn.dataset.lore);
+          const target = document.getElementById(loreBtn.dataset.lore);
+          closeDrawers();
+          if (idx >= 0) {
+            setTimeout(() => {
+              goTo(idx + 1);
+              setTimeout(() => toggleLore(target.querySelector('.lore-btn')), 620);
+            }, 60);
+          }
+          return;
+        }
+        toggleLore(loreBtn);
+        return;
+      }
+      if (e.target === overlay) closeDrawers();
+      if (e.target.closest('#navPrev')) { goStep(-1); return; }
+      if (e.target.closest('#navNext')) { goStep(1); return; }
+      if (e.target.closest('#indexBtn')) { openDrawer(document.getElementById('indexSheet')); return; }
+    });
+    document.addEventListener('scroll', (e) => {
+      if (e.target.closest && e.target.closest('.lore-bubble.open')) return;
+      closeLoreBubbles();
+    }, true);
+    window.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') { closeLoreBubbles(); closeDrawers(); return; }
+      if (!document.querySelector('.drawer.open')) {
+        if (e.key === 'ArrowRight' || e.key === 'ArrowLeft') {
+          e.preventDefault();
+          goStep(e.key === 'ArrowRight' ? 1 : -1);
+        }
+      }
+    });
+
+    /* ============================================================
+       DECK NAVIGATION (native swipe + wheel + arrow keys, symmetric)
+    ============================================================ */
+    let curIndex = 0;
+    let wheelAcc = 0;
+    let wheelLock = false;
+    let tweenRaf = null;
+    let startX = 0, startLeft = 0, dragDist = 0;
+    let touchActive = false;
+
+    function deckCount() {
+      return Math.max(1, Math.round(stageEl.scrollWidth / stageEl.clientWidth));
+    }
+    function maxScroll() {
+      return Math.max(0, stageEl.scrollWidth - stageEl.clientWidth);
+    }
+    function snapIndex() {
+      curIndex = Math.round(stageEl.scrollLeft / stageEl.clientWidth);
+      curIndex = Math.max(0, Math.min(deckCount() - 1, curIndex));
+    }
+    function stopTween() {
+      if (tweenRaf) { cancelAnimationFrame(tweenRaf); tweenRaf = null; }
+    }
+    function tweenTo(x, dur, onDone) {
+      stopTween();
+      x = Math.max(0, Math.min(maxScroll(), x));
+      const start = stageEl.scrollLeft;
+      const delta = x - start;
+      if (Math.abs(delta) < 1) {
+        stageEl.scrollLeft = x;
+        if (onDone) onDone();
+        return;
+      }
+      const t0 = performance.now();
+      function step(now) {
+        const p = Math.min(1, (now - t0) / dur);
+        const e = 1 - Math.pow(1 - p, 3);
+        stageEl.scrollLeft = start + delta * e;
+        if (p < 1) tweenRaf = requestAnimationFrame(step);
+        else {
+          tweenRaf = null;
+          if (onDone) onDone();
+        }
+      }
+      tweenRaf = requestAnimationFrame(step);
+    }
+    function goTo(i, onDone) {
+      curIndex = Math.max(0, Math.min(deckCount() - 1, i));
+      const dur = Math.min(820, 430 + stageEl.clientWidth * 0.28);
+      tweenTo(curIndex * stageEl.clientWidth, dur, onDone);
+    }
+    function goStep(dir) {
+      const n = deckCount();
+      const real = n - 2;
+      if (dir > 0) {
+        const next = curIndex + 1;
+        if (next <= real) { goTo(next); return; }
+        goTo(n - 1, () => {
+          stopTween();
+          stageEl.scrollLeft = 0;
+          curIndex = 0;
+snapIndex();
+        });
+      } else {
+        const next = curIndex - 1;
+        goTo(next < 0 ? real : next);
+      }
+    }
+
+    stageEl.addEventListener('touchstart', (e) => {
+      if (e.touches.length !== 1) return;
+      if (e.target.closest && e.target.closest('.lore-bubble.open')) return;
+      stopTween();
+      startX = e.touches[0].clientX;
+      startLeft = stageEl.scrollLeft;
+      dragDist = 0;
+      touchActive = true;
+    }, { passive: true });
+
+    stageEl.addEventListener('touchmove', (e) => {
+      if (!touchActive || e.touches.length !== 1) return;
+      if (e.target.closest && e.target.closest('.lore-bubble.open')) {
+        touchActive = false;
+        return;
+      }
+      e.preventDefault();
+      const dx = startX - e.touches[0].clientX;
+      dragDist = dx;
+      stageEl.scrollLeft = startLeft + dx;
+    }, { passive: false });
+
+    stageEl.addEventListener('touchend', (e) => {
+      if (!touchActive) return;
+      touchActive = false;
+      const thresh = window.innerWidth * 0.18;
+      if (dragDist > thresh) { goStep(1); return; }
+      if (dragDist < -thresh) { goStep(-1); return; }
+      tweenTo(curIndex * stageEl.clientWidth, 380);
+    }, { passive: true });
+
+    stageEl.addEventListener('scroll', () => {
+      if (!touchActive) snapIndex();
+    }, { passive: true });
+
+    stageEl.addEventListener('wheel', (e) => {
+      if (document.querySelector('.drawer.open')) return;
+      e.preventDefault();
+      const d = (Math.abs(e.deltaX) > Math.abs(e.deltaY)) ? e.deltaX : e.deltaY;
+      if (wheelLock) {
+        wheelAcc += d;
+        if (Math.abs(wheelAcc) >= 260) {
+          goStep(wheelAcc > 0 ? 1 : -1);
+          wheelAcc = 0;
+        }
+        return;
+      }
+      wheelAcc += d;
+      if (Math.abs(wheelAcc) >= 48) {
+        goStep(wheelAcc > 0 ? 1 : -1);
+        wheelAcc = 0;
+        wheelLock = true;
+        setTimeout(() => { wheelLock = false; }, 520);
+      }
+    }, { passive: false });
+
+    snapIndex();
+
+    /* ============================================================
+       INDEX SEARCH
+    ============================================================ */
+    const searchInput = document.getElementById('searchInput');
+    const indexItems = Array.from(indexList.children);
+    searchInput.addEventListener('input', () => {
+      const q = searchInput.value.trim().toLowerCase();
+      let visible = 0;
+      indexItems.forEach(it => {
+        const show = !q || it.dataset.search.includes(q);
+        it.style.display = show ? '' : 'none';
+        if (show) visible++;
+      });
+      emptyState.style.display = visible ? 'none' : 'block';
+    });
+
+    /* ============================================================
+       REVEAL ON SCROLL
+    ============================================================ */
+    const revealIo = new IntersectionObserver((entries) => {
+      entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('is-visible'); });
+    }, { threshold: 0.15 });
+    document.querySelectorAll('.reveal').forEach(el => revealIo.observe(el));
+
+    /* ============================================================
+       PARALLAX
+    ============================================================ */
+    let ticking = false;
+    function parallax() {
+      if (ticking) return;
+      ticking = true;
+      requestAnimationFrame(() => {
+        scenesAll.forEach(s => {
+          const bg = s.querySelector('.scene-bg');
+          const rect = s.getBoundingClientRect();
+          const progress = (rect.left + rect.width / 2) / window.innerWidth;
+          const x = (0.5 - progress) * 40;
+          bg.style.transform = `scale(1.08) translateX(${x}px)`;
+        });
+        ticking = false;
+      });
+    }
+    stageEl.addEventListener('scroll', parallax, { passive: true });
+    parallax();
+  </script>
+</body>
+</html>
