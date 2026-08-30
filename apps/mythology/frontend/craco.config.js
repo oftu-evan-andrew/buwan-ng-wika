@@ -1,0 +1,126 @@
+// craco.config.js
+const path = require("path");
+require("dotenv").config();
+
+// Check if we're in development/preview mode (not production build)
+// Craco sets NODE_ENV=development for start, NODE_ENV=production for build
+const isDevServer = process.env.NODE_ENV !== "production";
+
+// Environment variable overrides
+const config = {
+  enableHealthCheck: process.env.ENABLE_HEALTH_CHECK === "true",
+};
+
+function makeDevServerV5Compatible(devServerConfig) {
+  const {
+    https,
+    onAfterSetupMiddleware,
+    onBeforeSetupMiddleware,
+    onListening,
+    setupMiddlewares,
+    ...compatibleConfig
+  } = devServerConfig;
+
+  let serverConfig = "http";
+
+  if (typeof https === "object") {
+    serverConfig = { type: "https", options: https };
+  } else if (https) {
+    serverConfig = "https";
+  }
+
+  compatibleConfig.server = serverConfig;
+  compatibleConfig.headers = {
+    ...compatibleConfig.headers,
+    "Cross-Origin-Resource-Policy": "same-origin",
+  };
+
+  if (onBeforeSetupMiddleware || setupMiddlewares) {
+    compatibleConfig.setupMiddlewares = (middlewares, devServer) => {
+      if (onBeforeSetupMiddleware) {
+        onBeforeSetupMiddleware(devServer);
+      }
+
+      return setupMiddlewares
+        ? setupMiddlewares(middlewares, devServer)
+        : middlewares;
+    };
+  }
+
+  compatibleConfig.onListening = (devServer) => {
+    devServer.close ??= (callback) => devServer.stopCallback(callback);
+
+    if (onListening) {
+      onListening(devServer);
+    }
+    if (onAfterSetupMiddleware) {
+      onAfterSetupMiddleware(devServer);
+    }
+  };
+
+  return compatibleConfig;
+}
+
+// Conditionally load health check modules only if enabled
+let WebpackHealthPlugin;
+let setupHealthEndpoints;
+let healthPluginInstance;
+
+if (config.enableHealthCheck) {
+  WebpackHealthPlugin = require("./plugins/health-check/webpack-health-plugin");
+  setupHealthEndpoints = require("./plugins/health-check/health-endpoints");
+  healthPluginInstance = new WebpackHealthPlugin();
+}
+
+let webpackConfig = {
+  eslint: {
+    configure: {
+      extends: ["plugin:react-hooks/recommended"],
+      rules: {
+        "react-hooks/rules-of-hooks": "error",
+        "react-hooks/exhaustive-deps": "warn",
+      },
+    },
+  },
+  webpack: {
+    alias: {
+      '@': path.resolve(__dirname, 'src'),
+    },
+    configure: (webpackConfig) => {
+
+      // Add ignored patterns to reduce watched directories
+        webpackConfig.watchOptions = {
+          ...webpackConfig.watchOptions,
+          ignored: [
+            '**/node_modules/**',
+            '**/.git/**',
+            '**/build/**',
+            '**/dist/**',
+            '**/coverage/**',
+            '**/public/**',
+        ],
+      };
+
+      // Add health check plugin to webpack if enabled
+      if (config.enableHealthCheck && healthPluginInstance) {
+        webpackConfig.plugins.push(healthPluginInstance);
+      }
+      // Disable source maps in production to secure all source code from browser DevTools
+      if (!isDevServer) {
+        webpackConfig.devtool = false;
+      }
+
+      return webpackConfig;
+    },
+  },
+};
+
+webpackConfig.devServer = (devServerConfig) => {
+  return devServerConfig;
+};
+
+const configureDevServer = webpackConfig.devServer;
+webpackConfig.devServer = (devServerConfig) =>
+  makeDevServerV5Compatible(configureDevServer(devServerConfig));
+
+module.exports = webpackConfig;

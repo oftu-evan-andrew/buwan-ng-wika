@@ -1,0 +1,220 @@
+/* ============ Mythos: Filipino Mythology — cinematic styles ============ */
+
+.font-display {
+  font-family: "Cormorant Garamond", "Georgia", serif;
+}
+
+.font-mono-accent {
+  font-family: "Azeret Mono", ui-monospace, monospace;
+}
+
+.mythos-root {
+  background: #0b0a09;
+  min-height: 100vh;
+}
+
+/* --- ambient accent wash driven by --scene-accent --- */
+.scene-ambient {
+  background:
+    radial-gradient(1100px 700px at 22% 78%, hsl(var(--scene-accent) / 0.10), transparent 60%),
+    radial-gradient(900px 600px at 78% 22%, hsl(var(--scene-accent) / 0.05), transparent 55%);
+  transition: background 1.2s ease;
+}
+
+/* --- crisp image rendering & hardware acceleration --- */
+.crisp-img {
+  image-rendering: -webkit-optimize-contrast;
+  image-rendering: crisp-edges;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  transform: translateZ(0);
+  -webkit-transform: translateZ(0);
+}
+
+/* --- edge fades so scene art melts smoothly into edges --- */
+.char-fade {
+  background:
+    linear-gradient(to bottom, rgba(11, 10, 9, 0.35), transparent 10%),
+    linear-gradient(to top, rgba(11, 10, 9, 0.40), transparent 14%),
+    linear-gradient(to right, rgba(11, 10, 9, 0.25), transparent 12%),
+    linear-gradient(to left, rgba(11, 10, 9, 0.25), transparent 12%);
+}
+
+/* --- vignette + film grain --- */
+.vignette {
+  background: radial-gradient(circle at center, transparent 48%, rgba(0, 0, 0, 0.45) 100%);
+}
+
+.noise {
+  opacity: 0.06;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* --- scroll cue --- */
+.scroll-cue {
+  display: block;
+  width: 1px;
+  height: 44px;
+  background: linear-gradient(to bottom, rgba(255, 255, 255, 0.7), transparent);
+  animation: cue-drop 2s ease-in-out infinite;
+}
+
+@keyframes cue-drop {
+  0% {
+    transform: translateY(-6px) scaleY(0.4);
+    opacity: 0;
+  }
+  40% {
+    transform: translateY(0) scaleY(1);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(14px) scaleY(0.5);
+    opacity: 0;
+  }
+}
+
+/* --- amakan weave divider (Filipino woven-mat motif) --- */
+.amakan-divider {
+  height: 6px;
+  background: repeating-linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.14) 0,
+    rgba(255, 255, 255, 0.14) 7px,
+    transparent 7px,
+    transparent 14px
+  );
+  opacity: 0.5;
+  border-radius: 999px;
+}
+
+/* --- hide scrollbars on rail --- */
+.no-scrollbar {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+/* --- compact rail on short screens & tablets --- */
+@media (max-height: 840px) {
+  .character-rail .rail-thumb {
+    height: 1.75rem !important;
+    width: 1.75rem !important;
+  }
+  .character-rail button {
+    padding-top: 0.2rem;
+    padding-bottom: 0.2rem;
+  }
+}
+
+@media (max-height: 700px) {
+  .character-rail span.flex-col span:first-child {
+    font-size: 10px;
+  }
+  .title-block {
+    bottom: 4.5rem !important;
+  }
+}
+
+/* On desktop viewports that are short or tablets, shift the title block clear of the rail */
+@media (min-width: 768px) and (max-width: 1024px) {
+  .character-rail {
+    max-height: 55vh;
+  }
+  .title-block {
+    left: 14rem !important;
+    bottom: 5rem !important;
+    max-width: 480px !important;
+  }
+}
+
+@media (min-width: 1025px) and (max-height: 900px) {
+  .title-block {
+    left: 15.5rem !important;
+  }
+}
+
+/* Mobile viewport stability - eliminates bottom black gap during address bar hide/show */
+.mythos-stage-fixed {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 100%;
+  height: 100%;
+  height: 100vh;
+  height: 100lvh; /* Largest Viewport Height: covers entire screen even when address bar collapses */
+  overflow: hidden;
+  z-index: 10;
+  transform: translateZ(0);
+  -webkit-transform: translateZ(0);
+}
+
+@supports (padding-bottom: env(safe-area-inset-bottom)) {
+  .outro-container {
+    padding-bottom: max(3.5rem, calc(env(safe-area-inset-bottom) + 3rem)) !important;
+  }
+  .title-block {
+    bottom: max(4.5rem, calc(env(safe-area-inset-bottom) + 4rem)) !important;
+  }
+}
+
+/* --- selection + scrollbar theming --- */
+::selection {
+  background: hsl(var(--scene-accent) / 0.35);
+  color: #fff;
+}
+
+html, body {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  touch-action: pan-y;
+  overscroll-behavior: none;
+  -webkit-overscroll-behavior: none;
+  overflow-x: hidden;
+  min-height: 100%;
+  min-height: 100vh;
+  min-height: 100dvh;
+  min-height: -webkit-fill-available;
+  -webkit-overflow-scrolling: touch;
+}
+
+html::-webkit-scrollbar,
+body::-webkit-scrollbar {
+  display: none;
+  width: 0;
+  height: 0;
+}
+
+/* --- Sheet items stagger animation --- */
+@keyframes sheet-item-enter {
+  0% {
+    opacity: 0;
+    transform: translateY(16px) scale(0.97);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.animate-sheet-item {
+  animation: sheet-item-enter 0.4s cubic-bezier(0.16, 1, 0.3, 1) backwards;
+}
+
+/* --- reduced motion --- */
+@media (prefers-reduced-motion: reduce) {
+  .scroll-cue {
+    animation: none;
+    opacity: 0.6;
+  }
+  .scene-ambient {
+    transition: none;
+  }
+  .animate-sheet-item {
+    animation: none;
+  }
+}
