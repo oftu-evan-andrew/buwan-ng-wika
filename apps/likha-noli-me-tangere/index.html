@@ -6,50 +6,48 @@
   <meta name="description" content="LIKHA - Noli Me Tángere Digital Archive">
   <title>LIKHA — Noli Me Tángere Digital Archive</title>
 
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,500;1,9..144,600&family=Lora:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&display=swap" rel="stylesheet">
+
   <style>
 
     :root {
-      --bg: #FFFFFF;
-      --paper: #FFFFFF;
-      --blue-pale: #EAF2FF;
-      --blue-border: #C9D6EA;
-      --ink: #172033;
-      --muted: #52627A;
-      --red: #C62828;
-      --red-dark: #8E1B1B;
-      --yellow: #FBC02D;
-      --yellow-light: #FFF176;
-      --blue: #1565C0;
-      --blue-dark: #0D47A1;
-      --blue-soft: #E3F2FD;
-      --red-soft: #FFEBEE;
-      --shadow: 0 18px 45px rgba(13, 71, 161, 0.10);
-      --radius: 22px;
-      --max-width: 1200px;
-      --nav-height: 78px;
+      /* ===== Color: aged-manuscript palette, grounded in 19th-c. Filipino book printing ===== */
+      --paper: #EDE1C8;       
+      --paper-light: #F8F1E0;    
+      --paper-deep: #E2D3AE;     
+      --ink: #241C16;            
+      --ink-soft: #5B4F41;       
+      --oxblood: #7C2029;        
+      --oxblood-dark: #551419;   
+      --oxblood-tint: #F3DEDD;   
+      --brass: #9C7A2E;          
+      --brass-text: #705618;     
+      --brass-light: #D8B667;    
+      --pine: #1B3A5C;           
+      --pine-tint: #DCE6F0;      
+      --line: rgba(36, 28, 22, 0.16);
+      --shadow: 0 22px 50px rgba(36, 20, 12, 0.16);
+      --radius: 4px;
+      --radius-lg: 6px;
+      --max-width: 1180px;
+      --nav-height: 84px;
     }
 
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
 
-    html {
-      scroll-behavior: smooth;
-    }
+    html { scroll-behavior: smooth; }
 
     :focus-visible {
-      outline: 3px solid var(--yellow);
+      outline: 3px solid var(--brass-light);
       outline-offset: 3px;
     }
 
     .sr-only {
       position: absolute;
-      width: 1px;
-      height: 1px;
-      padding: 0;
-      margin: -1px;
+      width: 1px; height: 1px;
+      padding: 0; margin: -1px;
       overflow: hidden;
       clip: rect(0, 0, 0, 0);
       white-space: nowrap;
@@ -58,92 +56,111 @@
 
     .skip-link {
       position: fixed;
-      top: 10px;
-      left: 10px;
+      top: 10px; left: 10px;
       z-index: 5000;
-      padding: 10px 14px;
+      padding: 10px 16px;
       background: var(--ink);
-      color: #FFFFFF;
-      border-radius: 8px;
+      color: var(--paper-light);
+      border-radius: var(--radius);
       transform: translateY(-150%);
       transition: transform 0.15s ease;
+      font-family: "Lora", serif;
+      font-weight: 600;
     }
-
-    .skip-link:focus-visible {
-      transform: translateY(0);
-    }
+    .skip-link:focus-visible { transform: translateY(0); }
 
     body {
-      font-family: Georgia, "Times New Roman", serif;
-      background: var(--bg);
+      font-family: "Lora", Georgia, serif;
+      background-color: var(--paper);
+      background-image:
+        radial-gradient(ellipse at 15% 0%, rgba(156, 122, 46, 0.08), transparent 55%),
+        radial-gradient(ellipse at 100% 30%, rgba(124, 32, 41, 0.05), transparent 45%);
       color: var(--ink);
       font-size: 18px;
       line-height: 1.7;
       overflow-x: hidden;
     }
 
-    button, input, textarea { font: inherit; }
+    button, input, textarea { font: inherit; color: inherit; }
     button { cursor: pointer; }
     img { max-width: 100%; }
     a { color: inherit; text-decoration: none; }
 
     .container {
-      width: min(var(--max-width), calc(100% - 40px));
+      width: min(var(--max-width), calc(100% - 44px));
       margin: 0 auto;
     }
 
     .section {
-      padding: 110px 0;
-      scroll-margin-top: 80px;
+      padding: 116px 0;
+      scroll-margin-top: 90px;
+      border-bottom: 1px solid var(--line);
     }
 
-    .section-label {
-      display: inline-flex;
-      align-items: center;
-      gap: 9px;
-      color: var(--red);
-      font-family: Arial, sans-serif;
-      font-size: 0.9rem;
-      font-weight: 800;
-      letter-spacing: 0.16em;
-      text-transform: uppercase;
-      margin-bottom: 13px;
+    /* ===== Chapter mark: a running, sequential heading system in place of a generic eyebrow tag.
+       The site is read like the chapters of a book, so Roman numerals are earned, not decorative. ===== */
+    .chapter-head {
+      display: grid;
+      grid-template-columns: 84px 1fr;
+      gap: 22px;
+      align-items: start;
+      margin-bottom: 20px;
     }
 
-    .section-label::before {
-      content: "";
-      width: 28px;
-      height: 1px;
-      background: var(--red);
+    .chapter-mark {
+      display: flex;
+      flex-direction: column;
+      padding-top: 10px;
+    }
+
+    .chapter-num {
+      font-family: "Fraunces", serif;
+      font-style: italic;
+      font-weight: 500;
+      font-size: 2rem;
+      color: var(--brass-text);
+      line-height: 1;
+    }
+
+    .chapter-word {
+      font-family: "Lora", serif;
+      font-size: 0.82rem;
+      color: var(--ink-soft);
+      margin-top: 6px;
+      max-width: 8ch;
     }
 
     .section-title {
-      font-size: clamp(2.2rem, 5vw, 4.2rem);
-      line-height: 1.04;
-      letter-spacing: -0.045em;
-      max-width: 800px;
+      font-family: "Fraunces", serif;
+      font-weight: 600;
+      font-size: clamp(2.1rem, 4.4vw, 3.6rem);
+      line-height: 1.08;
+      letter-spacing: -0.01em;
+      max-width: 780px;
     }
 
     .section-intro {
-      color: var(--muted);
-      max-width: 680px;
-      margin-top: 18px;
-      font-size: 1.08rem;
+      color: var(--ink-soft);
+      max-width: 620px;
+      margin-top: 16px;
+      font-size: 1.05rem;
+      grid-column: 2;
     }
 
+    /* ===== Navigation ===== */
     .navbar {
       position: fixed;
       inset: 0 0 auto;
       z-index: 1000;
       height: var(--nav-height);
-      background: rgba(255, 255, 255, 0.94);
-      backdrop-filter: blur(16px);
-      border-bottom: 1px solid rgba(198, 40, 40, 0.16);
+      background: rgba(248, 241, 224, 0.92);
+      backdrop-filter: blur(14px);
+      border-bottom: 1px solid var(--line);
     }
 
     .nav-inner {
       height: 100%;
-      width: min(1320px, calc(100% - 40px));
+      width: min(1320px, calc(100% - 44px));
       margin: auto;
       display: flex;
       align-items: center;
@@ -151,381 +168,354 @@
       gap: 25px;
     }
 
-    .brand { display: flex; align-items: center; gap: 12px; white-space: nowrap; }
+    .brand { display: flex; align-items: center; gap: 13px; white-space: nowrap; }
 
     .brand-mark {
-      width: 42px;
-      height: 42px;
-      border: 2px solid var(--red);
+      width: 44px; height: 44px;
+      border: 1.5px solid var(--oxblood);
       display: grid;
       place-items: center;
-      color: var(--red);
-      font-weight: 900;
-      font-size: 0.95rem;
-      transform: rotate(-3deg);
+      color: var(--oxblood);
+      font-family: "Fraunces", serif;
+      font-weight: 600;
+      font-style: italic;
+      font-size: 1.15rem;
     }
 
-    .brand-text { display: flex; flex-direction: column; line-height: 1.1; }
-    .brand-text strong { font-size: 1rem; letter-spacing: 0.08em; }
-
+    .brand-text { display: flex; flex-direction: column; line-height: 1.15; }
+    .brand-text strong { font-family: "Fraunces", serif; font-size: 1.05rem; letter-spacing: 0.01em; }
     .brand-text span {
-      color: var(--muted);
-      font-family: Arial, sans-serif;
-      font-size: 0.84rem;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      margin-top: 4px;
+      color: var(--ink-soft);
+      font-size: 0.78rem;
+      margin-top: 3px;
     }
 
-    .desktop-nav { display: flex; align-items: center; gap: 4px; }
+    .desktop-nav { display: flex; align-items: center; gap: 2px; }
 
     .desktop-nav a {
-      padding: 8px 10px;
-      border-radius: 8px;
-      font-family: Arial, sans-serif;
-      font-size: 0.88rem;
-      font-weight: 700;
-      color: #263A5A;
-      transition: 0.2s ease;
+      padding: 9px 12px;
+      border-radius: var(--radius);
+      font-size: 0.94rem;
+      font-weight: 500;
+      color: var(--ink-soft);
+      transition: color 0.2s ease, background 0.2s ease;
       position: relative;
     }
 
-    .desktop-nav a:hover {
-      color: var(--red);
-      background: rgba(21, 101, 192, 0.10);
-    }
-
-    .desktop-nav a.active {
-      color: var(--red);
-    }
+    .desktop-nav a:hover { color: var(--oxblood); }
+    .desktop-nav a.active { color: var(--oxblood); font-weight: 600; }
 
     .desktop-nav a.active::after {
       content: "";
       position: absolute;
-      left: 10px;
-      right: 10px;
-      bottom: 2px;
-      height: 2px;
-      background: var(--red);
-      border-radius: 2px;
+      left: 12px; right: 12px; bottom: 3px;
+      height: 1px;
+      background: var(--oxblood);
     }
 
     .burger {
       display: none;
-      width: 44px;
-      height: 44px;
-      border: 1px solid var(--blue-border);
-      background: var(--paper);
-      border-radius: 10px;
+      width: 46px; height: 46px;
+      border: 1px solid var(--line);
+      background: var(--paper-light);
+      border-radius: var(--radius);
       align-items: center;
       justify-content: center;
       flex-direction: column;
       gap: 5px;
     }
-
-    .burger span { width: 19px; height: 2px; background: var(--ink); transition: 0.2s; }
+    .burger span { width: 20px; height: 1.5px; background: var(--ink); transition: 0.2s; }
 
     .drawer-backdrop {
       position: fixed;
       inset: var(--nav-height) 0 0 0;
       z-index: 998;
-      background: rgba(13, 25, 55, 0.35);
-      opacity: 0;
-      visibility: hidden;
+      background: rgba(30, 22, 15, 0.4);
+      opacity: 0; visibility: hidden;
       transition: opacity 0.25s ease, visibility 0.25s ease;
     }
-
     .drawer-backdrop.show { opacity: 1; visibility: visible; }
 
     .mobile-drawer {
       position: fixed;
       z-index: 999;
-      top: var(--nav-height);
-      right: 0;
+      top: var(--nav-height); right: 0;
       width: min(340px, 88vw);
       height: calc(100vh - var(--nav-height));
-      background: var(--paper);
-      box-shadow: -20px 0 50px rgba(13, 71, 161, 0.12);
+      background: var(--paper-light);
+      box-shadow: -20px 0 50px rgba(36, 20, 12, 0.18);
       transform: translateX(100%);
       transition: transform 0.3s ease;
-      padding: 30px;
+      padding: 32px;
     }
-
     .mobile-drawer.open { transform: translateX(0); }
-
     .mobile-drawer a {
       display: block;
-      padding: 15px 0;
-      border-bottom: 1px solid var(--blue-border);
-      font-size: 1.05rem;
+      padding: 16px 0;
+      border-bottom: 1px solid var(--line);
+      font-family: "Fraunces", serif;
+      font-size: 1.15rem;
     }
 
+    /* ===== Hero ===== */
     .hero {
       min-height: 100vh;
-      padding-top: calc(var(--nav-height) + 60px);
+      padding-top: calc(var(--nav-height) + 50px);
       display: flex;
       align-items: center;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .hero::before {
-      content: "";
-      position: absolute;
-      width: 620px;
-      height: 620px;
-      right: -220px;
-      top: 90px;
-      border-radius: 50%;
-      border: 1px solid rgba(21, 101, 192, 0.18);
-      box-shadow:
-        0 0 0 70px rgba(21, 101, 192, 0.035),
-        0 0 0 140px rgba(251, 192, 45, 0.025);
     }
 
     .hero-grid {
       display: grid;
-      grid-template-columns: 1.2fr 0.8fr;
-      gap: 70px;
+      grid-template-columns: 1.15fr 0.85fr;
+      gap: 60px;
       align-items: center;
     }
 
     .hero-copy { position: relative; z-index: 2; }
 
     .hero-kicker {
-      font-family: Arial, sans-serif;
-      text-transform: uppercase;
-      letter-spacing: 0.18em;
-      color: var(--red);
-      font-weight: 800;
-      font-size: 0.88rem;
-      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-family: "Lora", serif;
+      font-style: italic;
+      color: var(--oxblood);
+      font-weight: 600;
+      font-size: 1rem;
+      margin-bottom: 22px;
+    }
+    .hero-kicker::before {
+      content: "";
+      width: 34px; height: 1px;
+      background: var(--oxblood);
     }
 
     .hero-title {
-      font-size: clamp(3.5rem, 8vw, 7.8rem);
-      line-height: 0.9;
-      letter-spacing: -0.065em;
-      max-width: 850px;
+      font-family: "Fraunces", serif;
+      font-weight: 600;
+      font-size: clamp(3rem, 7vw, 6.4rem);
+      line-height: 0.98;
+      letter-spacing: -0.02em;
+      max-width: 780px;
     }
-
-    .hero-title em { color: var(--red); font-weight: normal; font-style: normal; }
+    .hero-title em { color: var(--oxblood); font-weight: 600; font-style: italic; }
 
     .hero-subtitle {
-      max-width: 680px;
-      color: var(--muted);
-      font-size: 1.1rem;
-      margin: 27px 0 30px;
+      max-width: 620px;
+      color: var(--ink-soft);
+      font-size: 1.12rem;
+      margin: 28px 0 34px;
     }
+    .hero-subtitle em { font-style: italic; color: var(--ink); }
 
-    .hero-actions { display: flex; flex-wrap: wrap; gap: 12px; }
+    .hero-actions { display: flex; flex-wrap: wrap; gap: 14px; }
 
     .btn {
-      border: 1px solid transparent;
-      padding: 13px 21px;
-      border-radius: 10px;
-      font-family: Arial, sans-serif;
-      font-size: 0.95rem;
-      font-weight: 800;
-      transition: 0.2s ease;
+      border: 1.5px solid transparent;
+      padding: 14px 24px;
+      border-radius: var(--radius);
+      font-family: "Lora", serif;
+      font-size: 0.98rem;
+      font-weight: 600;
+      transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
       display: inline-block;
     }
+    .btn-primary { background: var(--oxblood); color: var(--paper-light); border-color: var(--oxblood); }
+    .btn-primary:hover { background: var(--oxblood-dark); border-color: var(--oxblood-dark); transform: translateY(-2px); }
+    .btn-secondary { background: transparent; border-color: var(--ink); color: var(--ink); }
+    .btn-secondary:hover { border-color: var(--oxblood); color: var(--oxblood); }
 
-    .btn-primary { background: var(--red); color: white; }
-    .btn-primary:hover { background: var(--red-dark); transform: translateY(-2px); }
-    .btn-secondary { background: transparent; border-color: var(--blue-border); color: var(--ink); }
-    .btn-secondary:hover { border-color: var(--red); color: var(--red); }
-
-    .cover-stage { min-height: 590px; display: grid; place-items: center; position: relative; }
+    .cover-stage { min-height: 560px; display: grid; place-items: center; position: relative; }
 
     .cover-frame {
-      width: min(360px, 80%);
+      width: min(350px, 82%);
       aspect-ratio: 0.68;
-      padding: 13px;
-      background: var(--blue-dark);
-      box-shadow: 30px 35px 70px rgba(13, 71, 161, 0.28);
-      transform: rotate(4deg);
+      padding: 14px;
+      background: var(--paper-light);
+      border: 1px solid var(--line);
+      box-shadow: var(--shadow);
       position: relative;
       z-index: 2;
     }
-
     .cover-frame picture, .cover-frame img {
-      width: 100%;
-      height: 100%;
+      width: 100%; height: 100%;
       display: block;
       object-fit: cover;
       object-position: center;
     }
 
-    .cover-frame::after {
-      content: "BERLIN · 1887";
+    .cover-tag {
       position: absolute;
-      left: -45px;
-      bottom: 40px;
-      writing-mode: vertical-rl;
-      transform: rotate(180deg);
-      font-family: Arial, sans-serif;
-      color: var(--red);
-      font-size: 0.9rem;
-      letter-spacing: 0.16em;
-      font-weight: 800;
+      left: -18px;
+      bottom: 44px;
+      z-index: 3;
+      background: var(--oxblood);
+      color: var(--paper-light);
+      padding: 9px 14px;
+      font-size: 0.82rem;
+      font-weight: 600;
+      letter-spacing: 0.02em;
+      box-shadow: 0 10px 24px rgba(36, 20, 12, 0.25);
     }
 
-    .history { background: var(--blue-dark); color: #FFFFFF; }
-    .history .section-label { color: var(--yellow-light); }
-    .history .section-label::before { background: var(--yellow-light); }
+    .cover-plate-edge {
+      position: absolute;
+      width: min(350px, 82%);
+      aspect-ratio: 0.68;
+      border: 1px solid var(--brass);
+      top: 22px;
+      left: calc(50% + 20px);
+      transform: translateX(-50%);
+      z-index: 1;
+    }
+
+    /* ===== History (dark plate section) ===== */
+    .history { background: var(--pine); color: var(--paper-light); border-bottom: none; }
+    .history .chapter-num { color: var(--brass-light); }
+    .history .chapter-word { color: rgba(248, 241, 224, 0.6); }
 
     .history-grid {
       display: grid;
-      grid-template-columns: 0.8fr 1.2fr;
+      grid-template-columns: 0.78fr 1.22fr;
       gap: 80px;
       align-items: start;
     }
 
     .history-big-year {
-      font-size: clamp(6rem, 15vw, 12rem);
+      font-family: "Fraunces", serif;
+      font-style: italic;
+      font-weight: 500;
+      font-size: clamp(5.5rem, 13vw, 10.5rem);
       line-height: 0.75;
-      color: var(--yellow-light);
-      letter-spacing: -0.08em;
+      color: var(--brass-light);
+      letter-spacing: -0.03em;
     }
 
-    .history-content h3 { font-size: clamp(1.7rem, 3vw, 2.7rem); line-height: 1.1; margin-bottom: 25px; }
-    .history-content p { color: #DCE7F5; margin-bottom: 17px; max-width: 700px; }
+    .history-content h3 {
+      font-family: "Fraunces", serif;
+      font-weight: 600;
+      font-size: clamp(1.6rem, 2.8vw, 2.5rem);
+      line-height: 1.15;
+      margin-bottom: 24px;
+    }
+    .history-content p { color: rgba(248, 241, 224, 0.82); margin-bottom: 17px; max-width: 680px; }
+    .history-content em { color: var(--brass-light); font-style: italic; }
 
     .history-note {
-      border-left: 2px solid var(--yellow);
+      border-left: 2px solid var(--brass-light);
       padding-left: 20px;
       margin-top: 30px;
-      color: #FFF176 !important;
+      color: var(--brass-light) !important;
       font-style: italic;
+      max-width: 680px;
     }
 
-    .summary-header {
-      display: flex;
-      justify-content: space-between;
-      gap: 30px;
-      align-items: end;
-      margin-bottom: 60px;
-    }
-
-    .timeline { position: relative; max-width: 920px; margin: auto; }
-
+    /* ===== Buod / Timeline (genuinely sequential — numbering earned) ===== */
+    .timeline { position: relative; max-width: 900px; margin: 60px 0 0 106px; }
     .timeline::before {
       content: "";
       position: absolute;
-      left: 19px;
-      top: 0;
-      bottom: 0;
+      left: 20px; top: 0; bottom: 0;
       width: 1px;
-      background: var(--blue-border);
+      background: var(--line);
     }
 
     .timeline-item {
       display: grid;
-      grid-template-columns: 40px 1fr;
-      gap: 25px;
-      margin-bottom: 40px;
+      grid-template-columns: 42px 1fr;
+      gap: 24px;
+      margin-bottom: 36px;
     }
 
     .timeline-dot {
-      width: 39px;
-      height: 39px;
+      width: 41px; height: 41px;
       border-radius: 50%;
-      background: var(--bg);
-      border: 1px solid var(--red);
+      background: var(--paper);
+      border: 1px solid var(--oxblood);
       display: grid;
       place-items: center;
-      color: var(--red);
-      font-family: Arial, sans-serif;
-      font-size: 0.95rem;
-      font-weight: 900;
+      color: var(--oxblood);
+      font-family: "Fraunces", serif;
+      font-style: italic;
+      font-weight: 600;
+      font-size: 1rem;
       z-index: 2;
     }
 
     .timeline-card {
-      background: var(--paper);
-      border: 1px solid var(--blue-border);
-      padding: 27px 30px;
-      border-radius: var(--radius);
-      box-shadow: 0 8px 25px rgba(13, 71, 161, 0.06);
+      background: var(--paper-light);
+      border: 1px solid var(--line);
+      padding: 28px 32px;
+      border-radius: var(--radius-lg);
     }
-
     .timeline-card small {
-      color: var(--red);
-      font-family: Arial, sans-serif;
+      color: var(--oxblood);
+      font-family: "Lora", serif;
+      font-style: italic;
       font-size: 0.9rem;
-      font-weight: 800;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
+      font-weight: 600;
     }
+    .timeline-card h3 { font-family: "Fraunces", serif; font-weight: 600; margin: 6px 0 9px; font-size: 1.5rem; }
+    .timeline-card p { color: var(--ink-soft); max-width: 62ch; }
 
-    .timeline-card h3 { margin: 5px 0 8px; font-size: 1.5rem; }
-    .timeline-card p { color: var(--muted); }
+    /* ===== Characters — archive / card-catalog treatment ===== */
+    .characters { background: var(--paper-deep); }
 
-    .characters { background: var(--blue-pale); }
-
-    .character-tools { display: flex; flex-wrap: wrap; gap: 12px; margin: 38px 0; }
+    .character-tools { display: flex; flex-wrap: wrap; gap: 12px; margin: 40px 0 40px 106px; }
 
     .search-box { position: relative; flex: 1 1 280px; }
-
     .search-box input {
-      width: 100%;
-      height: 48px;
+      width: 100%; height: 50px;
       padding: 0 18px;
-      border: 1px solid var(--blue-border);
-      background: var(--paper);
-      border-radius: 10px;
+      border: 1px solid var(--line);
+      background: var(--paper-light);
+      border-radius: var(--radius);
       outline: none;
       color: var(--ink);
     }
+    .search-box input:focus-visible { border-color: var(--oxblood); }
+    .search-box input::placeholder { color: var(--ink-soft); }
 
-    .search-box input:focus-visible { border-color: var(--red); }
-
-    .filter-chips { display: flex; flex-wrap: wrap; gap: 7px; }
-
+    .filter-chips { display: flex; flex-wrap: wrap; gap: 8px; }
     .filter-chip {
-      height: 48px;
-      padding: 0 16px;
-      border: 1px solid var(--blue-border);
-      background: var(--paper);
-      border-radius: 10px;
-      font-family: Arial, sans-serif;
-      font-size: 0.84rem;
-      font-weight: 800;
-      color: var(--muted);
-      transition: 0.2s ease;
+      min-height: 50px;
+      padding: 10px 18px;
+      border: 1px solid var(--line);
+      background: var(--paper-light);
+      border-radius: var(--radius);
+      font-family: "Lora", serif;
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: var(--ink-soft);
+      transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease;
     }
-
-    .filter-chip:hover, .filter-chip.active {
-      background: var(--red);
-      border-color: var(--red);
-      color: white;
-    }
+    .filter-chip:hover { border-color: var(--oxblood); color: var(--oxblood); }
+    .filter-chip.active { background: var(--oxblood); border-color: var(--oxblood); color: var(--paper-light); }
 
     .character-grid {
       display: grid;
       grid-template-columns: repeat(12, 1fr);
-      grid-auto-rows: 280px;
-      gap: 16px;
+      grid-auto-rows: 300px;
+      gap: 18px;
       align-items: stretch;
+      margin-left: 106px;
     }
 
     .char-card {
       position: relative;
       overflow: hidden;
-      border-radius: var(--radius);
-      background: var(--paper);
+      border-radius: var(--radius-lg);
+      background: var(--paper-light);
       min-height: 0;
       height: 100%;
       display: flex;
       flex-direction: column;
-      border: 1px solid rgba(21, 101, 192, 0.14);
-      box-shadow: 0 8px 28px rgba(13, 71, 161, 0.08);
-      transition: transform 0.25s ease, box-shadow 0.25s ease;
+      border: 1px solid var(--line);
+      transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
       cursor: pointer;
     }
-
-    .char-card:hover { transform: translateY(-5px); box-shadow: var(--shadow); }
+    .char-card:hover { transform: translateY(-4px); border-color: var(--brass); box-shadow: var(--shadow); }
 
     .char-card.large { grid-column: span 6; grid-row: span 2; }
     .char-card.medium { grid-column: span 3; grid-row: span 1; }
@@ -533,472 +523,397 @@
 
     .portrait {
       position: relative;
-      width: 100%;
-      height: 100%;
+      width: 100%; height: 100%;
       flex-grow: 1;
       min-height: 0;
       overflow: hidden;
-      background: #E3ECFA;
+      background: var(--paper-deep);
     }
-
     .char-card.large .portrait { min-height: 100%; }
 
     .portrait picture, .portrait img {
-      width: 100%;
-      height: 100%;
+      width: 100%; height: 100%;
       display: block;
       object-fit: cover;
       object-position: center top;
-      transition: transform 0.45s ease;
+      filter: sepia(18%) contrast(1.02);
+      transition: transform 0.4s ease;
     }
-
-    .char-card:hover .portrait img { transform: scale(1.035); }
+    .char-card:hover .portrait img { transform: scale(1.03); }
 
     .portrait::after {
       content: "";
-      position: absolute;
-      inset: 0;
-      background: linear-gradient(
-        to top,
-        rgba(13, 25, 55, 0.84) 0%,
-        rgba(13, 71, 161, 0.18) 45%,
-        transparent 70%
-      );
+      position: absolute; inset: 0;
+      background: linear-gradient(to top, rgba(30, 18, 12, 0.86) 0%, rgba(30, 18, 12, 0.1) 48%, transparent 68%);
       pointer-events: none;
     }
 
-    .char-info { position: absolute; z-index: 3; left: 0; right: 0; bottom: 0; padding: 25px; color: white; }
-
+    .char-info { position: absolute; z-index: 3; left: 0; right: 0; bottom: 0; padding: 24px; color: var(--paper-light); }
     .char-info small {
-      font-family: Arial, sans-serif;
-      font-size: 0.9rem;
-      font-weight: 800;
-      text-transform: uppercase;
-      letter-spacing: 0.12em;
-      color: #FBC02D;
+      font-family: "Lora", serif;
+      font-style: italic;
+      font-size: 0.92rem;
+      font-weight: 600;
+      color: var(--brass-light);
     }
-
-    .char-info h3 { font-size: 1.35rem; line-height: 1.05; margin: 5px 0; }
-    .char-info p { font-family: Arial, sans-serif; font-size: 0.95rem; opacity: 0.8; }
+    .char-info h3 { font-family: "Fraunces", serif; font-weight: 600; font-size: 1.4rem; line-height: 1.08; margin: 5px 0; }
+    .char-info p { font-size: 0.92rem; opacity: 0.75; }
 
     .char-empty {
       grid-column: 1 / -1;
       padding: 60px 20px;
       text-align: center;
-      color: var(--muted);
-      background: var(--paper);
-      border: 1px dashed var(--blue-border);
-      border-radius: var(--radius);
+      color: var(--ink-soft);
+      background: var(--paper-light);
+      border: 1px dashed var(--line);
+      border-radius: var(--radius-lg);
     }
 
+    /* ===== Character modal ===== */
     .modal-overlay {
-      position: fixed;
-      inset: 0;
-      z-index: 2000;
-      background: rgba(13, 25, 55, 0.78);
-      backdrop-filter: blur(5px);
+      position: fixed; inset: 0; z-index: 2000;
+      background: rgba(30, 18, 12, 0.72);
+      backdrop-filter: blur(4px);
       display: none;
-      align-items: center;
-      justify-content: center;
+      align-items: center; justify-content: center;
       padding: 20px;
     }
-
     .modal-overlay.show { display: flex; }
 
     .modal {
       width: min(800px, 100%);
       max-height: 90vh;
       overflow-y: auto;
-      background: var(--paper);
-      border-radius: 25px;
-      box-shadow: 0 30px 100px rgba(0,0,0,0.3);
+      background: var(--paper-light);
+      border-radius: var(--radius-lg);
+      box-shadow: 0 30px 100px rgba(0,0,0,0.35);
       position: relative;
-      animation: modalIn 0.25s ease;
+      animation: modalIn 0.22s ease;
     }
-
     @keyframes modalIn {
-      from { opacity: 0; transform: translateY(15px) scale(0.98); }
+      from { opacity: 0; transform: translateY(14px) scale(0.98); }
       to { opacity: 1; transform: translateY(0) scale(1); }
     }
 
     .modal-close {
-      position: absolute;
-      right: 17px;
-      top: 17px;
-      z-index: 4;
-      width: 40px;
-      height: 40px;
-      border: none;
+      position: absolute; right: 18px; top: 18px; z-index: 4;
+      width: 40px; height: 40px;
+      border: 1px solid var(--line);
       border-radius: 50%;
-      background: rgba(255,255,255,0.9);
-      font-size: 1.4rem;
-      line-height: 1;
+      background: var(--paper-light);
+      display: grid;
+      place-items: center;
+      color: var(--ink);
     }
+    .modal-close:hover { border-color: var(--oxblood); color: var(--oxblood); }
 
     .modal-grid { display: grid; grid-template-columns: 0.8fr 1.2fr; }
-    .modal-image { min-height: 480px; background: #E3ECFA; }
-
+    .modal-image { min-height: 480px; background: var(--paper-deep); }
     .modal-image img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      object-position: center top;
+      width: 100%; height: 100%;
+      object-fit: cover; object-position: center top;
       display: block;
+      filter: sepia(18%) contrast(1.02);
     }
 
-    .modal-body { padding: 48px 40px; }
-
+    .modal-body { padding: 50px 42px; }
     .modal-role {
-      font-family: Arial, sans-serif;
-      color: var(--red);
-      font-size: 0.84rem;
-      font-weight: 800;
-      text-transform: uppercase;
-      letter-spacing: 0.12em;
+      font-family: "Lora", serif;
+      font-style: italic;
+      color: var(--oxblood);
+      font-size: 0.9rem;
+      font-weight: 600;
     }
+    .modal-body h2 { font-family: "Fraunces", serif; font-weight: 600; font-size: 2.5rem; line-height: 1.02; margin: 10px 0 20px; }
+    .modal-body p { color: var(--ink-soft); }
 
-    .modal-body h2 { font-size: 2.7rem; line-height: 1; margin: 10px 0 20px; }
-    .modal-body p { color: var(--muted); }
-
+    /* ===== Themes — dossier treatment ===== */
     .themes-grid {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
       gap: 18px;
       margin-top: 55px;
+      margin-left: 106px;
     }
 
     .theme-card {
-      padding: 34px;
-      min-height: 300px;
-      border: 1px solid var(--blue-border);
-      background: var(--paper);
-      border-radius: var(--radius);
+      padding: 36px;
+      min-height: 290px;
+      border: 1px solid var(--line);
+      background: var(--paper-light);
+      border-top: 3px solid var(--brass);
+      border-radius: 0 0 var(--radius-lg) var(--radius-lg);
       display: flex;
       flex-direction: column;
       justify-content: space-between;
-      transition: 0.25s ease;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
     }
+    .theme-card:hover { transform: translateY(-4px); box-shadow: var(--shadow); }
+    .theme-number {
+      font-family: "Lora", serif;
+      font-style: italic;
+      font-weight: 600;
+      color: var(--ink-soft);
+      font-size: 0.88rem;
+    }
+    .theme-card h3 { font-family: "Fraunces", serif; font-weight: 600; font-size: 1.9rem; line-height: 1.02; margin-top: 42px; }
+    .theme-card p { color: var(--ink-soft); margin-top: 16px; }
 
-    .theme-card:hover { transform: translateY(-5px); box-shadow: var(--shadow); }
-    .theme-number { font-family: Arial, sans-serif; font-weight: 900; color: var(--yellow); font-size: 0.84rem; }
-    .theme-card h3 { font-size: 2rem; line-height: 1; margin-top: 45px; }
-    .theme-card p { color: var(--muted); margin-top: 15px; }
-
-    .legacy { background: var(--red); color: white; }
-    .legacy .section-label { color: #FFF176; }
-    .legacy .section-label::before { background: #FFF176; }
+    /* ===== Legacy (accent-flip statute section) ===== */
+    .legacy { background: var(--oxblood); color: var(--paper-light); border-bottom: none; }
+    .legacy .chapter-num { color: var(--brass-light); }
+    .legacy .chapter-word { color: rgba(248, 241, 224, 0.65); }
 
     .legacy-grid {
       display: grid;
-      grid-template-columns: 0.7fr 1.3fr;
+      grid-template-columns: 0.68fr 1.32fr;
       gap: 80px;
       align-items: center;
     }
 
     .law-number {
-      font-size: clamp(4rem, 10vw, 9rem);
-      font-weight: normal;
+      font-family: "Fraunces", serif;
+      font-weight: 500;
+      font-size: clamp(4rem, 9.5vw, 8.5rem);
       line-height: 0.8;
-      color: #FFF176;
-      letter-spacing: -0.07em;
+      color: var(--brass-light);
+      letter-spacing: -0.02em;
     }
 
-    .legacy h2 { font-size: clamp(2.3rem, 5vw, 4.8rem); line-height: 0.98; margin-bottom: 25px; }
-    .legacy p { color: #FCE4E4; max-width: 750px; margin-bottom: 15px; }
+    .legacy h2 { font-family: "Fraunces", serif; font-weight: 600; font-size: clamp(2.1rem, 4.4vw, 4.2rem); line-height: 1.05; margin-bottom: 25px; }
+    .legacy p { color: rgba(248, 241, 224, 0.86); max-width: 720px; margin-bottom: 15px; }
+    .legacy em { color: var(--brass-light); font-style: italic; }
 
     .law-note {
       margin-top: 30px;
-      padding: 20px;
-      border: 1px solid rgba(255,255,255,0.22);
-      border-radius: 13px;
-      font-family: Arial, sans-serif;
-      font-size: 0.9rem;
-      color: #FFF9C4;
+      padding: 22px;
+      border: 1px solid rgba(248, 241, 224, 0.25);
+      border-radius: var(--radius);
+      font-size: 0.94rem;
+      color: rgba(248, 241, 224, 0.9);
+      font-style: italic;
     }
+    .law-note strong { font-style: normal; }
 
+    /* ===== Quiz — recitation card ===== */
     .quiz-section { background: var(--paper); }
 
     .quiz-shell {
-      width: min(850px, 100%);
+      width: min(840px, 100%);
       margin: 55px auto 0;
-      background: var(--bg);
-      border: 1px solid var(--blue-border);
-      border-radius: 28px;
-      padding: clamp(25px, 5vw, 55px);
+      background: var(--paper-light);
+      border: 1px solid var(--line);
+      border-radius: var(--radius-lg);
+      padding: clamp(26px, 5vw, 56px);
     }
 
     .quiz-progress { display: flex; align-items: center; gap: 8px; margin-bottom: 40px; }
-
-    .progress-dot {
-      height: 7px;
-      flex: 1;
-      background: var(--blue-border);
-      border-radius: 20px;
-      transition: 0.25s ease;
-    }
-
-    .progress-dot.active { background: var(--red); }
-    .progress-dot.done { background: var(--yellow); }
+    .progress-dot { height: 3px; flex: 1; background: var(--line); border-radius: 4px; transition: background 0.25s ease; }
+    .progress-dot.active { background: var(--oxblood); }
+    .progress-dot.done { background: var(--brass); }
 
     .quiz-meta {
-      display: flex;
-      justify-content: space-between;
-      font-family: Arial, sans-serif;
+      display: flex; justify-content: space-between;
+      font-family: "Lora", serif;
+      font-style: italic;
       font-size: 0.95rem;
-      font-weight: 800;
-      color: var(--muted);
-      text-transform: uppercase;
-      letter-spacing: 0.08em;
-      margin-bottom: 12px;
+      font-weight: 600;
+      color: var(--ink-soft);
+      margin-bottom: 14px;
     }
 
-    .quiz-question { font-size: clamp(1.8rem, 4vw, 3rem); line-height: 1.05; margin-bottom: 28px; }
+    .quiz-question { font-family: "Fraunces", serif; font-weight: 600; font-size: clamp(1.7rem, 3.6vw, 2.6rem); line-height: 1.1; margin-bottom: 30px; }
+
     .answers { display: grid; gap: 10px; }
-
     .answer-btn {
-      text-align: left;
-      width: 100%;
-      padding: 17px 19px;
+      text-align: left; width: 100%;
+      padding: 17px 20px;
       background: var(--paper);
-      border: 1px solid var(--blue-border);
-      border-radius: 12px;
-      transition: 0.2s ease;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      transition: border-color 0.2s ease, transform 0.2s ease;
     }
-
-    .answer-btn:hover:not(:disabled) { border-color: var(--red); transform: translateX(3px); }
-    .answer-btn.correct { border-color: var(--blue); background: var(--blue-soft); }
-    .answer-btn.wrong { border-color: #C62828; background: var(--red-soft); }
+    .answer-btn:hover:not(:disabled) { border-color: var(--oxblood); transform: translateX(3px); }
+    .answer-btn.correct { border-color: var(--pine); background: var(--pine-tint); }
+    .answer-btn.wrong { border-color: var(--oxblood); background: var(--oxblood-tint); }
     .answer-btn:disabled { cursor: default; }
 
-    .quiz-feedback {
-      min-height: 28px;
-      margin-top: 18px;
-      font-family: Arial, sans-serif;
-      font-size: 0.95rem;
-      font-weight: 700;
-    }
+    .quiz-feedback { min-height: 28px; margin-top: 18px; font-size: 0.98rem; font-weight: 600; }
+    .quiz-feedback.correct { color: var(--pine); }
+    .quiz-feedback.wrong { color: var(--oxblood); }
+    .quiz-actions { display: flex; justify-content: flex-end; margin-top: 22px; }
 
-    .quiz-feedback.correct { color: var(--blue); }
-    .quiz-feedback.wrong { color: var(--red); }
-    .quiz-actions { display: flex; justify-content: flex-end; margin-top: 20px; }
     .quiz-result { text-align: center; padding: 25px 0; }
-
     .score-circle {
-      width: 150px;
-      height: 150px;
-      margin: 20px auto 25px;
+      width: 150px; height: 150px;
+      margin: 22px auto 26px;
       border-radius: 50%;
-      border: 7px solid var(--red);
-      display: grid;
-      place-items: center;
-      font-size: 3rem;
-      color: var(--red);
+      border: 2px solid var(--oxblood);
+      display: grid; place-items: center;
+      font-family: "Fraunces", serif;
+      font-weight: 600;
+      font-size: 2.8rem;
+      color: var(--oxblood);
     }
 
-    .review-list { text-align: left; margin-top: 35px; display: grid; gap: 10px; }
-
+    .review-list { text-align: left; margin-top: 36px; display: grid; gap: 10px; }
     .review-item {
-      padding: 15px;
-      border: 1px solid var(--blue-border);
+      padding: 16px 18px;
+      border: 1px solid var(--line);
       background: var(--paper);
-      border-radius: 10px;
-      font-family: Arial, sans-serif;
-      font-size: 0.9rem;
+      border-radius: var(--radius);
+      font-size: 0.92rem;
     }
+    .review-item.wrong { border-left: 3px solid var(--oxblood); }
+    .review-item.right { border-left: 3px solid var(--pine); }
 
-    .review-item.wrong { border-left: 3px solid var(--red); }
-    .review-item.right { border-left: 3px solid var(--blue); }
-
+    /* ===== Contact — correspondence card ===== */
     .contact-grid {
       display: grid;
-      grid-template-columns: 0.75fr 1.25fr;
+      grid-template-columns: 0.72fr 1.28fr;
       gap: 80px;
       align-items: start;
     }
 
-    .contact-info h2 { font-size: clamp(2.5rem, 5vw, 5rem); line-height: 0.95; margin-bottom: 20px; }
-    .contact-info p { color: var(--muted); max-width: 450px; }
+    .contact-info h2 { font-family: "Fraunces", serif; font-weight: 600; font-size: clamp(2.3rem, 4.6vw, 4.6rem); line-height: 1; margin-bottom: 20px; }
+    .contact-info p { color: var(--ink-soft); max-width: 440px; }
 
     .contact-form {
-      background: var(--paper);
-      padding: 35px;
-      border: 1px solid var(--blue-border);
-      border-radius: var(--radius);
+      background: var(--paper-light);
+      padding: 38px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius-lg);
     }
 
-    .form-group { margin-bottom: 20px; }
-
+    .form-group { margin-bottom: 22px; }
     .form-group label {
       display: block;
-      font-family: Arial, sans-serif;
-      font-size: 0.84rem;
-      font-weight: 800;
-      margin-bottom: 7px;
+      font-family: "Lora", serif;
+      font-size: 0.88rem;
+      font-weight: 600;
+      margin-bottom: 8px;
     }
-
     .form-group input, .form-group textarea {
-      display: block;
-      width: 100%;
-      border: 1px solid var(--blue-border);
+      display: block; width: 100%;
+      border: 1px solid var(--line);
       background: var(--paper);
-      border-radius: 9px;
-      padding: 13px 14px;
+      border-radius: var(--radius);
+      padding: 13px 15px;
       outline: none;
       color: var(--ink);
     }
-
     .form-group textarea { min-height: 150px; resize: vertical; }
-
-    .form-group input:focus-visible, .form-group textarea:focus-visible { border-color: var(--red); }
-
-    .field-error {
-      min-height: 18px;
-      color: var(--red);
-      font-family: Arial, sans-serif;
-      font-size: 0.9rem;
-      margin-top: 4px;
-    }
-
-    .form-group.invalid input, .form-group.invalid textarea { border-color: var(--red); }
-
-    .char-count {
-      font-family: Arial, sans-serif;
-      font-size: 0.8rem;
-      color: var(--muted);
-      text-align: right;
-      margin-top: 4px;
-    }
+    .form-group input:focus-visible, .form-group textarea:focus-visible { border-color: var(--oxblood); }
+    .field-error { min-height: 18px; color: var(--oxblood); font-size: 0.86rem; margin-top: 5px; }
+    .form-group.invalid input, .form-group.invalid textarea { border-color: var(--oxblood); }
+    .char-count { font-size: 0.8rem; color: var(--ink-soft); text-align: right; margin-top: 4px; }
 
     .toast {
-      position: fixed;
-      right: 22px;
-      bottom: 22px;
-      z-index: 3000;
+      position: fixed; right: 22px; bottom: 22px; z-index: 3000;
       max-width: 360px;
-      background: var(--blue-dark);
-      color: white;
-      padding: 15px 19px;
-      border-radius: 11px;
-      box-shadow: 0 15px 40px rgba(0,0,0,0.22);
-      font-family: Arial, sans-serif;
-      font-size: 0.9rem;
+      background: var(--ink);
+      color: var(--paper-light);
+      padding: 16px 20px;
+      border-radius: var(--radius);
+      box-shadow: 0 15px 40px rgba(0,0,0,0.28);
+      font-size: 0.92rem;
       transform: translateY(30px);
       opacity: 0;
       pointer-events: none;
       transition: 0.25s ease;
     }
-
     .toast.show { transform: translateY(0); opacity: 1; }
 
-    footer { background: #061B3A; color: #DCE7F5; padding: 55px 0; }
+    /* ===== Footer ===== */
+    footer { background: var(--ink); color: rgba(248, 241, 224, 0.8); padding: 60px 0; }
     .footer-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; }
-    .footer-brand { font-size: 1.7rem; color: white; }
-
+    .footer-brand { font-family: "Fraunces", serif; font-style: italic; font-weight: 500; font-size: 1.8rem; color: var(--paper-light); }
     .footer-section-title {
-      margin-top: 20px;
-      color: var(--yellow-light);
-      font-family: Arial, sans-serif;
-      font-size: 0.8rem;
-      font-weight: 800;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
+      margin-top: 22px;
+      color: var(--brass-light);
+      font-family: "Lora", serif;
+      font-style: italic;
+      font-size: 0.86rem;
+      font-weight: 600;
     }
+    .footer-tagline { color: rgba(248, 241, 224, 0.62); max-width: 450px; margin-top: 10px; }
 
-    .footer-tagline { color: #AFC3DF; max-width: 450px; margin-top: 10px; }
+    .credits { justify-self: end; text-align: right; font-size: 0.9rem; line-height: 1.9; color: rgba(248, 241, 224, 0.6); }
+    .credits strong { color: var(--paper-light); font-weight: 600; }
 
-    .credits {
-      justify-self: end;
-      text-align: right;
-      font-family: Arial, sans-serif;
-      font-size: 0.84rem;
-      line-height: 1.8;
-      color: #B9CBE2;
-    }
-
-    .credits strong { color: white; }
-
-    .references { margin-top: 42px; padding-top: 30px; border-top: 1px solid rgba(255, 255, 255, 0.12); }
-    .references .section-label { color: var(--yellow-light); margin-bottom: 8px; }
-    .references .section-label::before { background: var(--yellow-light); }
-
+    .references { margin-top: 46px; padding-top: 32px; border-top: 1px solid rgba(248, 241, 224, 0.14); }
+    .references .chapter-word { color: var(--brass-light); font-style: italic; margin-bottom: 10px; font-size: 0.9rem; }
     .references h2 {
-      color: #FFFFFF;
-      font-size: clamp(1.6rem, 3vw, 2.2rem);
+      font-family: "Fraunces", serif;
+      font-weight: 600;
+      color: var(--paper-light);
+      font-size: clamp(1.5rem, 3vw, 2rem);
       line-height: 1.15;
-      margin-bottom: 16px;
+      margin-bottom: 18px;
     }
-
-    .reference-list { margin: 0; padding-left: 24px; max-width: 850px; color: #DCE7F5; }
-    .reference-list li { padding-left: 6px; line-height: 1.7; }
-
-    .reference-list a {
-      color: var(--yellow-light);
-      text-decoration: underline;
-      text-underline-offset: 3px;
-    }
-
-    .reference-list a:hover, .reference-list a:focus-visible { color: #FFFFFF; }
+    .reference-list { margin: 0; padding-left: 24px; max-width: 850px; color: rgba(248, 241, 224, 0.75); }
+    .reference-list li { padding-left: 6px; line-height: 1.75; margin-bottom: 4px; }
+    .reference-list a { color: var(--brass-light); text-decoration: underline; text-underline-offset: 3px; }
+    .reference-list a:hover, .reference-list a:focus-visible { color: var(--paper-light); }
 
     .copyright {
-      border-top: 1px solid rgba(255,255,255,0.1);
-      margin-top: 40px;
-      padding-top: 20px;
-      font-family: Arial, sans-serif;
-      font-size: 0.9rem;
-      color: #7A8BA5;
+      border-top: 1px solid rgba(248, 241, 224, 0.1);
+      margin-top: 42px; padding-top: 22px;
+      font-size: 0.88rem;
+      color: rgba(248, 241, 224, 0.58);
     }
 
     .back-to-top {
-      position: fixed;
-      right: 22px;
-      bottom: 22px;
-      z-index: 1500;
-      width: 48px;
-      height: 48px;
-      border: 1px solid var(--blue-border);
+      position: fixed; right: 22px; bottom: 22px; z-index: 1500;
+      width: 48px; height: 48px;
+      border: 1px solid var(--line);
       border-radius: 50%;
-      background: var(--paper);
-      color: var(--blue-dark);
-      box-shadow: 0 10px 30px rgba(13, 71, 161, 0.16);
-      font-family: Arial, sans-serif;
-      font-weight: 900;
-      opacity: 0;
-      visibility: hidden;
+      background: var(--paper-light);
+      color: var(--ink);
+      box-shadow: var(--shadow);
+      display: grid;
+      place-items: center;
+      opacity: 0; visibility: hidden;
       transform: translateY(10px);
-      transition: opacity 0.2s ease, transform 0.2s ease, visibility 0.2s ease;
+      transition: opacity 0.2s ease, transform 0.2s ease, visibility 0.2s ease, border-color 0.2s ease;
     }
-
     .back-to-top.show { opacity: 1; visibility: visible; transform: translateY(0); }
+    .back-to-top:hover { border-color: var(--oxblood); color: var(--oxblood); }
 
+    /* ===== Responsive ===== */
     @media (max-width: 1050px) {
       .desktop-nav { display: none; }
       .burger { display: flex; }
       .hero-grid, .history-grid, .legacy-grid, .contact-grid { grid-template-columns: 1fr; }
       .hero-copy { max-width: 850px; }
-      .cover-stage { min-height: 500px; }
+      .cover-stage { min-height: 480px; }
       .history-big-year, .law-number { font-size: 7rem; }
-      .themes-grid { grid-template-columns: 1fr; }
-      .theme-card { min-height: 230px; }
+      .themes-grid { grid-template-columns: 1fr; margin-left: 0; }
+      .theme-card { min-height: 220px; }
       .footer-grid { grid-template-columns: 1fr; }
       .credits { justify-self: start; text-align: left; }
+      .chapter-head { grid-template-columns: 1fr; gap: 10px; }
+      .chapter-mark { flex-direction: row; align-items: baseline; gap: 10px; padding-top: 0; }
+      .section-intro { grid-column: 1; }
+      .timeline, .character-tools, .character-grid, .themes-grid { margin-left: 0; }
     }
 
     @media (max-width: 760px) {
       .container { width: min(100% - 28px, var(--max-width)); }
-      .section { padding: 75px 0; }
+      .section { padding: 78px 0; }
       .hero { padding-top: calc(var(--nav-height) + 30px); }
-      .hero-title { font-size: clamp(3rem, 15vw, 5rem); }
-      .cover-frame { width: min(290px, 78%); }
+      .hero-title { font-size: clamp(2.8rem, 14vw, 4.6rem); }
+      .cover-frame { width: min(280px, 78%); }
+      .cover-plate-edge { display: none; }
       .character-grid { grid-template-columns: 1fr 1fr; grid-auto-rows: 300px; }
       .char-card.large, .char-card.medium, .char-card.wide { grid-column: span 1; grid-row: span 1; }
       .char-card.large { grid-column: span 2; }
       .modal-grid { grid-template-columns: 1fr; }
-      .modal-image { height: 330px; min-height: 330px; }
-      .modal-body { padding: 30px 25px; }
-      .modal-body h2 { font-size: 2.2rem; }
-      .summary-header { display: block; }
-      .quiz-shell { padding: 25px 18px; }
-      .contact-form { padding: 23px; }
+      .modal-image { height: 320px; min-height: 320px; }
+      .modal-body { padding: 32px 26px; }
+      .modal-body h2 { font-size: 2.1rem; }
+      .quiz-shell { padding: 26px 18px; }
+      .contact-form { padding: 24px; }
     }
 
     @media (max-width: 480px) {
@@ -1027,7 +942,7 @@
   <header class="navbar">
     <div class="nav-inner">
       <a href="#home" class="brand" aria-label="LIKHA home">
-        <div class="brand-mark">L</div>
+        <div class="brand-mark" aria-hidden="true">L</div>
         <div class="brand-text">
           <strong>LIKHA</strong>
           <span>Noli Me Tángere Digital Archive</span>
@@ -1045,9 +960,9 @@
       </nav>
 
       <button class="burger" id="burgerBtn" aria-label="Buksan ang menu" aria-controls="mobileDrawer" aria-expanded="false">
-        <span></span>
-        <span></span>
-        <span></span>
+        <span aria-hidden="true"></span>
+        <span aria-hidden="true"></span>
+        <span aria-hidden="true"></span>
       </button>
     </div>
   </header>
@@ -1070,7 +985,7 @@
       <div class="container hero-grid">
 
         <div class="hero-copy">
-          <div class="hero-kicker">LIKHA · Digital Archive</div>
+          <p class="hero-kicker">LIKHA · Digital Archive</p>
 
           <h1 class="hero-title">
             Ang Kanser ng
@@ -1091,6 +1006,7 @@
         </div>
 
         <div class="cover-stage">
+          <div class="cover-plate-edge" aria-hidden="true"></div>
           <div class="cover-frame">
             <picture>
               <img
@@ -1103,6 +1019,7 @@
                 height="529"
               >
             </picture>
+            <span class="cover-tag">Berlin · 1887</span>
           </div>
         </div>
 
@@ -1110,61 +1027,70 @@
     </section>
 
     <section class="section history" id="kasaysayan">
-      <div class="container history-grid">
-
-        <div>
-          <p class="section-label">Kasaysayan</p>
-          <div class="history-big-year">1887</div>
+      <div class="container">
+        <div class="chapter-head">
+          <div class="chapter-mark">
+            <span class="chapter-num">I.</span>
+            <span class="chapter-word">Kasaysayan</span>
+          </div>
+          <div class="heading-block"></div>
         </div>
 
-        <div class="history-content">
-          <h3>
-            Isang nobelang isinilang mula sa pagmamasid
-            at pagnanais na magbago.
-          </h3>
+        <div class="history-grid">
+          <div>
+            <div class="history-big-year">1887</div>
+          </div>
 
-          <p>
-            Sa panahon ng kanyang pananatili sa Europa, isinulat ni
-            José Rizal ang <em>Noli Me Tángere</em> bilang isang
-            mapanuring salamin ng lipunang Pilipino sa ilalim ng
-            kolonyal na pamamahala.
-          </p>
+          <div class="history-content">
+            <h3>
+              Isang nobelang isinilang mula sa pagmamasid
+              at pagnanais na magbago.
+            </h3>
 
-          <p>
-            Nakumpleto ang nobela sa Berlin noong 1887. Sa halip na
-            simpleng kuwento lamang, ginamit ni Rizal ang panitikan
-            upang ilantad ang pang-aabuso, katiwalian, diskriminasyon,
-            at hindi pagkakapantay-pantay na kanyang nakita sa lipunan.
-          </p>
+            <p>
+              Sa panahon ng kanyang pananatili sa Europa, isinulat ni
+              José Rizal ang <em>Noli Me Tángere</em> bilang isang
+              mapanuring salamin ng lipunang Pilipino sa ilalim ng
+              kolonyal na pamamahala.
+            </p>
 
-          <p class="history-note">
-            Ang pamagat na <em>Noli Me Tángere</em> ay Latin na
-            karaniwang isinasalin bilang “Huwag Mo Akong Salingin.”
-          </p>
+            <p>
+              Nakumpleto ang nobela sa Berlin noong 1887. Sa halip na
+              simpleng kuwento lamang, ginamit ni Rizal ang panitikan
+              upang ilantad ang pang-aabuso, katiwalian, diskriminasyon,
+              at hindi pagkakapantay-pantay na kanyang nakita sa lipunan.
+            </p>
+
+            <p class="history-note">
+              Ang pamagat na <em>Noli Me Tángere</em> ay Latin na
+              karaniwang isinasalin bilang "Huwag Mo Akong Salingin."
+            </p>
+          </div>
         </div>
-
       </div>
     </section>
 
     <section class="section" id="buod">
       <div class="container">
 
-        <div class="summary-header">
-          <div>
-            <p class="section-label">Buod</p>
-            <h2 class="section-title">Ang Kuwento sa mga Yugto</h2>
+        <div class="chapter-head">
+          <div class="chapter-mark">
+            <span class="chapter-num">II.</span>
+            <span class="chapter-word">Buod</span>
           </div>
-
-          <p class="section-intro">
-            Isang pinaikling timeline ng mahahalagang pangyayari
-            sa nobela.
-          </p>
+          <div class="heading-block">
+            <h2 class="section-title">Ang Kuwento sa mga Yugto</h2>
+            <p class="section-intro">
+              Isang pinaikling timeline ng mahahalagang pangyayari
+              sa nobela.
+            </p>
+          </div>
         </div>
 
         <div class="timeline">
 
           <article class="timeline-item">
-            <div class="timeline-dot">01</div>
+            <div class="timeline-dot">1</div>
             <div class="timeline-card">
               <small>Kabanata · Simula</small>
               <h3>Pagbabalik ni Ibarra</h3>
@@ -1178,7 +1104,7 @@
           </article>
 
           <article class="timeline-item">
-            <div class="timeline-dot">02</div>
+            <div class="timeline-dot">2</div>
             <div class="timeline-card">
               <small>Kabanata · Tunggalian</small>
               <h3>Ang Pangarap na Paaralan</h3>
@@ -1192,7 +1118,7 @@
           </article>
 
           <article class="timeline-item">
-            <div class="timeline-dot">03</div>
+            <div class="timeline-dot">3</div>
             <div class="timeline-card">
               <small>Kabanata · Pagbubunyag</small>
               <h3>Mga Lihim ng Nakaraan</h3>
@@ -1206,7 +1132,7 @@
           </article>
 
           <article class="timeline-item">
-            <div class="timeline-dot">04</div>
+            <div class="timeline-dot">4</div>
             <div class="timeline-card">
               <small>Kabanata · Krisis</small>
               <h3>Ang Huwad na Pag-aalsa</h3>
@@ -1220,7 +1146,7 @@
           </article>
 
           <article class="timeline-item">
-            <div class="timeline-dot">05</div>
+            <div class="timeline-dot">5</div>
             <div class="timeline-card">
               <small>Kabanata · Wakas</small>
               <h3>Pagpapatuloy ng Pakikibaka</h3>
@@ -1241,13 +1167,20 @@
     <section class="section characters" id="tauhan">
       <div class="container">
 
-        <p class="section-label">Mga Tauhan</p>
-        <h2 class="section-title">Mga Mukha ng Noli</h2>
-        <p class="section-intro">
-          Kilalanin ang mga tauhang kumakatawan sa iba't ibang
-          mukha, uri, at tunggalian ng lipunang inilalarawan
-          ni Rizal.
-        </p>
+        <div class="chapter-head">
+          <div class="chapter-mark">
+            <span class="chapter-num">III.</span>
+            <span class="chapter-word">Mga Tauhan</span>
+          </div>
+          <div class="heading-block">
+            <h2 class="section-title">Mga Mukha ng Noli</h2>
+            <p class="section-intro">
+              Kilalanin ang mga tauhang kumakatawan sa iba't ibang
+              mukha, uri, at tunggalian ng lipunang inilalarawan
+              ni Rizal.
+            </p>
+          </div>
+        </div>
 
         <div class="character-tools">
 
@@ -1292,18 +1225,25 @@
     <section class="section" id="tema">
       <div class="container">
 
-        <p class="section-label">Mga Tema</p>
-        <h2 class="section-title">Mga Isyung Hindi Kumukupas</h2>
-        <p class="section-intro">
-          Higit pa sa kuwento nina Ibarra at María Clara,
-          ang Noli ay isang pagsusuri sa mga puwersang
-          humuhubog sa lipunan.
-        </p>
+        <div class="chapter-head">
+          <div class="chapter-mark">
+            <span class="chapter-num">IV.</span>
+            <span class="chapter-word">Mga Tema</span>
+          </div>
+          <div class="heading-block">
+            <h2 class="section-title">Mga Isyung Hindi Kumukupas</h2>
+            <p class="section-intro">
+              Higit pa sa kuwento nina Ibarra at María Clara,
+              ang Noli ay isang pagsusuri sa mga puwersang
+              humuhubog sa lipunan.
+            </p>
+          </div>
+        </div>
 
         <div class="themes-grid">
 
           <article class="theme-card">
-            <div class="theme-number">01 · LIPUNAN</div>
+            <div class="theme-number">Isyu — Lipunan</div>
             <div>
               <h3>Lipunan</h3>
               <p>
@@ -1316,7 +1256,7 @@
           </article>
 
           <article class="theme-card">
-            <div class="theme-number">02 · PAG-IBIG</div>
+            <div class="theme-number">Isyu — Pag-ibig</div>
             <div>
               <h3>Pag-ibig</h3>
               <p>
@@ -1329,7 +1269,7 @@
           </article>
 
           <article class="theme-card">
-            <div class="theme-number">03 · KANSER</div>
+            <div class="theme-number">Isyu — Kanser</div>
             <div>
               <h3>Kanser ng Lipunan</h3>
               <p>
@@ -1346,37 +1286,46 @@
     </section>
 
     <section class="section legacy" id="pamana">
-      <div class="container legacy-grid">
+      <div class="container">
 
-        <div>
-          <p class="section-label">Pamana</p>
-          <div class="law-number">1425</div>
+        <div class="chapter-head">
+          <div class="chapter-mark">
+            <span class="chapter-num">V.</span>
+            <span class="chapter-word">Pamana</span>
+          </div>
+          <div class="heading-block"></div>
         </div>
 
-        <div>
-          <h2>
-            Ang Rizal Law at ang pagpapatuloy ng alaala.
-          </h2>
+        <div class="legacy-grid">
+          <div>
+            <div class="law-number">1425</div>
+          </div>
 
-          <p>
-            Ang Republic Act No. 1425, na kilala bilang Rizal Law,
-            ay nag-aatas sa mga paaralan na maglaan ng pag-aaral
-            tungkol sa buhay, mga akda, at mga sinulat ni
-            José Rizal, kabilang ang <em>Noli Me Tángere</em> at
-            <em>El Filibusterismo</em>.
-          </p>
+          <div>
+            <h2>
+              Ang Rizal Law at ang pagpapatuloy ng alaala.
+            </h2>
 
-          <p>
-            Sa pamamagitan nito, nananatiling bahagi ng edukasyon
-            ang pagtalakay sa mga ideya at tanong na iniwan ng
-            mga akda ni Rizal.
-          </p>
+            <p>
+              Ang Republic Act No. 1425, na kilala bilang Rizal Law,
+              ay nag-aatas sa mga paaralan na maglaan ng pag-aaral
+              tungkol sa buhay, mga akda, at mga sinulat ni
+              José Rizal, kabilang ang <em>Noli Me Tángere</em> at
+              <em>El Filibusterismo</em>.
+            </p>
 
-          <div class="law-note">
-            <strong>Republic Act No. 1425</strong><br>
-            “An Act to Include in the Curricula of All Public and
-            Private Schools, Colleges and Universities Courses on
-            the Life, Works and Writings of José Rizal...”
+            <p>
+              Sa pamamagitan nito, nananatiling bahagi ng edukasyon
+              ang pagtalakay sa mga ideya at tanong na iniwan ng
+              mga akda ni Rizal.
+            </p>
+
+            <div class="law-note">
+              <strong>Republic Act No. 1425</strong><br>
+              "An Act to Include in the Curricula of All Public and
+              Private Schools, Colleges and Universities Courses on
+              the Life, Works and Writings of José Rizal..."
+            </div>
           </div>
         </div>
 
@@ -1386,83 +1335,99 @@
     <section class="section quiz-section" id="quiz">
       <div class="container">
 
-        <p class="section-label">Interactive Quiz</p>
-        <h2 class="section-title">Gaano Mo Kakilala ang Noli?</h2>
-        <p class="section-intro">
-          Subukan ang iyong kaalaman. Sagutin ang bawat tanong
-          at tingnan ang iyong final score.
-        </p>
+        <div class="chapter-head">
+          <div class="chapter-mark">
+            <span class="chapter-num">VI.</span>
+            <span class="chapter-word">Pagsusulit</span>
+          </div>
+          <div class="heading-block">
+            <h2 class="section-title">Gaano Mo Kakilala ang Noli?</h2>
+            <p class="section-intro">
+              Subukan ang iyong kaalaman. Sagutin ang bawat tanong
+              at tingnan ang iyong final score.
+            </p>
+          </div>
+        </div>
 
         <div class="quiz-shell" id="quizShell"></div>
 
       </div>
     </section>
 
-    <section class="section" id="kontak">
-      <div class="container contact-grid">
+    <section class="section" id="kontak" style="border-bottom: none;">
+      <div class="container">
 
-        <div class="contact-info">
-          <p class="section-label">Kontak</p>
-
-          <h2>
-            May nais kang
-            idagdag sa archive?
-          </h2>
-
-          <p>
-            Magpadala ng feedback, mungkahi, o komento tungkol
-            sa LIKHA. Ang form na ito ay may client-side validation
-            para sa mas maayos na user experience.
-          </p>
+        <div class="chapter-head">
+          <div class="chapter-mark">
+            <span class="chapter-num">VII.</span>
+            <span class="chapter-word">Kontak</span>
+          </div>
+          <div class="heading-block"></div>
         </div>
 
-        <form class="contact-form" id="feedbackForm" novalidate>
+        <div class="contact-grid">
 
-          <div class="form-group" id="nameGroup">
-            <label for="name">Pangalan</label>
-            <input
-              type="text"
-              id="name"
-              name="name"
-              autocomplete="name"
-              placeholder="Iyong pangalan"
-              required
-            >
-            <div class="field-error" id="nameError" role="alert"></div>
+          <div class="contact-info">
+            <h2>
+              May nais kang
+              idagdag sa archive?
+            </h2>
+
+            <p>
+              Magpadala ng feedback, mungkahi, o komento tungkol
+              sa LIKHA. Ang form na ito ay may client-side validation
+              para sa mas maayos na user experience.
+            </p>
           </div>
 
-          <div class="form-group" id="emailGroup">
-            <label for="email">Email</label>
-            <input
-              type="email"
-              id="email"
-              name="email"
-              autocomplete="email"
-              placeholder="halimbawa@email.com"
-              required
-            >
-            <div class="field-error" id="emailError" role="alert"></div>
-          </div>
+          <form class="contact-form" id="feedbackForm" novalidate>
 
-          <div class="form-group" id="messageGroup">
-            <label for="message">Mensahe</label>
-            <textarea
-              id="message"
-              name="message"
-              placeholder="Isulat ang iyong mensahe..."
-              maxlength="500"
-              required
-            ></textarea>
-            <div class="char-count" id="messageCount" aria-hidden="true">0 / 500</div>
-            <div class="field-error" id="messageError" role="alert"></div>
-          </div>
+            <div class="form-group" id="nameGroup">
+              <label for="name">Pangalan</label>
+              <input
+                type="text"
+                id="name"
+                name="name"
+                autocomplete="name"
+                placeholder="Iyong pangalan"
+                required
+              >
+              <div class="field-error" id="nameError" role="alert"></div>
+            </div>
 
-          <button type="submit" class="btn btn-primary">
-            Ipadala ang Feedback
-          </button>
+            <div class="form-group" id="emailGroup">
+              <label for="email">Email</label>
+              <input
+                type="email"
+                id="email"
+                name="email"
+                autocomplete="email"
+                placeholder="halimbawa@email.com"
+                required
+              >
+              <div class="field-error" id="emailError" role="alert"></div>
+            </div>
 
-        </form>
+            <div class="form-group" id="messageGroup">
+              <label for="message">Mensahe</label>
+              <textarea
+                id="message"
+                name="message"
+                placeholder="Isulat ang iyong mensahe..."
+                maxlength="500"
+                required
+              ></textarea>
+              <div class="char-count" id="messageCount" aria-hidden="true">0 / 500</div>
+              <div class="field-error" id="messageError" role="alert"></div>
+            </div>
 
+            <button type="submit" class="btn btn-primary">
+              Ipadala ang Feedback
+            </button>
+
+          </form>
+
+        </div>
       </div>
     </section>
 
@@ -1480,7 +1445,10 @@
     <div class="modal">
 
       <button class="modal-close" id="modalClose" aria-label="Isara">
-        ×
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true" focusable="false">
+          <line x1="5" y1="5" x2="19" y2="19"></line>
+          <line x1="19" y1="5" x2="5" y2="19"></line>
+        </svg>
       </button>
 
       <div class="modal-grid">
@@ -1501,7 +1469,12 @@
 
   <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
-  <button class="back-to-top" id="backToTop" type="button" aria-label="Bumalik sa itaas" title="Bumalik sa itaas">↑</button>
+  <button class="back-to-top" id="backToTop" type="button" aria-label="Bumalik sa itaas" title="Bumalik sa itaas">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+      <line x1="12" y1="19" x2="12" y2="5"></line>
+      <polyline points="6 11 12 5 18 11"></polyline>
+    </svg>
+  </button>
 
   <footer>
     <div class="container">
@@ -1510,7 +1483,7 @@
 
         <div>
           <div class="footer-brand">LIKHA</div>
-          <p class="footer-section-title">PATUNGKOL</p>
+          <p class="footer-section-title">Patungkol</p>
 
           <p class="footer-tagline">
             Noli Me Tángere Digital Archive —
@@ -1538,7 +1511,7 @@
       </div>
 
       <section class="references" aria-labelledby="references-title">
-        <div class="section-label">Sanggunian</div>
+        <p class="chapter-word">Sanggunian</p>
         <h2 id="references-title">References</h2>
         <ol class="reference-list">
           <li>
@@ -1973,7 +1946,7 @@
         question: "Ano ang kahulugan ng pamagat na Noli Me Tángere?",
         choices: ["Mahal Kita", "Huwag Mo Akong Salingin", "Ako ang Iyong Bayan", "Bumalik Ka sa Bayan"],
         answer: 1,
-        explanation: "Ang Latin na pamagat ay karaniwang isinasalin bilang “Huwag Mo Akong Salingin.”"
+        explanation: "Ang Latin na pamagat ay karaniwang isinasalin bilang \\u201cHuwag Mo Akong Salingin.\\u201d"
       }
     ];
 
@@ -2112,11 +2085,11 @@
 
       quizShell.innerHTML = `
         <div class="quiz-result">
-          <div class="quiz-meta" style="justify-content:center;">FINAL REVIEW</div>
+          <div class="quiz-meta" style="justify-content:center;">Kabuuang Resulta</div>
           <h3 class="quiz-question">Natapos mo na ang quiz.</h3>
           <div class="score-circle">${score}/${total}</div>
           <p><strong>${percentage}%</strong></p>
-          <p style="color:var(--muted); margin-top:8px;">${message}</p>
+          <p style="color:var(--ink-soft); margin-top:8px;">${message}</p>
           <div class="review-list">${review}</div>
           <div style="margin-top:30px;">
             <button class="btn btn-primary" id="restartQuiz">Subukan Muli</button>
